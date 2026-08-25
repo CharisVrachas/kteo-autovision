@@ -1,0 +1,200 @@
+.section_process-intro .process-intro_visual {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: var(--mapped-padding-md);
+}
+.section_process-intro .process-intro_illustration {
+	width: 100%;
+	height: auto;
+	max-height: 24em;
+	object-fit: contain;
+}
+.section_process-intro .process-intro_lead {
+	display: flex;
+	align-items: center;
+	padding: var(--mapped-padding-md);
+}
+.section_process-intro .process-intro_lead .card_info {
+	display: flex;
+	flex-direction: column;
+	gap: var(--mapped-padding-sm);
+}
+.section_process-intro .process-intro_text {
+	opacity: 0.7;
+	max-width: 30em;
+}
+#depth-ui {
+	position: fixed;
+	top: 104px;
+	right: 24px;
+	left: auto;
+	z-index: 60;
+	pointer-events: none;
+}
+.depth-grid {
+	display: grid;
+	grid-template-columns: repeat(4, 7px);
+	grid-auto-rows: 7px;
+	gap: 8px;
+}
+.depth-sq {
+	width: 7px;
+	height: 7px;
+	background: var(--brand-grey-700);
+	transition: background 0.25s ease;
+}
+.depth-sq.is-on {
+	background: var(--mapped-surface-action);
+}
+.depth-arrow {
+	position: absolute;
+	right: 60px;
+	left: auto;
+	top: 0;
+	width: 68px;
+	height: 18px;
+}
+.depth-arrow svg {
+	position: absolute;
+	inset: 0;
+	width: 68px;
+	height: 18px;
+	display: block;
+}
+.depth-arrow span {
+	position: absolute;
+	inset: 0 12px 0 6px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--mapped-text-on-action);
+	font: var(--brand-weight-medium) 9px / 1 var(--brand-font-family);
+	letter-spacing: 0.04em;
+}
+#skip-cta {
+	position: fixed;
+	bottom: 24px;
+	right: 24px;
+	z-index: 60;
+}
+#skip-cta .button {
+	--button-color: var(--mapped-text-body-inverse);
+	--button-color-background: transparent;
+	--button-hover-color: var(--mapped-text-on-action);
+	--button-hover-color-background: var(--mapped-surface-action);
+	--button-corner: 0.35em;
+	--button-padding: 1em 2em;
+	pointer-events: auto;
+	font-size: 0.95em;
+}
+#back-cta {
+	position: fixed;
+	bottom: 24px;
+	left: 24px;
+	z-index: 60;
+}
+#back-cta .button {
+	--button-color: var(--mapped-text-body-inverse);
+	--button-color-background: transparent;
+	--button-hover-color: var(--mapped-text-on-action);
+	--button-hover-color-background: var(--mapped-surface-action);
+	--button-corner: 0.35em;
+	--button-padding: 1em 2em;
+	pointer-events: auto;
+	font-size: 0.95em;
+}
+#back-cta .button__text:before {
+	transform: scaleX(-1);
+}
+#scroll-hint {
+	position: fixed;
+	left: 50%;
+	bottom: 120px;
+	transform: translate(-50%);
+	width: 24px;
+	height: 24px;
+	z-index: 55;
+	pointer-events: none;
+	transition: opacity 0.4s ease;
+}
+.scroll-hint__chev {
+	position: absolute;
+	left: 50%;
+	margin-left: -14px;
+	width: 28px;
+	height: 8px;
+	opacity: 0;
+	transform: scale3d(0.5, 0.5, 0.5);
+	animation: scrollHintMove 3s ease-out infinite;
+}
+.scroll-hint__chev:first-child {
+	animation: scrollHintMove 3s ease-out 1s infinite;
+}
+.scroll-hint__chev:nth-child(2) {
+	animation: scrollHintMove 3s ease-out 2s infinite;
+}
+.scroll-hint__chev:before,
+.scroll-hint__chev:after {
+	content: " ";
+	position: absolute;
+	top: 0;
+	height: 100%;
+	width: 51%;
+	background: var(--mapped-text-body-inverse);
+}
+.scroll-hint__chev:before {
+	left: 0;
+	transform: skew(0, 30deg);
+}
+.scroll-hint__chev:after {
+	right: 0;
+	width: 50%;
+	transform: skew(0, -30deg);
+}
+@keyframes scrollHintMove {
+	25% {
+		opacity: 1;
+	}
+	33% {
+		opacity: 1;
+		transform: translateY(30px);
+	}
+	67% {
+		opacity: 1;
+		transform: translateY(40px);
+	}
+	to {
+		opacity: 0;
+		transform: translateY(55px) scale3d(0.5, 0.5, 0.5);
+	}
+}
+.scroll-hint__text {
+	position: absolute;
+	top: 90px;
+	left: 50%;
+	transform: translate(-50%);
+	font-family: var(--brand-font-family);
+	font-size: 12px;
+	letter-spacing: 0.1em;
+	color: var(--mapped-text-body-inverse);
+	text-transform: uppercase;
+	white-space: nowrap;
+	opacity: 0.25;
+	animation: scrollHintPulse 2s linear alternate infinite;
+}
+@keyframes scrollHintPulse {
+	to {
+		opacity: 1;
+	}
+}
+
+/* The "new centre" card leads with the company's own announcement graphic.
+   It is a wide banner (706×269), so it is capped rather than stretched. */
+.upcoming_banner {
+	width: 100%;
+	max-width: 22em;
+	height: auto;
+	display: block;
+	margin-bottom: var(--mapped-padding-xs);
+}

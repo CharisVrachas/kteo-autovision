@@ -1,0 +1,15 @@
+---
+/**
+ * GDPR consent checkbox. Required on every form that collects personal data.
+ */
+import { site } from "../../data/site";
+---
+
+<label class="form-consent tool_field-full">
+	<input type="checkbox" name="consent" required class="form-consent_box" />
+	<span class="form-consent_text text_size-small"
+		>Συναινώ στην επεξεργασία των προσωπικών μου δεδομένων από την {site.legalName} για τη
+		διαχείριση του αιτήματός μου, σύμφωνα με την
+		<a href="/privacy-policy/" target="_blank">Πολιτική Απορρήτου</a>.</span
+	>
+</label>

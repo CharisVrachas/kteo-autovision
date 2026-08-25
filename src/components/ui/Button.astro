@@ -1,0 +1,53 @@
+---
+/**
+ * The site button.
+ *
+ * The label is written twice on purpose: two stacked copies, each over its own
+ * background, which button.css wipes between on hover. Dropping the duplicate
+ * removes the hover animation.
+ *
+ * Renders an <a> normally, or a <button type="submit"> when `submit` is set —
+ * used by the forms that answer locally instead of posting.
+ */
+interface Props {
+	label: string;
+	href?: string;
+	big?: boolean;
+	submit?: boolean;
+	class?: string;
+	ariaLabel?: string;
+}
+const { label, href = "#", big = false, submit = false, class: extra = "", ariaLabel } = Astro.props;
+const textClass = `button__text${big ? " is-big" : ""}`;
+const cls = `button ${big ? "is-inline-block is-big" : "is-inline-block"} ${extra}`.trim();
+---
+
+{
+	submit ? (
+		<button type="submit" class={cls} aria-label={ariaLabel}>
+			<span class="button__hover">
+				<span class={textClass}>{label}</span>
+				<span class="button__bg is--hover" />
+			</span>
+			<span class="button__default">
+				<span aria-hidden="true" class={textClass}>
+					{label}
+				</span>
+				<span class="button__bg is--default" />
+			</span>
+		</button>
+	) : (
+		<a href={href} class={cls} aria-label={ariaLabel}>
+			<span class="button__hover">
+				<span class={textClass}>{label}</span>
+				<span class="button__bg is--hover" />
+			</span>
+			<span class="button__default">
+				<span aria-hidden="true" class={textClass}>
+					{label}
+				</span>
+				<span class="button__bg is--default" />
+			</span>
+		</a>
+	)
+}

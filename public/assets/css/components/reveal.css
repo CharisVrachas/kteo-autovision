@@ -1,0 +1,73 @@
+/* reveal.css */
+
+/* ---- structure ---- */
+.feature-list {
+	width: 100%;
+	height: 100%;
+	margin-bottom: 0;
+}
+
+.feature-list_item {
+	width: 100%;
+	padding: var(--mapped-padding-sm) var(--mapped-padding-xs);
+	grid-column-gap: var(--brand-scale-400);
+	grid-row-gap: var(--brand-scale-400);
+	border-bottom: 1px solid var(--mapped-border-default);
+	justify-content: flex-start;
+	align-items: center;
+	display: flex;
+}
+
+/* ---- overrides ---- */
+/* Scroll reveal for sections: elements fade in on opacity alone (no movement)
+   as the section enters the viewport, staggered in reading order through
+   transition-delay. Driven by initSectionReveal() in
+   assets/js/components/reveal-section.js, which adds .section-reveal for the
+   initial state and then .is-revealed for the final one. */
+.section-reveal {
+	opacity: 0;
+	transition: opacity 0.5s cubic-bezier(0.33, 1, 0.68, 1);
+	will-change: opacity;
+}
+.section-reveal.is-revealed {
+	opacity: 1;
+}
+/* Highlight-marker text reveal. The heading is split into lines with SplitText
+   and each line gets an absolutely positioned bar in the accent colour; as the
+   line enters the viewport that bar animates away to the right (scaleX → 0).
+   data-highlight-marker-reveal is applied automatically by JS to every
+   h1.heading_h1 / h2.heading_h2 — see initHighlightMarkerTextReveal. The
+   anti-FOUC placeholder is the ::before rule plus the reveal stylesheet loaded
+   in the page head. */
+[data-highlight-marker-reveal] .highlight-marker-line {
+	width: auto;
+	display: inline-block !important;
+	margin: -0.055em 0;
+}
+.highlight-marker-bar {
+	position: absolute;
+	inset: -0.055em 0;
+	z-index: 1;
+	pointer-events: none;
+}
+
+/* feature-list_badge — the accent-coloured badge. The base rule lives here, in a
+   shared component stylesheet, so the badge is styled on every page that uses
+   it rather than only on pages carrying a particular section. */
+.feature-list_badge {
+	display: inline-block;
+	background-color: var(--mapped-surface-action);
+	color: var(--mapped-text-on-action);
+	padding: var(--mapped-padding-xxs) var(--mapped-padding-xs);
+	border-radius: 0.1em;
+	font-size: var(--type-paragraph-sm-size);
+	line-height: 1;
+	white-space: nowrap;
+	flex-shrink: 0;
+}
+/* is-neutral — the grey variant of the badge, used for the stat cards on the
+   about page. The default accent badge used in the case-study rows is unaffected. */
+.feature-list_badge.is-neutral {
+	background-color: var(--brand-grey-750);
+	color: var(--mapped-text-headings-inverse);
+}

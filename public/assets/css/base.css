@@ -1,0 +1,1106 @@
+/* base.css
+   Tokens, reset and the primitives every component assumes.
+   Must load before any component stylesheet -- the utilities block in
+   particular defines display on classes like .is-inline-block that the
+   components then override at equal specificity. */
+
+/* ---- normalize ---- */
+/*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
+/**
+ * 1. Set default font family to sans-serif.
+ * 2. Prevent iOS and IE text size adjust after device orientation change,
+ *    without disabling user zoom.
+ */
+html {
+	font-family: sans-serif;
+	/* 1 */
+	-ms-text-size-adjust: 100%;
+	/* 2 */
+	-webkit-text-size-adjust: 100%;
+	/* 2 */
+}
+/**
+ * Remove default margin.
+ */
+body {
+	margin: 0;
+}
+/* HTML5 display definitions
+   ========================================================================== */
+/**
+ * Correct `block` display not defined for any HTML5 element in IE 8/9.
+ * Correct `block` display not defined for `details` or `summary` in IE 10/11
+ * and Firefox.
+ * Correct `block` display not defined for `main` in IE 11.
+ */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+menu,
+nav,
+section,
+summary {
+	display: block;
+}
+/**
+ * 1. Correct `inline-block` display not defined in IE 8/9.
+ * 2. Normalize vertical alignment of `progress` in Chrome, Firefox, and Opera.
+ */
+audio,
+canvas,
+progress,
+video {
+	display: inline-block;
+	/* 1 */
+	vertical-align: baseline;
+	/* 2 */
+}
+/**
+ * Prevent modern browsers from displaying `audio` without controls.
+ * Remove excess height in iOS 5 devices.
+ */
+audio:not([controls]) {
+	display: none;
+	height: 0;
+}
+/**
+ * Address `[hidden]` styling not present in IE 8/9/10.
+ * Hide the `template` element in IE 8/9/10/11, Safari, and Firefox < 22.
+ */
+[hidden],
+template {
+	display: none;
+}
+/* Links
+   ========================================================================== */
+/**
+ * Remove the gray background color from active links in IE 10.
+ */
+a {
+	background-color: transparent;
+}
+/**
+ * Improve readability of focused elements when they are also in an
+ * active/hover state.
+ */
+a:active,
+a:hover {
+	outline: 0;
+}
+/* Text-level semantics
+   ========================================================================== */
+/**
+ * Address styling not present in IE 8/9/10/11, Safari, and Chrome.
+ */
+abbr[title] {
+	border-bottom: 1px dotted;
+}
+/**
+ * Address style set to `bolder` in Firefox 4+, Safari, and Chrome.
+ */
+b,
+strong {
+	font-weight: bold;
+}
+/**
+ * Address styling not present in Safari and Chrome.
+ */
+dfn {
+	font-style: italic;
+}
+/**
+ * Address variable `h1` font-size and margin within `section` and `article`
+ * contexts in Firefox 4+, Safari, and Chrome.
+ */
+h1 {
+	font-size: 2em;
+	margin: 0.67em 0;
+}
+/**
+ * Address styling not present in IE 8/9.
+ */
+mark {
+	background: #ff0;
+	color: #000;
+}
+/**
+ * Address inconsistent and variable font size in all browsers.
+ */
+small {
+	font-size: 80%;
+}
+/**
+ * Prevent `sub` and `sup` affecting `line-height` in all browsers.
+ */
+sub,
+sup {
+	font-size: 75%;
+	line-height: 0;
+	position: relative;
+	vertical-align: baseline;
+}
+sup {
+	top: -0.5em;
+}
+sub {
+	bottom: -0.25em;
+}
+/* Embedded content
+   ========================================================================== */
+/**
+ * Remove border when inside `a` element in IE 8/9/10.
+ */
+img {
+	border: 0;
+}
+/**
+ * Correct overflow not hidden in IE 9/10/11.
+ */
+svg:not(:root) {
+	overflow: hidden;
+}
+/* Grouping content
+   ========================================================================== */
+/**
+ * Address margin not present in IE 8/9 and Safari.
+ */
+figure {
+	margin: 1em 40px;
+}
+/**
+ * Address differences between Firefox and other browsers.
+ */
+hr {
+	box-sizing: content-box;
+	height: 0;
+}
+/**
+ * Contain overflow in all browsers.
+ */
+pre {
+	overflow: auto;
+}
+/**
+ * Address odd `em`-unit font size rendering in all browsers.
+ */
+code,
+kbd,
+pre,
+samp {
+	font-family: monospace, monospace;
+	font-size: 1em;
+}
+/* Forms
+   ========================================================================== */
+/**
+ * Known limitation: by default, Chrome and Safari on OS X allow very limited
+ * styling of `select`, unless a `border` property is set.
+ */
+/**
+ * 1. Correct color not being inherited.
+ *    Known issue: affects color of disabled elements.
+ * 2. Correct font properties not being inherited.
+ * 3. Address margins set differently in Firefox 4+, Safari, and Chrome.
+ */
+button,
+input,
+optgroup,
+select,
+textarea {
+	color: inherit;
+	/* 1 */
+	font: inherit;
+	/* 2 */
+	margin: 0;
+	/* 3 */
+}
+/**
+ * Address `overflow` set to `hidden` in IE 8/9/10/11.
+ */
+button {
+	overflow: visible;
+}
+/**
+ * Address inconsistent `text-transform` inheritance for `button` and `select`.
+ * All other form control elements do not inherit `text-transform` values.
+ * Correct `button` style inheritance in Firefox, IE 8/9/10/11, and Opera.
+ * Correct `select` style inheritance in Firefox.
+ */
+button,
+select {
+	text-transform: none;
+}
+/**
+ * 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio`
+ *    and `video` controls.
+ * 2. Correct inability to style clickable `input` types in iOS.
+ * 3. Improve usability and consistency of cursor style between image-type
+ *    `input` and others.
+ * 4. The input[type="submit"] selector is deliberately omitted, to keep
+ *    specificity low and let the .button styles win.
+ */
+button,
+html input[type="button"],
+input[type="reset"] {
+	-webkit-appearance: button;
+	/* 2 */
+	cursor: pointer;
+	/* 3 */
+}
+/**
+ * Re-set default cursor for disabled elements.
+ */
+button[disabled],
+html input[disabled] {
+	cursor: default;
+}
+/**
+ * Remove inner padding and border in Firefox 4+.
+ */
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+	border: 0;
+	padding: 0;
+}
+/**
+ * Address Firefox 4+ setting `line-height` on `input` using `!important` in
+ * the UA stylesheet.
+ */
+input {
+	line-height: normal;
+}
+/**
+ * It's recommended that you don't attempt to style these elements.
+ * Firefox's implementation doesn't respect box-sizing, padding, or width.
+ *
+ * 1. Address box sizing set to `content-box` in IE 8/9/10.
+ * 2. Remove excess padding in IE 8/9/10.
+ */
+input[type="checkbox"],
+input[type="radio"] {
+	box-sizing: border-box;
+	/* 1 */
+	padding: 0;
+	/* 2 */
+}
+/**
+ * Fix the cursor style for Chrome's increment/decrement buttons. For certain
+ * `font-size` values of the `input`, it causes the cursor style of the
+ * decrement button to change from `default` to `text`.
+ */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+	height: auto;
+}
+/**
+ * 1. Changed from `textfield` to `none`, to normalise iOS rounded inputs.
+ * 2. The box-sizing: content-box rule is removed
+ *    (as in normalize.css >= 4.0.0).
+ */
+input[type="search"] {
+	-webkit-appearance: none;
+	/* 1 */
+}
+/**
+ * Remove inner padding and search cancel button in Safari and Chrome on OS X.
+ * Safari (but not Chrome) clips the cancel button when the search input has
+ * padding (and `textfield` appearance).
+ */
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+	-webkit-appearance: none;
+}
+/**
+ * Define consistent border, margin, and padding.
+ */
+fieldset {
+	border: 1px solid #c0c0c0;
+	margin: 0 2px;
+	padding: 0.35em 0.625em 0.75em;
+}
+/**
+ * 1. Correct `color` not being inherited in IE 8/9/10/11.
+ * 2. Remove padding so people aren't caught out if they zero out fieldsets.
+ */
+legend {
+	border: 0;
+	/* 1 */
+	padding: 0;
+	/* 2 */
+}
+/**
+ * Remove default vertical scrollbar in IE 8/9/10/11.
+ */
+textarea {
+	overflow: auto;
+}
+/**
+ * Don't inherit the `font-weight` (applied by a rule above).
+ * NOTE: the default cannot safely be changed in Chrome and Safari on OS X.
+ */
+optgroup {
+	font-weight: bold;
+}
+/* Tables
+   ========================================================================== */
+/**
+ * Remove most spacing between table cells.
+ */
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+td,
+th {
+	padding: 0;
+}
+
+/* ---- design tokens ---- */
+/* ============================================================================
+   Design tokens
+   Cascade:  brand (primitives) → alias → mapped (roles) → type → layout
+   Theming:  :root = Light · [data-theme-section="dark"] = Dark
+   ============================================================================ */
+
+:root {
+	/* ---- BRAND · color · orange --------------------------------------------- */
+	--brand-orange-50: #ffefea;
+	--brand-orange-100: #ffccbd;
+	--brand-orange-200: #ffb49d;
+	--brand-orange-300: #fe9170;
+	--brand-orange-400: #fe7c55;
+	--brand-orange-500: #fe5b2a;
+	--brand-orange-600: #e75326;
+	--brand-orange-700: #b4411e;
+	--brand-orange-800: #8c3217;
+	--brand-orange-900: #6b2612;
+
+	/* ---- BRAND · color · grey ----------------------------------------------- */
+	--brand-grey-100: #eff0f1;
+	--brand-grey-150: #e0e1e3;
+	--brand-grey-200: #c3c4c8;
+	--brand-grey-250: #b5b5b5;
+	--brand-grey-300: #a3a3a4;
+	--brand-grey-400: #8b8c8d;
+	--brand-grey-500: #747576;
+	--brand-grey-600: #464749;
+	--brand-grey-700: #2f3032;
+	--brand-grey-750: #222326;
+	--brand-grey-800: #18191b;
+	--brand-grey-850: #141415;
+	--brand-grey-900: #0c0c0c;
+	--brand-grey-100-alpha: #eff0f11a;
+	--brand-grey-900-alpha: #0c0c0c1a;
+
+	/* ---- BRAND · scale (em — fluid scaling system) -------------------------- */
+	--brand-scale-0: 0em;
+	--brand-scale-25: 0.0625em;
+	--brand-scale-50: 0.125em;
+	--brand-scale-100: 0.25em;
+	--brand-scale-200: 0.5em;
+	--brand-scale-300: 0.75em;
+	--brand-scale-400: 1em;
+	--brand-scale-500: 1.25em;
+	--brand-scale-600: 1.5em;
+	--brand-scale-700: 1.75em;
+	--brand-scale-800: 2em;
+	--brand-scale-900: 2.5em;
+	--brand-scale-1000: 3em;
+	--brand-scale-1100: 4em;
+	--brand-scale-1200: 5em;
+	--brand-scale-1300: 6.25em;
+	--brand-scale-1400: 8.25em;
+	--brand-scale-1500: 10.25em;
+
+	/* ---- BRAND · type primitives -------------------------------------------- */
+	--brand-font-family: "Roboto", Arial, Helvetica, sans-serif;
+	--brand-weight-light: 300;
+	--brand-weight-regular: 400;
+	--brand-weight-medium: 500;
+	--brand-weight-bold: 700;
+
+	/* ---- ALIAS · brand → orange --------------------------------------------- */
+	--alias-brand-50: var(--brand-orange-50);
+	--alias-brand-100: var(--brand-orange-100);
+	--alias-brand-200: var(--brand-orange-200);
+	--alias-brand-300: var(--brand-orange-300);
+	--alias-brand-400: var(--brand-orange-400);
+	--alias-brand-500: var(--brand-orange-500);
+	--alias-brand-600: var(--brand-orange-600);
+	--alias-brand-700: var(--brand-orange-700);
+	--alias-brand-800: var(--brand-orange-800);
+	--alias-brand-900: var(--brand-orange-900);
+
+	/* ---- ALIAS · grey → brand-grey ------------------------------------------ */
+	--alias-grey-100: var(--brand-grey-100);
+	--alias-grey-150: var(--brand-grey-150);
+	--alias-grey-200: var(--brand-grey-200);
+	--alias-grey-250: var(--brand-grey-250);
+	--alias-grey-300: var(--brand-grey-300);
+	--alias-grey-400: var(--brand-grey-400);
+	--alias-grey-500: var(--brand-grey-500);
+	--alias-grey-600: var(--brand-grey-600);
+	--alias-grey-700: var(--brand-grey-700);
+	--alias-grey-750: var(--brand-grey-750);
+	--alias-grey-800: var(--brand-grey-800);
+	--alias-grey-850: var(--brand-grey-850);
+	--alias-grey-900: var(--brand-grey-900);
+
+	/* ---- MAPPED · text ------------------------------------------------------ */
+	--mapped-text-headings-inverse: var(--alias-grey-100);
+	--mapped-text-body-light: var(--alias-grey-500);
+	--mapped-text-body-inverse: var(--alias-grey-200);
+	--mapped-text-on-action: var(--alias-grey-900);
+	--mapped-text-action: var(--alias-brand-500);
+	--mapped-text-action-hover: var(--alias-brand-600);
+	--mapped-text-disabled: var(--alias-grey-500);
+	--mapped-text-warning: var(--alias-brand-800);
+	--mapped-text-error: #fe2a2a;
+	--mapped-text-success: #7bfe2a;
+
+	/* ---- MAPPED · surface --------------------------------------------------- */
+	--mapped-surface-dark: var(--alias-grey-800);
+	--mapped-surface-action: var(--alias-brand-500);
+	--mapped-surface-action-hover: var(--alias-brand-600);
+	--mapped-surface-light-150: var(--alias-grey-150);
+	--mapped-surface-light-200: var(--alias-grey-200);
+	--mapped-surface-disabled: var(--alias-grey-200);
+	--mapped-surface-warning: var(--alias-brand-800);
+	--mapped-surface-transparent-black: var(--brand-grey-900-alpha);
+	--mapped-surface-transparent-white: var(--brand-grey-100-alpha);
+	--mapped-surface-error: #ffcccc;
+	--mapped-surface-success: #e0ffcc;
+
+	/* ---- MAPPED · border ---------------------------------------------------- */
+	--mapped-border-action: var(--alias-brand-600);
+	--mapped-border-action-hover: var(--alias-brand-700);
+	--mapped-border-inverse: var(--alias-grey-700);
+	--mapped-border-on-200: var(--alias-grey-300);
+	--mapped-border-disabled: var(--alias-grey-200);
+	--mapped-border-warning: var(--alias-brand-800);
+	--mapped-border-error: #fe2a2a;
+	--mapped-border-success: #7bfe2a;
+
+	/* ---- MAPPED · icon ------------------------------------------------------ */
+	--mapped-icon-inverse: var(--alias-grey-100);
+	--mapped-icon-action: var(--alias-brand-500);
+	--mapped-icon-action-hover: var(--alias-brand-600);
+	--mapped-icon-on-action: var(--alias-grey-900);
+	--mapped-icon-disabled: var(--alias-grey-500);
+	--mapped-icon-warning: var(--alias-brand-800);
+	--mapped-icon-error: #fe2a2a;
+	--mapped-icon-success: #7bfe2a;
+
+	/* ---- MAPPED · padding --------------------------------------------------- */
+	--mapped-padding-none: var(--brand-scale-0);
+	--mapped-padding-xxs: var(--brand-scale-200);
+	--mapped-padding-xs: var(--brand-scale-400);
+	--mapped-padding-sm: var(--brand-scale-800);
+	--mapped-padding-md: var(--brand-scale-1100);
+	--mapped-padding-lg: var(--brand-scale-1200);
+	--mapped-padding-xl: var(--brand-scale-1500);
+
+	/* ---- MAPPED · radius ---------------------------------------------------- */
+	--mapped-radius-none: 0em;
+	--mapped-radius-sm: 0.125em;
+	--mapped-radius-md: 0.25em;
+	--mapped-radius-lg: 0.5em;
+
+	/* ---- MAPPED · border-width ---------------------------------------------- */
+	--mapped-border-width-none: 0em;
+	--mapped-border-width-sm: 0.0625em;
+	--mapped-border-width-md: 0.125em;
+	--mapped-border-width-lg: 0.25em;
+
+	/* ---- MAPPED · theme (Light defaults — Dark overrides at the bottom) ----- */
+	--mapped-text-headings: var(--alias-grey-900);
+	--mapped-text-body: var(--alias-grey-700);
+	--mapped-surface-page: var(--alias-grey-100);
+	--mapped-surface-default: var(--alias-grey-100);
+	--mapped-border-default: var(--alias-grey-200);
+	--mapped-icon-default: var(--alias-grey-600);
+
+	/* ---- TYPE · size + line-height (line-height unitless ratio) ------------- */
+	--type-display-md-size: 6em;
+	--type-display-md-lh: 1;
+	--type-display-sm-size: 4.75em;
+	--type-display-sm-lh: 1;
+	--type-h1-size: 3.75em;
+	--type-h1-lh: 0.933;
+	--type-h2-size: 3em;
+	--type-h2-lh: 1.021;
+	--type-h3-size: 2.5em;
+	--type-h3-lh: 1;
+	--type-h4-size: 2em;
+	--type-h4-lh: 1.125;
+	--type-h5-size: 1.5em;
+	--type-h5-lh: 1.167;
+	--type-h6-size: 1.2em;
+	--type-h6-lh: 1.2;
+	--type-paragraph-lg-size: 1.25em;
+	--type-paragraph-lg-lh: 1.2;
+	--type-paragraph-md-size: 1em;
+	--type-paragraph-md-lh: 1.25;
+	--type-paragraph-sm-size: 0.875em;
+	--type-paragraph-sm-lh: 1.429;
+	--type-paragraph-xsm-size: 0.75em;
+	--type-paragraph-xsm-lh: 1.333;
+	--type-eyebrow-size: 0.75em;
+	--type-eyebrow-lh: 1.143;
+
+	/* ---- LAYOUT ------------------------------------------------------------- */
+	--layout-nav-height: 4.375em;
+	--layout-section-viewport: calc(100svh - var(--layout-nav-height));
+}
+
+/* ============================================================================
+   Dark theme — overrides the 6 theme-mapped tokens. Driven by the
+   data-theme-section attribute. "hero" is a visually-dark section (dark video
+   bg) that uses the same dark token set; only its nav treatment differs.
+   ============================================================================ */
+[data-theme-section="dark"],
+[data-theme-section="hero"] {
+	--mapped-text-headings: var(--alias-grey-100);
+	--mapped-text-body: var(--alias-grey-200);
+	--mapped-surface-page: var(--alias-grey-800);
+	--mapped-surface-default: var(--alias-grey-800);
+	--mapped-border-default: var(--alias-grey-700);
+	--mapped-icon-default: var(--alias-grey-100);
+}
+
+/* ============================================================================
+   MOBILE spacing — a proportional reduction of brand-scale at ≤767px.
+
+   Why here rather than in the components: brand-scale is the single root of ALL
+   spacing (the mapped-padding-* tokens reference it, plus 68 direct gaps and
+   margins). Redefining the scale in one @media block shrinks the whole site's
+   spacing at once.
+
+   Why it is needed at all: the fluid scaling keeps 1em≈16px on desktop (ideal
+   1440) and on mobile (ideal 550/390) alike, so desktop spacing proportions
+   would otherwise be carried onto a phone (a 64px container on a 390px screen).
+
+   The progression: the small steps (0–100) are barely touched — they are small
+   inner paddings and are fine on mobile. The middle ones scale by ×0.6–0.75 and
+   the large ones (800+) by roughly ×0.5. Monotonicity is preserved.
+
+   Spacing ANCHOR: scale-800 (2em → 1em). At ≤479px .container resolves through
+   mapped-padding-sm to scale-800, so the container's horizontal padding
+   becomes 1em.
+
+   TYPE (--type-*-size): only the large headings h1–h4 are reduced (plus the
+   display sizes, which are larger than h1). h5, h6, paragraphs, body and
+   eyebrow stay at their desktop sizes. Anchor: h2 3em → 2.2em (×0.733). The
+   line heights (--type-*-lh) are left alone — they are unitless ratios and
+   scale with the size automatically.
+   ============================================================================ */
+@media screen and (max-width: 767px) {
+	:root {
+		/* ---- spacing ---- */
+		--brand-scale-0: 0em;
+		--brand-scale-25: 0.0625em;
+		--brand-scale-50: 0.125em;
+		--brand-scale-100: 0.25em;
+		--brand-scale-200: 0.375em; /* 0.5em  ×0.75 */
+		--brand-scale-300: 0.5em; /* 0.75em ×0.67 */
+		--brand-scale-400: 0.625em; /* 1em    ×0.625 */
+		--brand-scale-500: 0.75em; /* 1.25em ×0.6 */
+		--brand-scale-600: 0.875em; /* 1.5em  ×0.58 */
+		--brand-scale-700: 0.9375em; /* 1.75em ×0.54 */
+		--brand-scale-800: 1em; /* 2em    ×0.5  ← ANCHOR (container) */
+		--brand-scale-900: 1.25em; /* 2.5em  ×0.5 */
+		--brand-scale-1000: 1.5em; /* 3em    ×0.5 */
+		--brand-scale-1100: 2em; /* 4em    ×0.5 */
+		--brand-scale-1200: 2.5em; /* 5em    ×0.5 */
+		--brand-scale-1300: 3em; /* 6.25em ×0.48 */
+		--brand-scale-1400: 3.75em; /* 8.25em ×0.45 */
+		--brand-scale-1500: 4.5em; /* 10.25em ×0.44 */
+
+		/* ---- type · size — only the large headings h1–h4, plus the display
+		   sizes (larger than h1, so the hero would otherwise overflow on mobile).
+		   h5, h6, paragraphs, body and eyebrow stay at their desktop sizes. ---- */
+		--type-display-md-size: 3.5em; /* 6em     ×0.58 */
+		--type-display-sm-size: 2.9em; /* 4.75em  ×0.61 */
+		--type-h1-size: 2.2em; /* 3.75em  ×0.59 (so long words fit on mobile) */
+		--type-h2-size: 2em; /* 3em     ×0.733 ← ANCHOR */
+		--type-h3-size: 1.8em; /* 2.5em   ×0.76 */
+		--type-h4-size: 1.6em; /* 2em     ×0.8 */
+		/* h5, h6, paragraph-*, eyebrow — untouched (same as desktop) */
+	}
+}
+
+/* ---- base (structure) ---- */
+/* Roboto -- the typeface the original site used. Variable (300-700),
+   self-hosted, split into the same subsets Google serves so a Greek page
+   does not download the Cyrillic and Vietnamese ranges it will never show. */
+@font-face {
+	font-family: Roboto;
+	src: url("/assets/fonts/roboto-greek.woff2") format("woff2");
+	font-weight: 300 700;
+	font-style: normal;
+	font-display: swap;
+	unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+
+@font-face {
+	font-family: Roboto;
+	src: url("/assets/fonts/roboto-greek-ext.woff2") format("woff2");
+	font-weight: 300 700;
+	font-style: normal;
+	font-display: swap;
+	unicode-range: U+1F00-1FFF;
+}
+
+@font-face {
+	font-family: Roboto;
+	src: url("/assets/fonts/roboto-latin.woff2") format("woff2");
+	font-weight: 300 700;
+	font-style: normal;
+	font-display: swap;
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+	font-family: Roboto;
+	src: url("/assets/fonts/roboto-latin-ext.woff2") format("woff2");
+	font-weight: 300 700;
+	font-style: normal;
+	font-display: swap;
+	unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+body {
+	color: #333;
+	/* Was the reset's Arial stack. Headings and components name the brand family
+	   explicitly, but anything that does not -- list items, form controls, plain
+	   copy -- inherits from here, so it has to be the brand family too. */
+	font-family: var(--brand-font-family);
+	font-size: 14px;
+	line-height: 20px;
+}
+
+h1 {
+	margin-top: 0;
+	margin-bottom: 0;
+	font-size: 38px;
+	font-weight: 700;
+	line-height: 44px;
+}
+
+h2 {
+	margin-top: 0;
+	margin-bottom: 0;
+	font-size: 32px;
+	font-weight: 700;
+	line-height: 36px;
+}
+
+h3 {
+	margin-top: 0;
+	margin-bottom: 0;
+	font-size: 24px;
+	font-weight: 700;
+	line-height: 30px;
+}
+
+h4 {
+	margin-top: 0;
+	margin-bottom: 0;
+	font-size: 18px;
+	font-weight: 700;
+	line-height: 24px;
+}
+
+ul {
+	margin-top: 0;
+	margin-bottom: 0;
+	padding-left: 0;
+}
+
+/* ---- utilities (structure) ---- */
+/* ════════════════════════════════════════════════════════════════════
+   Base utilities.
+   Placed above the named classes so .cta-field / .submit-button /
+   .hero_bg-video keep overriding these defaults exactly as before.
+   ════════════════════════════════════════════════════════════════════ */
+.is-inline-block {
+	max-width: 100%;
+	display: inline-block;
+}
+
+.is-list-unstyled {
+	padding-left: 0;
+	list-style: none;
+}
+
+.is-form {
+	margin: 0 0 15px;
+}
+
+.form-field {
+	width: 100%;
+	height: 38px;
+	margin-bottom: 10px;
+	padding: 8px 12px;
+	vertical-align: middle;
+	background-color: #fff;
+	border: 1px solid #ccc;
+	color: #333;
+	font-size: 14px;
+	line-height: 1.42857143;
+	display: block;
+}
+
+.form-field::placeholder {
+	color: #999;
+}
+
+.form-field:focus {
+	border-color: #3898ec;
+	outline: 0;
+}
+
+.form-submit {
+	padding: 9px 15px;
+	background-color: #3898ec;
+	border: 0;
+	border-radius: 0;
+	color: #fff;
+	line-height: inherit;
+	text-decoration: none;
+	cursor: pointer;
+	display: inline-block;
+}
+
+input.form-submit {
+	-webkit-appearance: button;
+}
+
+.form-success {
+	display: none;
+	padding: 20px;
+	text-align: center;
+	background-color: #ddd;
+}
+
+.form-error {
+	display: none;
+	margin-top: 10px;
+	padding: 10px;
+	background-color: #ffdede;
+}
+
+.bg-video {
+	height: 500px;
+	color: #fff;
+	position: relative;
+	overflow: hidden;
+}
+
+.bg-video > video {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	background-position: 50% 50%;
+	background-size: cover;
+	position: absolute;
+	inset: -100%;
+	margin: auto;
+	z-index: -100;
+}
+
+.heading_display-large {
+	font-family: var(--brand-font-family);
+	color: var(--mapped-text-headings);
+	font-size: var(--type-display-md-size);
+	line-height: var(--type-display-md-lh);
+	font-weight: var(--brand-weight-regular);
+	letter-spacing: -0.05em;
+}
+
+.icon-arrow {
+	width: 100%;
+}
+
+.icon-arrow.is-absolute {
+	position: absolute;
+	inset: 0% 0% 0% -100%;
+}
+
+.image {
+	max-height: 1em;
+}
+
+.pattern-container {
+	border-right: 1px none var(--mapped-border-default);
+	border-bottom: 1px solid var(--mapped-border-default);
+	border-left: 1px none var(--mapped-border-default);
+	width: 100%;
+	height: 12em;
+}
+
+.pattern-container.is-border-l-r {
+	border-left-style: solid;
+	border-right-style: solid;
+	border-left-color: var(--mapped-border-default);
+}
+
+.detail-img_container {
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 22em;
+	display: flex;
+	position: relative;
+	/* Do NOT isolate here: this holds an <img>, not a video, so the Safari fix is
+	   unnecessary — and isolation would darken the transparent area around the
+	   image, because the colouring layer has nothing to blend with and its 50%
+	   overlay shows through. Blending with the image works without it. */
+}
+
+.tool-detail-img {
+	height: 100%;
+}
+
+.text-block {
+	letter-spacing: 0.05em;
+}
+
+.div-block {
+	height: 50svh;
+}
+
+.text-field {
+	border-style: none none solid;
+	border-width: 1px;
+	border-color: black black var(--mapped-border-default);
+	color: var(--mapped-text-body);
+	background-color: #fff0;
+	padding: 0;
+}
+
+.social-icon_wrap {
+	position: relative;
+	justify-content: center;
+	align-items: center;
+	width: 3em;
+	height: 3em;
+	padding: 0.5em;
+	display: flex;
+	background-color: var(--mapped-border-default);
+	color: var(--mapped-text-body);
+	clip-path: polygon(
+		0.4em 0%,
+		calc(100% - 0.4em) 0%,
+		100% 0.4em,
+		100% calc(100% - 0.4em),
+		calc(100% - 0.4em) 100%,
+		0.4em 100%,
+		0% calc(100% - 0.4em),
+		0% 0.4em
+	);
+	transition:
+		color 0.2s,
+		background-color 0.2s;
+}
+.social-icon_wrap::before {
+	content: "";
+	position: absolute;
+	inset: 1px;
+	background-color: var(--mapped-surface-default);
+	clip-path: polygon(
+		0.4em 0%,
+		calc(100% - 0.4em) 0%,
+		100% 0.4em,
+		100% calc(100% - 0.4em),
+		calc(100% - 0.4em) 100%,
+		0.4em 100%,
+		0% calc(100% - 0.4em),
+		0% 0.4em
+	);
+}
+.social-icon_wrap > * {
+	position: relative;
+	z-index: 1;
+}
+.social-icon_wrap:hover {
+	background-color: var(--mapped-surface-action);
+	color: var(--mapped-surface-action);
+}
+
+.icon-embed-xsmall {
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 1.5rem;
+	height: 1.5rem;
+	display: flex;
+}
+
+.tools-colorer {
+	mix-blend-mode: color;
+	background-color: #18191b80;
+	display: block;
+	position: absolute;
+	inset: 0%;
+}
+
+.red-dot {
+	margin-top: var(--mapped-padding-xxs);
+}
+
+.div-block-2 {
+	background-color: var(--mapped-surface-page);
+}
+
+.inner-hero_heading-container {
+	max-width: 60%;
+	padding-right: var(--mapped-padding-sm);
+	padding-left: var(--mapped-padding-sm);
+	grid-column-gap: var(--mapped-padding-sm);
+	grid-row-gap: var(--mapped-padding-sm);
+	flex-flow: column;
+	display: flex;
+}
+
+.heading {
+	color: #fff;
+}
+
+/* ---- base (motion / hover) ---- */
+/* ──────────────────────────────────────────────────────────────────────
+   Nav hover sweep — matching the button, but without the click scale.
+   Applied to .nav_item and .nav_contact. initHoverTextMirror() in
+   assets/js/components/hover.js copies each element's innerText into a
+   data-text attribute, which ::after then renders as the hover text through
+   content: attr(data-text).
+   ────────────────────────────────────────────────────────────────────── */
+:root {
+	--nav-sweep-ease: cubic-bezier(0.675, 0.15, 0.1, 1);
+	--nav-sweep-duration-in: 0.425s;
+	--nav-sweep-duration-out: 0.375s;
+	--nav-text-scale-default-hovered: 1.2;
+	--nav-text-scale-hover-resting: 0.85;
+}
+
+/* ---- base (overrides) ---- */
+/* normalize */
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+img,
+video,
+svg {
+	display: block;
+	max-width: 100%;
+}
+input,
+button,
+textarea,
+select {
+	font: inherit;
+}
+button {
+	background: none;
+	border: 0;
+	color: inherit;
+	cursor: pointer;
+}
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	overflow-wrap: break-word;
+}
+/* ------------------------------ Fluid scaling system ------------------------------ */
+/* Desktop */
+:root {
+	--size-unit: 16; /* body font-size in design - no px */
+	--size-container-ideal: 1440; /* screen-size in design - no px */
+	--size-container-min: 992px;
+	--size-container-max: 1920px;
+	--size-container: clamp(var(--size-container-min), 100vw, var(--size-container-max));
+	--size-font: calc(var(--size-container) / (var(--size-container-ideal) / var(--size-unit)));
+	--cut: 10px;
+}
+body {
+	font-size: var(--size-font);
+}
+/* Tablet */
+@media screen and (max-width: 991px) {
+	:root {
+		--size-container-ideal: 834; /* screen-size in design - no px */
+		--size-container-min: 768px;
+		--size-container-max: 991px;
+	}
+}
+/* Mobile Landscape */
+@media screen and (max-width: 767px) {
+	:root {
+		--size-container-ideal: 550; /* screen-size in design - no px */
+		--size-container-min: 480px;
+		--size-container-max: 767px;
+	}
+}
+/* Mobile Portrait */
+@media screen and (max-width: 479px) {
+	:root {
+		--size-container-ideal: 390; /* screen-size in design - no px */
+		--size-container-min: 320px;
+		--size-container-max: 479px;
+	}
+}
+/* ══════════════════════════════════════════════════════════════
+   Nav theme switcher — attribute-driven (data-theme-nav)
+   Tweak speed/easing below in --nav-theme-transition
+   ══════════════════════════════════════════════════════════════ */
+:root {
+	--nav-theme-transition: 0.15s ease;
+}
+:root {
+	--nav-sweep-ease: cubic-bezier(0.675, 0.15, 0.1, 1);
+	--nav-sweep-duration-in: 0.425s;
+	--nav-sweep-duration-out: 0.375s;
+}
+
+:root {
+	--button-color: var(--mapped-text-on-action);
+	--button-color-background: var(--mapped-surface-action);
+	--button-hover-color: var(--mapped-text-on-action);
+	--button-hover-color-background: var(--mapped-surface-action-hover);
+	--button-color-focus: #000;
+	--button-padding: 2em 3.1em 2em 2.5em;
+	--button-padding-big: 3em;
+	--button-corner: 0.8em;
+	--button-click-scale: 0.955 0.925;
+	--button-default-text-scale: 1.2;
+	--button-hover-text-scale: 0.85;
+	--button-ease-hover: cubic-bezier(0.675, 0.15, 0.1, 1);
+	--button-ease-click: cubic-bezier(0.4, 0, 0.2, 1);
+	--button-ease-focus: cubic-bezier(0.32, 0.72, 0, 1);
+	--button-icon-size: 1.2em; /* icon height */
+	--button-icon-aspect: 11 / 10; /* aspect ratio of the icon SVG */
+	--button-icon-gap: 0.5em;
+}
+@keyframes preloaderBlink {
+	0%,
+	100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.35;
+	}
+}

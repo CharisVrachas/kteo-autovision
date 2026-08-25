@@ -1,0 +1,490 @@
+/* footer.css */
+
+/* ---- structure ---- */
+.form-consent_footer {
+	margin-top: var(--brand-scale-300, 0.75em);
+}
+
+.footer-wrap {
+	margin-top: -3.5em;
+	position: relative;
+	overflow: hidden;
+}
+
+.footer-wrap__dark {
+	opacity: 0;
+	pointer-events: none;
+	background-color: #201d1d;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.footer-grid {
+	padding-top: var(--mapped-padding-sm);
+	border-right: 1px solid var(--mapped-border-default);
+	border-left: 1px solid var(--mapped-border-default);
+}
+
+.footer-grid.is-padding-btm {
+	border-bottom: 1px solid var(--mapped-border-default);
+}
+
+.footer-col {
+	width: 100%;
+	min-height: 22.5em;
+	padding: var(--mapped-padding-lg) var(--mapped-padding-sm) var(--mapped-padding-sm);
+	grid-column-gap: var(--mapped-padding-sm);
+	grid-row-gap: var(--mapped-padding-sm);
+	flex-flow: column;
+	display: flex;
+}
+
+.footer-col.is-height-100 {
+	max-height: 100%;
+}
+
+.footer-col.is-grid {
+	grid-column-gap: var(--mapped-padding-sm);
+	grid-row-gap: var(--mapped-padding-sm);
+	grid-template-rows: auto;
+	grid-template-columns: 1fr 1fr;
+	grid-auto-columns: 1fr;
+	display: grid;
+}
+
+.footer-col.is-last {
+	grid-column-gap: var(--mapped-padding-xs);
+	grid-row-gap: var(--mapped-padding-xs);
+	border-right-style: none;
+	justify-content: space-between;
+}
+
+.footer-btm-col {
+	width: 100%;
+	padding: var(--mapped-padding-sm);
+}
+
+.footer-btm-col.is-height-100 {
+	max-height: 100%;
+}
+
+.footer-col_content {
+	grid-column-gap: var(--mapped-padding-xs);
+	grid-row-gap: var(--mapped-padding-xs);
+	flex-flow: column;
+	display: flex;
+}
+
+.footer-link-list {
+	grid-column-gap: var(--mapped-padding-xxs);
+	grid-row-gap: var(--mapped-padding-xxs);
+	flex-flow: column;
+	display: flex;
+}
+
+.footer-link {
+	text-decoration: none;
+	display: inline-block;
+	position: relative;
+	overflow: hidden;
+}
+
+.footer-link.is-last {
+	float: right;
+}
+
+.footer-subscribe {
+	grid-column-gap: var(--mapped-padding-xs);
+	grid-row-gap: var(--mapped-padding-xs);
+	flex-flow: column;
+	display: flex;
+}
+
+.footer-form {
+	margin-bottom: 0;
+}
+
+.footer-socials_wrap {
+	grid-column-gap: var(--mapped-padding-xxs);
+	grid-row-gap: var(--mapped-padding-xxs);
+	display: flex;
+}
+
+.footer-logo {
+	width: 12em;
+}
+
+/* 991 = the mobile structure also applies on tablet; see the note on the first block. */
+@media screen and (max-width: 991px) {
+	.container {
+		padding-right: var(--mapped-padding-sm);
+		padding-left: var(--mapped-padding-sm);
+	}
+
+	.content-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.content-grid > .grid-col {
+		/* 1/-1 + auto + !important forces a single column even for cells that carry
+		   an inline grid-column, which would otherwise refuse to collapse. */
+		grid-column: 1 / -1 !important;
+		grid-row: auto !important;
+		/* A generic row-gap for ALL content-grid cells on mobile (case cards,
+		   product cells, tech features and so on): mapped-padding-sm instead of 2em. */
+		grid-row-gap: var(--mapped-padding-sm);
+	}
+
+	.card_wrap {
+		border-bottom: 1px solid var(--mapped-border-default);
+		border-right-style: none;
+	}
+
+	.nav_item,
+	.nav_item.is-border {
+		display: none;
+	}
+
+	.nav-container {
+		padding-right: var(--mapped-padding-sm);
+		padding-left: var(--mapped-padding-sm);
+	}
+
+	.card_content-big {
+		height: 22em;
+		padding: var(--mapped-padding-md) var(--mapped-padding-sm);
+	}
+
+	.product-card_title {
+		padding-top: var(--mapped-padding-md);
+		padding-bottom: var(--mapped-padding-md);
+		grid-column-gap: var(--mapped-padding-md);
+		grid-row-gap: var(--mapped-padding-md);
+		grid-template-columns: 1fr;
+	}
+
+	.product-card_preview_background {
+		aspect-ratio: auto;
+		padding-right: var(--mapped-padding-sm);
+		padding-left: var(--mapped-padding-sm);
+	}
+
+	.product-card_preview {
+		height: 9em;
+	}
+
+	.card_info-block-big {
+		grid-row-gap: var(--brand-scale-900);
+	}
+
+	.pattern-container {
+		height: 6em;
+	}
+
+	.detail-img_container {
+		height: 12em;
+	}
+
+	.tool-detail-img {
+		object-fit: contain;
+	}
+
+	.product-tool-video {
+		aspect-ratio: auto;
+	}
+
+	.case-card_item {
+		padding: var(--mapped-padding-lg) var(--mapped-padding-sm);
+		justify-content: left;
+	}
+
+	.case-card_item.is-border-btm {
+		padding: var(--mapped-padding-md) var(--mapped-padding-sm);
+		justify-content: flex-start;
+		align-items: center;
+	}
+
+	.case-card_title {
+		justify-content: flex-start;
+		align-items: flex-start;
+	}
+
+	.case-card_description {
+		position: static;
+	}
+
+	/* The date is hidden on mobile */
+	.case-card_date {
+		display: none;
+	}
+
+	.logo-grid {
+		grid-template-columns: 1fr 1fr;
+	}
+
+	.globe-info__list-item-visual {
+		border-radius: 0.5em;
+	}
+
+	.globe-info__list-item {
+		grid-column-gap: 1em;
+		grid-row-gap: 1em;
+		padding-top: 1em;
+		padding-left: 1em;
+		padding-right: 1em;
+	}
+
+	.cta-form {
+		grid-template-rows: auto;
+		grid-template-columns: 1fr;
+		grid-auto-flow: row;
+	}
+
+	.cta-btm {
+		height: 1.5em;
+	}
+
+	.footer-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.footer-col {
+		min-height: 13em;
+		padding-top: var(--mapped-padding-md);
+		border-right-style: none;
+	}
+
+	.footer-col.is-grid,
+	.footer-col.is-last {
+		min-height: 13em;
+	}
+
+	/* The first footer column (the logo) gets more space above it */
+	.footer-col:first-child {
+		padding-top: 6em;
+	}
+
+	/* Footer bottom columns: drop the bottom padding while stacked, restore it on the last one */
+	.footer-btm-col {
+		width: 100%;
+		padding: var(--mapped-padding-sm) var(--mapped-padding-sm) 0;
+	}
+	.footer-btm-col.is-last {
+		padding-bottom: var(--mapped-padding-sm);
+	}
+
+	.footer-socials_wrap {
+		padding-bottom: var(--mapped-padding-sm);
+	}
+
+	.social-icon_wrap {
+		width: 4em;
+		height: 4em;
+	}
+
+	/* globe nav (the only navigation button inside the globe) */
+	.globe-nav {
+		margin: 1em var(--mapped-padding-sm);
+	}
+
+	.footer {
+		border-bottom: 1px solid var(--mapped-border-default);
+	}
+
+	.footer-link.is-last {
+		float: left;
+	}
+
+	.cta-col_img,
+	.cta-col_form {
+		padding: var(--mapped-padding-md) var(--mapped-padding-sm);
+	}
+
+	.case-card_link {
+		position: static;
+	}
+
+	.scroller_image-wrapper,
+	.scroller_text-content_wrap {
+		height: 30em;
+	}
+
+	.inner-hero_heading-container {
+		max-width: 100%;
+	}
+
+	.card_info {
+		max-width: 90%;
+	}
+
+	.feature-list_item {
+		padding: var(--mapped-padding-md) var(--mapped-padding-sm);
+		flex-direction: column;
+		/* The base align-items:center would centre the content horizontally in a
+		   column, so align it left to match the design. This does not affect
+		   has-description (a grid, specificity 0,2,0), which sets its own
+		   align-items. */
+		align-items: flex-start;
+		grid-row-gap: var(--brand-scale-800);
+	}
+
+	/* Fullscreen scroller → static blocks: hide the pinned stage, collapse its
+	   scroll budget (three screens) and show .scroller_mobile (image + text ×3). */
+	.container.scroller_outer {
+		height: auto;
+	}
+	.scroller_slides {
+		display: none;
+	}
+	.scroller_mobile {
+		display: block;
+		border-right: 1px solid var(--mapped-border-default);
+		border-left: 1px solid var(--mapped-border-default);
+	}
+	.scroller_mobile-slide {
+		border-bottom: 1px solid var(--mapped-border-default);
+	}
+	.scroller_mobile-image {
+		width: 100%;
+		height: 18em;
+		border-bottom: 1px solid var(--mapped-border-default);
+	}
+	.scroller_mobile-text {
+		padding: var(--mapped-padding-md) var(--mapped-padding-sm);
+	}
+
+	.about-kompozit_wraper {
+		min-height: 18em;
+	}
+
+	.tech_stage {
+		padding: var(--mapped-padding-md) var(--mapped-padding-sm);
+		gap: 4em;
+	}
+	.tech_media {
+		width: 100%;
+	}
+	.tech_card {
+		position: static;
+		width: 100%;
+	}
+	/* On desktop, is-right is centred with transform:translateY(-50%). Once
+	   position becomes static on mobile that transform remains and pushes the
+	   card upwards, swallowing the parent's gap/margin. Resetting the transform
+	   makes the 4em gap work (and the margin on is-left is no longer needed).
+	   The compound width (19.25em) is reset as well. */
+	.tech_card.is-right {
+		transform: none;
+		width: 100%;
+	}
+	.tech_card_pointer {
+		display: none;
+	}
+	/* btn-big inside tech_stage only — no padding on mobile */
+	.tech_stage .btn-big_container {
+		padding: 0;
+	}
+}
+.footer-btm-col.is-last {
+	justify-self: end;
+}
+
+/* ---- motion / hover ---- */
+
+/* ══════════════════════════════════════════════════════════════════════
+   Footer link hover sweep — an exact replica of .nav_item (a background plaque
+   with a clip-path sweep plus the two-text scale dance), NOT a translateY roll.
+   .footer-link is display:inline-block, position:relative, overflow:hidden, so
+   it acts as the mask container.
+   Layers:
+     ::after          — the background plaque, clip-path sweeping stripe → full
+     .text_size-small — the default text (the original), scale 1 → 1.2
+     .footer-link_dup — the hover text: a JS clone of .text_size-small made by
+                        initFooterLinkHover in assets/js/components/hover.js,
+                        with a clip-path sweep and scale 0.85→1
+   A clone is used instead of ::before{content:attr} because the clone carries
+   the .text_size-small class, giving a pixel-for-pixel match on font, size and
+   colour. The em context on <a>.footer-link differs, so an attr pseudo-element
+   mismatched the size.
+   ══════════════════════════════════════════════════════════════════════ */
+.footer-link {
+	--footer-sweep-ease: cubic-bezier(0.675, 0.15, 0.1, 1);
+	--footer-sweep-duration-out: 0.375s;
+	--footer-sweep-duration-in: 0.425s;
+	--footer-sweep-fill: var(--mapped-surface-light-150);
+	--footer-link-pad-x: 0.4em; /* breathing room either side of the plaque */
+	isolation: isolate;
+	/* The padding widens the plaque (::after inset:0) while the negative margin
+	   pulls the layout back, so the text stays put and the plaque gains room at
+	   its edges */
+	padding-left: var(--footer-link-pad-x);
+	padding-right: var(--footer-link-pad-x);
+	margin-left: calc(-1 * var(--footer-link-pad-x));
+	margin-right: calc(-1 * var(--footer-link-pad-x));
+}
+
+/* The background plaque — a clip-path sweep vertically from the centre */
+.footer-link::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	pointer-events: none;
+	background-color: var(--footer-sweep-fill);
+	clip-path: polygon(0% 50%, 100% 50%, 100% 50%, 0% 50%);
+	transition: clip-path var(--footer-sweep-duration-out) var(--footer-sweep-ease);
+}
+
+/* The default text — scales up and is covered by the plaque */
+.footer-link .text_size-small:not(.footer-link_dup) {
+	transition: scale 0.35s var(--footer-sweep-ease);
+}
+
+/* The hover text (the JS clone) — a clip-path sweep plus scale 0.85→1, sitting
+   over the plaque. Its colour is overridden to on-action so it stays readable
+   against the accent plaque. */
+.footer-link .footer-link_dup {
+	position: absolute;
+	inset: 0;
+	z-index: 2;
+	pointer-events: none;
+	/* match .footer-link horizontal padding so clone text aligns with original */
+	padding-left: var(--footer-link-pad-x);
+	padding-right: var(--footer-link-pad-x);
+	color: var(--mapped-text-on-action);
+	clip-path: polygon(0% 50%, 100% 50%, 100% 50%, 0% 50%);
+	scale: 0.85;
+	transition:
+		clip-path var(--footer-sweep-duration-out) var(--footer-sweep-ease),
+		scale 0.35s var(--footer-sweep-ease);
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+	.footer-link:hover::after,
+	.footer-link:hover .footer-link_dup {
+		clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+		transition: clip-path var(--footer-sweep-duration-in) 0.05s var(--footer-sweep-ease);
+	}
+	.footer-link:hover .footer-link_dup {
+		scale: 1;
+		transition:
+			clip-path var(--footer-sweep-duration-in) 0.05s var(--footer-sweep-ease),
+			scale 0.35s 0.1s var(--footer-sweep-ease);
+	}
+	.footer-link:hover .text_size-small:not(.footer-link_dup) {
+		scale: 1.2;
+		transition: scale 0.35s 0.05s var(--footer-sweep-ease);
+	}
+}
+
+/* ---- overrides ---- */
+/* The footer is always in the DOM, so every page shares the same shell for
+   Barba, but it is hidden on pages marked data-no-footer (the contacts page).
+   The selector is intrinsic to the container — no body-attribute swapping — so
+   it behaves identically on a cold load and after a Barba transition. */
+.page[data-no-footer="true"] .footer-wrap {
+	display: none;
+}

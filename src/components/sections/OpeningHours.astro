@@ -1,0 +1,41 @@
+---
+/**
+ * Opening hours, as Orisa's process cards ("Home 4 Section 3", index-4.html).
+ *
+ * The card markup inside .orisa-process is Orisa's own — visual pill, number,
+ * title, description, divider — with the week's hours in it. Styles come from
+ * assets/css/vendors/orisa-process-cards.css, lifted out of its built CSS and
+ * scoped, and the fade-in is the `at_fade_anim` timeline already ported for the
+ * portfolio grid.
+ *
+ * Orisa staggers four cards by 80px each (card-2 … card-4). Three days need
+ * three, so card-1 to card-3 are used and the stagger reads 0 / 80 / 160.
+ */
+import { openingHours } from "../../data/site";
+---
+
+<div class="orisa-process">
+	{/* col-lg-3 and a centred row: Orisa lays four of these across the grid, so
+	    each is a quarter. Three at a third apiece stretched the text and the
+	    divider right across the page. Keeping its width and centring the row
+	    puts them in the middle, in a line, as they sit there. */}
+	<div class="row g-4 justify-content-center">
+		{
+			openingHours.map((slot, i) => (
+				<div class="col-lg-3 col-md-6">
+					<div class={`card__process-card card-${i + 1} at_fade_anim`} data-delay=".4">
+						<div class="card__process-visual">
+							<div class={`card__process-pill card__process-pill--${i + 1}`} />
+							<span class="card__process-num">{String(i + 1).padStart(2, "0")}</span>
+						</div>
+						<div class="card__process-content">
+							<h4 class="h6 card__process-title">{slot.days}</h4>
+							<p class="card__process-desc">{slot.hours}</p>
+							<div class="card__process-divider" />
+						</div>
+					</div>
+				</div>
+			))
+		}
+	</div>
+</div>

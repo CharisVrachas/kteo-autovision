@@ -1,0 +1,130 @@
+---
+/**
+ * The three inspection centres, as Orisa's "Home 2 Section 6" (index-2.html).
+ *
+ * The markup inside .orisa-portfolio follows Orisa's own, row for row. That
+ * structure is the whole effect and is easy to get wrong: Orisa puts **two
+ * items per row**, and the diagonal comes from each one's column offsets plus a
+ * negative margin-top on the second and third variants (-105px, -200px). One
+ * item per row instead — the first attempt here — produces a column of cards
+ * with large gaps and no stagger at all.
+ *
+ * Measured against the original at 1280 wide, the rows are:
+ *
+ *     row 1   the title block (no items)
+ *     row 2   item 1  (left 454) + item 2  (left 834, margin-top -105)
+ *     row 3   item 3  (left  74) + item 4  (left 739, margin-top  200)
+ *     row 4   item 5  + item 6
+ *     row 5   the closing text and button
+ *
+ * There are three centres, so rows 2 and 3 are used and the fourth item's slot
+ * keeps the decorative shapes Orisa puts there. The diagonal still reads:
+ * 454 → 834 → 74.
+ *
+ * Orisa's own `bg-neutral-50 rounded-5 mx-lg-3 mx-2` is dropped from the area:
+ * it draws a rounded panel inset from the page, which read as a separate card
+ * sitting on the section rather than part of it. The section's own surface and
+ * its vertical rules run through instead.
+ *
+ * Styles come from assets/css/vendors/orisa-portfolio.css, lifted out of
+ * Orisa's built CSS; the scroll effects from
+ * assets/js/components/orisa-portfolio.js, which are its timelines unchanged.
+ */
+import BranchCard from "./BranchCard.astro";
+import Button from "../ui/Button.astro";
+import { branches } from "../../data/site";
+
+const [asgourou, tsairi, afantou] = branches;
+
+
+---
+
+<div class="orisa-portfolio">
+	<div class="container-2200">
+		<div class="alt-portfolio-area portfolio-area pt-120 pb-120">
+			<div class="container">
+				{/* Row 1 — the title. .portfolio-text is what Orisa pins and flies
+				    diagonally across the section as you scroll (its main.js §18). */}
+				<div class="row">
+					<div class="col-xxl-5 col-xl-5 col-md-8">
+						<div class="alt-portfolio-main-title-wrap portfolio-text">
+							<h2 class="h1 alt-portfolio-main-title fz-ds-1 fw-500">
+								Πού
+								<svg
+									class="d-none d-lg-inline-flex"
+									xmlns="http://www.w3.org/2000/svg"
+									width="122"
+									height="122"
+									viewBox="0 0 122 122"
+									fill="none"
+								>
+									<path
+										fill-rule="evenodd"
+										clip-rule="evenodd"
+										d="M65.3572 0H56.6428V50.4809L20.9475 14.7855L14.7855 20.9475L50.4809 56.6428H0V65.3572H50.4809L14.7855 101.053L20.9475 107.214L56.6428 71.5188V122H65.3572V71.5188L101.053 107.214L107.214 101.053L71.5188 65.3572H122V56.6428H71.5188L107.214 20.9474L101.053 14.7855L65.3572 50.4809V0Z"
+										fill="currentColor"></path>
+								</svg>
+								θα μας
+								<br /> βρείτε
+								<svg xmlns="http://www.w3.org/2000/svg" width="104" height="104" viewBox="0 0 104 104" fill="none">
+									<path
+										d="M8.66516 56.3359L8.66455 47.6697H78.7428L61.6274 30.554L67.7556 24.4258L95.333 52.003L67.7556 79.5803L61.6274 73.4517L78.7432 56.3363L8.66516 56.3359Z"
+										fill="currentColor"></path>
+								</svg>
+							</h2>
+						</div>
+					</div>
+				</div>
+
+				{/* Row 2 — item 1 near centre (offset 4 of 12), item 2 hard right (offset 9
+				    plus a 3-wide column reaches the container edge). Orisa's own markup
+				    carried offset-xl-8 AND offset-xl-7 on this column; the second won and
+				    left it stranded two-thirds across instead of at the edge. The WIDTH
+				    classes stay in step with the other two cards at every breakpoint —
+				    narrowing this one to col-xl-3 made it the odd size again below
+				    1400. */}
+				<div class="row justify-content-xl-start justify-content-center">
+					<div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6 offset-xxl-4 offset-xl-4">
+						<BranchCard branch={asgourou} />
+					</div>
+					{/* col-xxl-3, not Orisa's col-xxl-4. Its six cards vary in width by design;
+					    with three the odd one out just reads as a mistake — above 1400 this
+					    one came out a third wider than its neighbours. The OFFSET is
+					    untouched, so the diagonal is unchanged. */}
+					<div class="col-xxl-3 col-xl-4 offset-xxl-9 offset-xl-8 col-lg-4 col-md-6">
+						<BranchCard branch={tsairi} variant=" alt-portfolio-item-2" captionFirst={false} />
+					</div>
+				</div>
+
+				{/* Row 3 — item 3, hard left. Orisa parks decorative shapes in this row's
+				    second slot; with three cards they sat alone in the middle of an
+				    empty half and read as a stray object, so the column is dropped. */}
+				<div class="row justify-content-xl-start justify-content-center">
+					<div class="col-xxl-3 col-lg-4 col-md-6">
+						<BranchCard branch={afantou} variant=" alt-portfolio-item-3" />
+					</div>
+				</div>
+
+				{/* Row 4 — the closing text and button. */}
+				<div class="row">
+					<div class="col-xxl-4 col-lg-6 col-md-8 offset-xxl-4 offset-lg-3">
+						<div class="mg-portfolio-title-wrap mb-30">
+							<div class="at_fade_anim" data-delay=".3">
+								<p class="mg-portfolio-dec mb-30 fz-font-lg">
+									Δύο σημεία τεχνικού ελέγχου σε λειτουργία στη Ρόδο, και ένα τρίτο στα Αφάντου
+									σύντομα κοντά σας. Όλες οι κατηγορίες οχημάτων, με ραντεβού online.
+								</p>
+							</div>
+							{/* This site's own .button, not Orisa's pill — the same control the
+							    reminder section uses, so the two calls to action on the page
+							    match. Orisa's .at-btn-group is dropped with it; its three-child
+							    scale trick only made sense around that pill. */}
+							<Button label="Δείτε πού θα μας βρείτε" href="/contact-us/" />
+						</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

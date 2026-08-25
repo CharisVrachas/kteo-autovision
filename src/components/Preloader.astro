@@ -1,0 +1,90 @@
+---
+/**
+ * Entry-page preloader: the mark, a percentage, and two shape cards that animate
+ * while the first page loads. Driven by initPreloader in
+ * assets/js/components/preloader.js, which reads the data-preloader-* hooks.
+ *
+ * Only the homepage uses it — on an inner page there is nothing to cover.
+ */
+const shapes = [1, 2, 3, 4, 5];
+const serviceShapes = [1, 2, 3, 4];
+---
+
+<div data-preloader class="preloader" aria-hidden="true">
+	<div class="preloader__grid">
+		<div class="preloader__cell preloader__orange" data-preloader-orange>
+			<div class="preloader__head">
+				{/* The mark, not a wordmark. It is a JPG on a white ground, so it sits
+				    on a white panel here exactly as it does in the navbar, rather than
+				    showing a white rectangle against the blue cell. */}
+				<div class="preloader__logo" data-preloader-logo>
+					<img
+						src="/assets/img/rodos/logo-autovision.jpg"
+						loading="eager"
+						alt="AUTOVISION"
+						class="preloader__logo-img"
+					/>
+				</div>
+			</div>
+		</div>
+
+		<div class="preloader__cell preloader__pattern" data-preloader-pattern>
+			<div class="preloader__fill"></div>
+			<div class="preloader__progress">
+				<span class="preloader__square"></span>
+				<span data-preloader-percent class="preloader__percent">0%</span>
+			</div>
+		</div>
+
+		<div class="preloader__cell preloader__card" data-preloader-card="left">
+			<div class="card_head">
+				<div class="card_head-left">
+					<div class="annotation_container">
+						<div class="annotation_dot"></div>
+						<div class="annotation_text">
+							ΤΕΧΝΙΚΟΣ ΕΛΕΓΧΟΣ ΟΧΗΜΑΤΩΝ<span data-preloader-card-dots="left">...</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card_illustration-wrap" data-preloader-illu="left">
+				{shapes.map((n) => (
+					<img src="/assets/img/shapes/shape-preloader.svg" loading="eager" alt="" class={`shape is-${n}`} />
+				))}
+			</div>
+		</div>
+
+		<div class="preloader__cell preloader__card" data-preloader-card="right">
+			<div class="card_head">
+				<div class="card_head-left">
+					<div class="annotation_container">
+						<div class="annotation_dot"></div>
+						<div class="annotation_text">
+							ΤΡΙΑ ΙΚΤΕΟ ΣΤΗΝ ΥΠΗΡΕΣΙΑ ΣΑΣ<span data-preloader-card-dots="right">...</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card_illustration-wrap" data-preloader-illu="right">
+				{serviceShapes.map((n) => (
+					<img
+						src="/assets/img/shapes/shape-preloader.svg"
+						loading="eager"
+						alt=""
+						class={`shape-service is-${n}`}
+					/>
+				))}
+			</div>
+		</div>
+	</div>
+
+	{/* Reveal overlay: a copy of the pattern cell that grows from the top right
+	    to cover the grid as the preloader lifts. */}
+	<div class="preloader__overlay" data-preloader-overlay aria-hidden="true">
+		<div class="preloader__overlay-fill"></div>
+		<div class="preloader__progress">
+			<span class="preloader__square"></span>
+			<span data-preloader-overlay-percent class="preloader__percent">0%</span>
+		</div>
+	</div>
+</div>

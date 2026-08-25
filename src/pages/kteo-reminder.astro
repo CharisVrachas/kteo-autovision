@@ -1,0 +1,75 @@
+---
+/**
+ * /kteo-reminder/ — sign-up for an inspection deadline reminder.
+ *
+ * Fields follow the old site's form exactly: whether the vehicle has been
+ * inspected before, its type, the date of the previous inspection, and the
+ * contact details to reach you on.
+ */
+import Base from "../layouts/Base.astro";
+import InnerHero from "../components/sections/InnerHero.astro";
+import Field from "../components/ui/Field.astro";
+import Select from "../components/ui/Select.astro";
+import Button from "../components/ui/Button.astro";
+import Consent from "../components/ui/Consent.astro";
+import FormFeedback from "../components/ui/FormFeedback.astro";
+import { vehicleTypes } from "../data/site";
+---
+
+<Base
+	title="Υπενθύμιση ΚΤΕΟ — ΙΚΤΕΟ Autovision Ρόδου"
+	description="Λάβετε έγκαιρη υπενθύμιση, μέσω e-mail ή τηλεφώνου, για την καταληκτική ημερομηνία του τεχνικού ελέγχου του οχήματός σας."
+	namespace="reminder"
+	pageLabel="Υπενθύμιση ΚΤΕΟ"
+	pageStyles={["tools"]}
+>
+	<InnerHero
+		eyebrow="υπενθύμιση"
+		title="Υπενθύμιση ΚΤΕΟ"
+		lead="Συμπληρώστε τη φόρμα για να λάβετε μέσω e-mail ή τηλεφώνου έγκαιρη υπενθύμιση για την καταληκτική ημερομηνία του τεχνικού ελέγχου (ΚΤΕΟ)."
+	/>
+
+	<section data-theme-section="dark" class="section_cta">
+		<div class="container">
+			<div class="padding is-none">
+				<div class="is-form">
+					<form class="cta-form tool_form" data-form-source="reminder" method="post">
+						<fieldset class="tool_fieldset">
+							<legend class="tool_legend text_size-small">Στοιχεία ελέγχου</legend>
+							<Select
+								name="hasPrevious"
+								label="Έχετε ξαναπεράσει ΚΤΕΟ;"
+								options={["ΝΑΙ", "ΟΧΙ"]}
+								required
+							/>
+							<Select name="vehicle" label="Είδος οχήματος" options={vehicleTypes} required />
+							<Field name="previousDate" label="Ημερομηνία προηγούμενου ελέγχου" type="date" full />
+						</fieldset>
+
+						<fieldset class="tool_fieldset">
+							<legend class="tool_legend text_size-small">Στοιχεία επικοινωνίας</legend>
+							<Field name="firstName" label="Όνομα" required />
+							<Field name="lastName" label="Επώνυμο" required />
+							<Field name="plate" label="Αριθμός κυκλοφορίας" required />
+							<Field name="mobile" label="Κινητό" type="tel" required />
+							<Field name="email" label="Email" type="email" full required />
+						</fieldset>
+
+						<input
+							class="form-honeypot"
+							type="text"
+							name="website"
+							tabindex="-1"
+							autocomplete="off"
+							aria-hidden="true"
+						/>
+						<Consent />
+						<Button label="Ολοκλήρωση" />
+						<input type="submit" class="submit-button form-submit" value="Ολοκλήρωση" />
+					</form>
+					<FormFeedback success="Η εγγραφή σας καταχωρήθηκε. Θα σας υπενθυμίσουμε εγκαίρως." />
+				</div>
+			</div>
+		</div>
+	</section>
+</Base>

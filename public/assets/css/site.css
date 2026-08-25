@@ -1,0 +1,948 @@
+/* site.css — the handful of rules this project adds on top of the template.
+   Everything else under assets/css/ ships with the design; keeping our own
+   additions in one file makes it obvious which is which.
+
+   Loaded on every page, after the component set and before the per-route
+   sheets, so a route stylesheet can still override it. */
+
+/* "Οδηγίες →" — the map link on every branch card and address block.
+   It is a standalone control, not a link inside running text, so it needs a
+   real touch target. Inline it would be ~20px tall; 44px is the size a thumb
+   can hit reliably. */
+.map-link {
+	display: inline-block;
+	padding: 0.75em 0;
+	min-height: 44px;
+	line-height: 1.4;
+}
+
+@media (hover: hover) {
+	/* Pointer devices do not need the padded target, and it would push the
+	   card's other lines apart. */
+	.map-link {
+		padding: 0.25em 0;
+		min-height: 0;
+	}
+}
+
+/* The booking entry in the mobile menu. It repeats the bar's action button,
+   which the template hides below the mobile breakpoint — so it is marked out
+   the way that button is, rather than reading as one more page link. */
+/* (colour now set with the palette, at the end of this file) */
+
+/* iOS Safari zooms the page whenever a focused field's text is under 16px, and
+   the template's fields are 14px. The zoom is not undone on blur, so the user
+   is left on a page wider than the screen after filling one field.
+   16px only where it matters: touch-first widths. */
+@media screen and (max-width: 767px) {
+	.form-field,
+	.cta-field,
+	textarea.form-field,
+	input[type="date"].form-field {
+		font-size: 16px;
+	}
+
+	/* The select needs two classes to win: tools.css sets `font-size: inherit`
+	   on `.tool_select` and, as a route stylesheet, it loads after this file —
+	   at equal specificity the later sheet would take it. A <select> does not
+	   trigger the iOS zoom (it opens a picker), so this is purely so it matches
+	   the inputs beside it. */
+	.tool_form .tool_select {
+		font-size: 16px;
+	}
+}
+
+
+/* ---------------------------------------------------------------------------
+   Utility bar above the navigation
+
+   The old site carried a thin strip with both phone lines and a map link on
+   every page. The template has no such strip, so it is added here rather than
+   edited into the vendor sheet.
+
+   The one thing that has to be shared with the rest of the design is its
+   HEIGHT. Several components measure the fixed bar off --layout-nav-height:
+   .nav's own height, the mobile panel's `top`, .section_inner-hero's
+   padding-top, the sticky scroller, and --layout-section-viewport. Folding the
+   strip into that token means all of them stay correct without being touched,
+   and .nav-container takes over the height of the bar row alone.
+   --------------------------------------------------------------------------- */
+:root {
+	--layout-nav-bar-height: 4.375em;
+	--layout-topbar-height: 2.5em;
+	--layout-nav-height: calc(var(--layout-nav-bar-height) + var(--layout-topbar-height));
+}
+
+.nav-container {
+	height: var(--layout-nav-bar-height);
+}
+
+.nav_topbar {
+	height: var(--layout-topbar-height);
+	/* Opaque in every nav theme, including `hero` where the bar below it is
+	   transparent over the video — the numbers have to stay readable. */
+	background-color: var(--brand-grey-900);
+	color: var(--brand-grey-150);
+	border-bottom: 1px solid var(--brand-grey-600);
+	position: relative;
+	z-index: 99;
+}
+
+.nav_topbar-inner {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1.5em;
+	height: 100%;
+}
+
+.nav_topbar-group {
+	display: flex;
+	align-items: center;
+	gap: 1.5em;
+	min-width: 0;
+}
+
+.nav_topbar-link {
+	color: inherit;
+	text-decoration: none;
+	font-size: 0.8125em;
+	letter-spacing: 0.02em;
+	line-height: 1;
+	white-space: nowrap;
+	/* Full-height hit area: the strip is short, so the target is the strip. */
+	display: inline-flex;
+	align-items: center;
+	height: 100%;
+	transition: color 0.2s ease-out;
+}
+
+.nav_topbar-link:hover,
+.nav_topbar-link:focus-visible {
+	color: var(--brand-blue-300);
+}
+
+@media screen and (max-width: 479px) {
+	/* Two numbers and a map link do not fit at phone widths. The numbers are the
+	   reason the strip exists, so the map link steps aside — the branch cards and
+	   the footer both carry their own "Οδηγίες" links. */
+	.nav_topbar-map {
+		display: none;
+	}
+
+	.nav_topbar-group {
+		gap: 1.25em;
+	}
+}
+
+/* ---------------------------------------------------------------------------
+   Address strip in the footer
+
+   Also from the old site: the two centres you can visit today, plus the one
+   that is on the way, above the legal line.
+   --------------------------------------------------------------------------- */
+.footer-branches {
+	padding: var(--mapped-padding-sm) 0;
+	border-bottom: 1px solid var(--mapped-border-default);
+}
+
+.footer-branches_title {
+	margin: 0 0 0.75em;
+	/* Was --brand-grey-150 (#e0e1e3) on a #eff0f1 surface — a contrast ratio of
+	   about 1.1:1, which is to say invisible. */
+	color: var(--mapped-text-headings);
+}
+
+.footer-branches_list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5em 2.5em;
+	margin: 0;
+	padding: 0;
+}
+
+.footer-branches_item.is-upcoming {
+	color: var(--brand-grey-400);
+}
+
+/* ---------------------------------------------------------------------------
+   Running prose
+
+   The company profile and any other block of body copy that is paragraphs
+   rather than a laid-out component. Measure is capped because long Greek lines
+   are hard to track across the full container width.
+   --------------------------------------------------------------------------- */
+.prose {
+	max-width: 46em;
+	display: flex;
+	flex-direction: column;
+	gap: 1.25em;
+}
+
+.prose p {
+	margin: 0;
+}
+
+/* Screenshot of Autovision's booking form on /online-rantevou/. */
+.booking_preview {
+	display: block;
+	width: 100%;
+	max-width: 40em;
+	height: auto;
+	margin-inline: auto;
+}
+
+/* ---------------------------------------------------------------------------
+   Big buttons carrying a sentence
+
+   /online-rantevou/ uses the old site's full wording on its main action --
+   "Πατήστε εδώ για την Online Φόρμα Ραντεβού της Autovision". Two things in the
+   template stop that from fitting on a phone: form.css pins every .button__text
+   to white-space: nowrap (added when a two-word English CTA wrapped awkwardly),
+   and the button is a grid whose items keep their auto min-width, so the track
+   is sized to the unwrapped line and pushes past the viewport.
+
+   Both are relaxed for .is-big only -- it is a full-width block button, so a
+   wrapped label sits correctly inside it. Short labels are unaffected.
+   --------------------------------------------------------------------------- */
+.button.is-big,
+.button.is-big > *,
+.button.is-big .button__text {
+	min-width: 0;
+}
+
+.button.is-big .button__text {
+	white-space: normal;
+	line-height: 1.3;
+	text-wrap: balance;
+}
+
+
+/* ---------------------------------------------------------------------------
+   Brand palette
+
+   The original site is built on Autovision blue #164194 (nav, buttons,
+   headings, icons) with red #e7453a as the mark's secondary. The template
+   shipped with a hot orange accent instead.
+
+   Only ONE hook is needed to swap it: base.css routes every accent through
+   --alias-brand-*, and the mapped tokens (--mapped-surface-action,
+   --mapped-text-action, the button variables, the annotation dots, the eyebrow
+   rules) all read from that alias. Redefining the ten steps here moves the
+   whole site at once, and leaves the template's own --brand-orange-* ramp
+   untouched underneath -- so this file stays a readable diff of "what we
+   changed", not a rewrite of the design system.
+   --------------------------------------------------------------------------- */
+:root {
+	/* Autovision blue, 500 being the brand value itself. */
+	--brand-blue-50: #e8eefa;
+	--brand-blue-100: #c5d5f0;
+	--brand-blue-200: #9db7e4;
+	--brand-blue-300: #7098d6;
+	--brand-blue-400: #3f6ec0;
+	--brand-blue-500: #164194;
+	--brand-blue-600: #12377d;
+	--brand-blue-700: #0e2c64;
+	--brand-blue-800: #0a204a;
+	--brand-blue-900: #071533;
+
+	/* Autovision red -- the mark's secondary, used sparingly for emphasis. */
+	--brand-red-500: #e7453a;
+	--brand-red-600: #c9382e;
+
+	--alias-brand-50: var(--brand-blue-50);
+	--alias-brand-100: var(--brand-blue-100);
+	--alias-brand-200: var(--brand-blue-200);
+	--alias-brand-300: var(--brand-blue-300);
+	--alias-brand-400: var(--brand-blue-400);
+	--alias-brand-500: var(--brand-blue-500);
+	--alias-brand-600: var(--brand-blue-600);
+	--alias-brand-700: var(--brand-blue-700);
+	--alias-brand-800: var(--brand-blue-800);
+	--alias-brand-900: var(--brand-blue-900);
+
+	/* The orange accent was light enough to carry near-black text. Blue is not:
+	   white on #164194 is 8.6:1, near-black on it is 2.4:1 and unreadable. */
+	--mapped-text-on-action: #ffffff;
+
+	/* Use the brand red rather than the template's arbitrary #fe2a2a. */
+	--mapped-text-error: var(--brand-red-500);
+}
+
+/* On the dark sections the ramp is lifted one to two steps.
+
+   #164194 is a genuinely dark blue: against the near-black page (#18191b) it
+   sits at 1.8:1, so a button in it would read as a floating white label with no
+   visible edge, and an accent dot would disappear entirely. The hue is kept
+   exactly; only the lightness moves, which is what keeps the brand recognisable
+   AND legible. The light sections -- where the original site lives, on white --
+   use #164194 unchanged.
+
+   Note which tokens are overridden below: the MAPPED ones, not the alias.
+   A custom property is substituted where it is DECLARED, so
+   --mapped-surface-action: var(--alias-brand-500) -- declared on :root --
+   resolves against :root no matter which element inherits it. Redefining the
+   alias further down the tree does nothing. The mapped tokens have to be
+   restated. */
+[data-theme-section="dark"],
+[data-theme-section="hero"] {
+	--mapped-surface-action: var(--brand-blue-400);
+	--mapped-surface-action-hover: var(--brand-blue-500);
+	--mapped-text-action: var(--brand-blue-300);
+	--mapped-text-action-hover: var(--brand-blue-200);
+	/* The button variables are their own :root layer on top of the mapped ones,
+	   so by the same substitution rule they have to be restated as well. */
+	--button-color-background: var(--brand-blue-400);
+	--button-hover-color-background: var(--brand-blue-500);
+}
+
+/* The navigation is its own theming context: it sits over the hero video and
+   re-themes on scroll, so it never inherits a section's tokens. */
+.nav {
+	--mapped-surface-action: var(--brand-blue-400);
+	--mapped-surface-action-hover: var(--brand-blue-500);
+	--mapped-text-action: var(--brand-blue-300);
+	--button-color-background: var(--brand-blue-400);
+	--button-hover-color-background: var(--brand-blue-500);
+}
+
+/* Emphasis in running copy, matching the red the original picks out in its
+   hero line. */
+.is-accent-2 {
+	color: var(--brand-red-500);
+}
+
+/* The booking entry in the mobile menu follows the action colour. On the dark
+   panel that resolves to the lifted blue, which is why it is not hardcoded. */
+.nav_menu-item.is-cta .nav_menu-item-text {
+	color: var(--alias-brand-500);
+}
+
+/* ---------------------------------------------------------------------------
+   Logo panel — the white tab with the point, as on the original site
+
+   The mark sits on a white panel that hangs below the bar and closes in a
+   downward point. Built with clip-path on the existing .nav_logo-container
+   rather than an extra element, so the markup stays as it is.
+
+   Three things make it sit correctly:
+
+   - align-self: flex-start pins it to the TOP of the bar row. .nav_items-wrap
+     centres its children, which would otherwise split the extra height evenly
+     above and below.
+   - padding-bottom equal to the point keeps the LOGO centred in the straight
+     part of the panel: align-items centres within the content box, and padding
+     is outside it.
+   - The template's side borders are dropped. They are drawn per nav theme and
+     would be sliced mid-air by the clip-path.
+
+   Nothing clips it on the way out: neither .nav, .nav-container, .nav_wrap nor
+   .nav_items-wrap sets overflow, and .nav is z-index 99, so the point draws
+   over the page beneath.
+   --------------------------------------------------------------------------- */
+:root {
+	--nav-logo-point: 1.9em;
+	/* What any section directly under the fixed nav has to reserve at its top:
+	   the bar itself plus the logo panel's point, plus a little air. */
+	--layout-nav-clearance: calc(var(--layout-nav-height) + var(--nav-logo-point) + 0.75em);
+}
+
+.nav_logo-container {
+	background-color: #fff;
+	border: 0;
+	align-self: flex-start;
+	height: calc(100% + var(--nav-logo-point));
+	padding-bottom: var(--nav-logo-point);
+	position: relative;
+	z-index: 2;
+	clip-path: polygon(
+		0 0,
+		100% 0,
+		100% calc(100% - var(--nav-logo-point)),
+		50% 100%,
+		0 calc(100% - var(--nav-logo-point))
+	);
+}
+
+/* With the mobile menu open the panel would hang over the sliding list. Drop
+   the point for as long as it is open -- the panel keeps its straight bottom
+   and sits flush with the bar, and the clip-path animates back on close. */
+.nav[data-menu-open] {
+	--nav-logo-point: 0em;
+}
+
+/* ---------------------------------------------------------------------------
+   Clearing the fixed nav (and the logo point) on every page
+
+   The nav is position: fixed, so it takes no space in the flow -- each page's
+   FIRST section has to reserve that space itself, and now the logo panel's
+   point hangs below the bar as well.
+
+   This was a real collision, not a theoretical one. .section_hero is
+   min-height: 100svh with justify-content: center, so its content is centred in
+   the WHOLE viewport, including the strip hidden behind the nav. On a tall
+   window that goes unnoticed -- 1440x900 left 118px of clearance -- but the
+   shorter and wider the window, the further the block rides up: 1440x700 came
+   down to 18px, and 1854x828 overlapped the point by 13px.
+
+   Reserving the clearance makes the content centre in the space that is
+   actually visible, which is what a reader perceives as centred anyway, and it
+   holds at every viewport because both terms are em-based and scale together.
+   --------------------------------------------------------------------------- */
+.section_hero {
+	/* Both sides, not just the top. .section_hero centres its content with
+	   justify-content, so padding on ONE side moves the centre by half of it —
+	   which is what pushed the hero down and dropped the button towards the
+	   bottom of the frame. Padding both sides keeps the content centred on the
+	   viewport while still reserving the room the fixed navbar needs: the
+	   content box shrinks symmetrically, so its middle stays put, and a block
+	   tall enough to reach the top edge stops exactly at the clearance. */
+	padding-top: calc(var(--layout-nav-clearance) + var(--hero-drop));
+	padding-bottom: var(--layout-nav-clearance);
+}
+
+/* A small deliberate bias downwards, on top of the symmetric pair above. True
+   centring put the first line close enough to the logo panel's point to read as
+   touching it — the panel hangs into the frame and the heading starts under it.
+   Half of this lands as an offset from centre, so it stays small: enough air to
+   separate the two, not enough to look like the block has slipped. */
+:root {
+	--hero-drop: 3em;
+}
+
+/* Short windows cannot afford the full clearance twice. At 1909x768 the block
+   is 553px, the template's own .padding adds 171 more, and two full clearances
+   are another 404 — 1127px of content in a 768px window, which pushed the
+   button off the bottom. So on a short viewport the reservation is capped
+   against the viewport itself and the heading steps down a size. Both sides
+   stay equal, so the centring the rule above buys is never given back. */
+@media screen and (max-height: 950px) {
+	.section_hero {
+		padding-top: calc(min(var(--layout-nav-clearance), 9svh) + var(--hero-drop));
+		padding-bottom: min(var(--layout-nav-clearance), 9svh);
+	}
+
+	.section_hero .heading_h2 {
+		font-size: 2.25em;
+	}
+
+	.section_hero .hero_heading_container {
+		gap: var(--mapped-padding-xs);
+	}
+}
+
+/* layout.css reserves the bar but predates the point. */
+.section_inner-hero {
+	padding-top: var(--layout-nav-clearance);
+}
+
+/* /contact-us/ has no inner hero -- its heading is the first thing on the page,
+   and at phone widths it ran into the point.
+
+   Two classes, not one: contacts.css sets .contacts_wrap's padding-top and, as
+   a route stylesheet, loads AFTER this file -- at equal specificity the later
+   sheet takes it. Same trap as the .tool_select rule further up. */
+.section_contacts .contacts_wrap {
+	padding-top: calc(var(--layout-nav-clearance) + var(--mapped-padding-md));
+}
+
+/* ---------------------------------------------------------------------------
+   The Orisa card stack, sitting in this page
+
+   assets/css/vendors/orisa-process-scroll.css is Orisa's own CSS and
+   components/deadline-stack.js is Orisa's own timeline; neither is edited. Two
+   things still have to be said here, because they are about THIS page rather
+   than about that section:
+
+   1. Orisa pins the stack at 'top top'. Its page has no fixed header at that
+      point; ours does, so the cards would sit behind the navbar for the whole
+      pinned scroll. Padding the pinned element pushes them clear without
+      touching the start value.
+   2. The band needs to read as one section with the heading above it, so it
+      takes this site's light surface rather than Orisa's own neutral-50.
+   --------------------------------------------------------------------------- */
+.orisa-embed .scroll-section {
+	padding-top: var(--layout-nav-clearance);
+}
+
+/* One background for the whole band. Three were stacking: the section's own
+   light surface behind the heading, Orisa's base `body` rule (#fefefe) on
+   .orisa-embed, and a grey panel on .sec-2-about from an earlier pass. The seam
+   between them was visible straight across the page. Both of Orisa's are cleared
+   so the section's own surface runs from the heading to the button. */
+.orisa-embed .sec-2-about {
+	background-color: transparent;
+}
+
+.section_deadlines {
+	color: var(--mapped-text-body);
+}
+
+/* Orisa's base rules come across so the card's paragraph keeps its 16px/500 --
+   its own .process-card__desc rule never restates those. The one thing not
+   taken from them is the TYPEFACE: this site runs Roboto, from the original
+   kteo-rodos.gr, and a second face in one section would read as a mistake. */
+.orisa-embed,
+.orisa-embed p,
+.orisa-embed h1,
+.orisa-embed h2,
+.orisa-embed h3,
+.orisa-embed h4,
+.orisa-embed h5,
+.orisa-embed h6 {
+	font-family: var(--brand-font-family);
+}
+
+/* ---------------------------------------------------------------------------
+   Card images: pinned to one aspect ratio
+
+   Orisa’s four source images are all the same landscape crop, so its card is
+   ~339px tall and comfortably inside the pinned viewport. Ours are photographs
+   of the centres at whatever shape they were taken -- kteo-tsairi-entrance is
+   PORTRAIT (314x559). With Orisa’s rule (width/height 100%, no ratio) that
+   image drove the card past the bottom of the screen and the text under it was
+   simply not reachable while the section was pinned.
+
+   16/10 is the ratio Orisa’s own images work out to (418x259 at 1280), so
+   fixing it here makes every card the same height as theirs regardless of what
+   is dropped in. object-fit: cover comes from Orisa’s .img-cover.
+   --------------------------------------------------------------------------- */
+.orisa-embed .process-card__img-wrap {
+	/* width: 100% is load-bearing, not tidiness. With width left auto, an
+	   aspect-ratio box that also has a max-height gets resolved from the HEIGHT
+	   side -- the browser picked the height, multiplied by the ratio, and made
+	   the box WIDER than the column holding it (288px inside a 233px cell),
+	   which pushed the page sideways on a 320px screen. Pinning the width makes
+	   the ratio compute the height instead, which is the intended direction. */
+	width: 100%;
+	max-width: 100%;
+	aspect-ratio: 16 / 10;
+	overflow: hidden;
+}
+
+.orisa-embed .process-card__img-wrap img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+/* On a phone the card has to fit between the navbar and the bottom of the
+   screen while the section is pinned -- there is no scrolling out of it. Two
+   things were stopping that at 320x568:
+
+   1. The image, even at a fixed ratio, took more height than was left. Capping
+      it against the VIEWPORT rather than its own width is what makes the card
+      fit on a short screen; aspect-ratio still governs on taller ones, so the
+      crop only tightens where it has to.
+   2. “02. ΔΙΚΥΚΛΟ / ΤΡΙΚΥΚΛΟ / ΤΕΤΡΑΚΥΚΛΟ” wraps to two lines where the
+      other four titles take one, so that card was 24px taller than its
+      neighbours and the stack jumped as it came past. Reserving two lines for
+      every title keeps all five identical. */
+@media screen and (max-width: 767px) {
+	.orisa-embed .process-card__img-wrap {
+		/* Orisa sets min-height here (180px at xs, 200-240px above), and
+		   min-height beats max-height -- so the cap had to clear it first. */
+		min-height: 0;
+		max-height: 22vh;
+	}
+
+	/* All five cards must be the same height, or the stack visibly jumps as each
+	   one arrives. Two things vary in Greek that did not in Orisa's English:
+	   "02. ΔΙΚΥΚΛΟ / ΤΡΙΚΥΚΛΟ / ΤΕΤΡΑΚΥΚΛΟ" takes two title lines where the other
+	   four take one, and "κάθε 2 χρόνια" wraps the meta line where "κάθε χρόνο"
+	   does not. Reserving the taller of each keeps them level. */
+	.orisa-embed .process-card__title {
+		min-height: 2.4em;
+	}
+
+	.orisa-embed .process-card__meta-text {
+		display: inline-block;
+		min-height: 2.4em;
+	}
+}
+
+/* When the card cannot fit between the navbar and the bottom of the screen,
+   pinning would hide part of it with no way to scroll to the rest -- there is
+   nowhere to go inside a pinned section. deadline-stack.js measures that before
+   it commits and only adds .is-stacked when there is room; short screens get an
+   ordinary vertical list instead, where every card is simply scrolled past.
+   Orisa's own rules stack unconditionally, so they are undone here. */
+.orisa-embed .scroll-section:not(.is-stacked) .item {
+	position: static;
+	min-height: 0;
+}
+
+.orisa-embed .scroll-section:not(.is-stacked) .item + .item {
+	margin-top: 24px;
+}
+
+
+/* ---------------------------------------------------------------------------
+   The stacked cards must not eat clicks below the section
+
+   Orisa gives every item after the first `position: absolute` and
+   `min-height: 100vh` inside a .wrapper that is only as tall as ONE card. The
+   items therefore hang far below the wrapper -- measured here at 1440x900, the
+   wrapper ends at 487px and the last item reaches 1360px. That overhang is
+   invisible (the card is at the top of it, the rest is empty) but it is still
+   in the hit-testing tree, and it sat directly over the "Υπολογίστε την
+   προθεσμία σας" button at 1220-1307: hovering the button hit the card instead,
+   so it read as dead.
+
+   Taking the items out of hit-testing and putting the cards back in fixes it
+   without touching the geometry the animation depends on. The cards carry no
+   links of their own today, but leaving them interactive keeps text selectable
+   and means a link added later still works.
+   --------------------------------------------------------------------------- */
+.orisa-embed .scroll-section .item {
+	pointer-events: none;
+}
+
+.orisa-embed .scroll-section .process-card {
+	pointer-events: auto;
+}
+
+/* ---------------------------------------------------------------------------
+   The 3D stage's chrome
+
+   kteo-mount.js hides the component's own buttons and rebuilds them out of this
+   template's .button, so they inherit its look. Two things that did not come
+   with it:
+
+   - Those buttons are <a> elements with no href (they scroll rather than
+     navigate), and an anchor without an href gets the default text cursor. That
+     is why they felt dead to the pointer -- there was no affordance until you
+     were already on them.
+   - The callout chips are placed by projecting points off the 3D model, and a
+     chip near the top-left landed under the navbar's logo panel. The stage
+     clamps chips against a ceiling it reads from this property, so the page can
+     say how much room the fixed header needs without the component knowing
+     anything about it.
+   --------------------------------------------------------------------------- */
+#skip-cta .button,
+#back-cta .button {
+	cursor: pointer;
+}
+
+#kteo-stage {
+	/* navbar + logo point, plus half a chip: the stage centres each chip on the
+	   point it is clamped to (translateY(-50%)), so the ceiling has to sit about
+	   half a chip-height lower than the obstacle it is clearing. */
+	--kc-chip-top-inset: calc(var(--layout-nav-clearance) + 1.75em);
+	/* The lower corners carry this page's own stage buttons: they sit at
+	   bottom: 24px and stand about 48px tall, so a chip needs to stop above
+	   roughly 72px plus its own half-height. */
+	--kc-chip-bottom-inset: 7.5em;
+}
+
+/* ---------------------------------------------------------------------------
+   The Orisa portfolio grid, with this site's photographs
+
+   Orisa's six images are all the same PORTRAIT crop -- measured on the original,
+   the thumbnail is 356x425. Its layout leans on that: the negative margin-tops
+   that stagger the cards were authored against cards of roughly that height.
+   These photographs are landscape, which collapsed the thumbnails to a third of
+   the height, left the overlay heading looking enormous inside them and pulled
+   the whole diagonal apart.
+
+   Pinning the ratio is the smallest fix that restores the composition; the crop
+   is Orisa's own object-fit: cover, applied to a box of its own proportions.
+   --------------------------------------------------------------------------- */
+.orisa-portfolio .alt-portfolio-thumb {
+	display: block;
+	aspect-ratio: 356 / 425;
+	overflow: hidden;
+}
+
+.orisa-portfolio .alt-portfolio-thumb img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+/* ---------------------------------------------------------------------------
+   The portfolio grid, sitting in this page
+
+   Orisa’s own background for this area is a rounded panel inset from the page
+   edge (`bg-neutral-50 rounded-5 mx-*`). Dropped from the markup so the
+   section’s surface and its vertical rules carry straight through, the way the
+   deadlines band does.
+
+   Its title is a display size — 80px, 124px above 1400 — sized for a short
+   English headline. “Πού θα μας βρείτε” is longer and overran its column at
+   that scale, so it steps down to the site’s own heading scale. The decorative
+   glyphs beside it are sized in the same proportion, or they dwarf the words.
+   --------------------------------------------------------------------------- */
+/* Every lifted Orisa scope inherits its base `body` rule, and that rule carries
+   background-color: #FEFEFE. Each new section therefore arrives painted white
+   against this page's grey until it is cleared — it caught the deadlines band,
+   then the portfolio grid, then the opening-hours cards. Listed together here so
+   the next one is not a fourth surprise. */
+.orisa-embed,
+.orisa-portfolio,
+.orisa-process {
+	background-color: transparent;
+}
+
+.orisa-portfolio .alt-portfolio-main-title.fz-ds-1 {
+	font-size: clamp(2.25rem, 4.2vw, 4.25rem) !important;
+	line-height: 1.06;
+}
+
+.orisa-portfolio .alt-portfolio-main-title svg {
+	width: 0.62em;
+	height: 0.62em;
+	vertical-align: baseline;
+}
+
+/* The closing line and its button. Orisa’s sits tight under the last card and
+   its button is a 16px pill — right under six cards, thin under three. */
+.orisa-portfolio .mg-portfolio-title-wrap {
+	margin-top: var(--mapped-padding-lg);
+}
+
+/* (the button is styled with the rest of the palette, below) */
+
+/* The cards slide in horizontally below 992px (see orisa-portfolio.js). A
+   transform still counts towards the document’s scroll width, so the band clips
+   its own overflow rather than letting a phone gain a horizontal scrollbar for
+   the length of the animation. `clip` rather than `hidden`: hidden would make
+   this a scroll container and break the pinned sections above it. */
+@media screen and (max-width: 991px) {
+	.orisa-portfolio {
+		overflow-x: clip;
+	}
+}
+
+/* ---------------------------------------------------------------------------
+   The portfolio band in this site's colours
+
+   Orisa ships this section in its own palette: near-black buttons (#1D1D1D) on
+   a light panel, with its orange reserved for accents. The buttons are the one
+   place that reads as a brand decision, so they take the site's action colour
+   — Autovision blue on the light sections, the lifted blue on dark, both via
+   --mapped-surface-action, so they follow the section they are in rather than
+   being hardcoded.
+   --------------------------------------------------------------------------- */
+
+/* Card titles. Orisa sets 500 against short English words; the same weight on
+   Greek caps at 34px reads as bold. */
+.orisa-portfolio .alt-portfolio-title,
+.orisa-portfolio .alt-portfolio-title a {
+	font-weight: 400;
+}
+
+/* The closing line: Orisa's 20px/24px is tight for a three-line Greek
+   paragraph. */
+.orisa-portfolio .mg-portfolio-dec {
+	/* !important because the element also carries Orisa's .fz-font-lg, which sets
+	   20px with !important of its own — the line-height below landed, the size
+	   silently did not. */
+	font-size: 1.5rem !important;
+	line-height: 1.5;
+}
+
+/* The button: larger, in the brand colour, and it now answers the pointer.
+   Orisa's own hover only swaps which circle is scaled up. */
+.orisa-portfolio .at-btn {
+	font-size: 1.1875rem;
+	padding: 26px 42px;
+	background-color: var(--mapped-surface-action);
+	color: var(--mapped-text-on-action);
+	position: relative;
+	overflow: hidden;
+	isolation: isolate;
+	transition:
+		background-color 0.35s ease,
+		transform 0.35s ease;
+}
+
+/* The sweep: a disc that grows from the left edge under the label. z-index -1
+   with isolation on the button keeps it behind the text without a stacking
+   context of its own. */
+.orisa-portfolio .at-btn::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	background-color: var(--mapped-surface-action-hover);
+	transform: scaleX(0);
+	transform-origin: left center;
+	transition: transform 0.4s var(--nav-sweep-ease, cubic-bezier(0.675, 0.15, 0.1, 1));
+}
+
+.orisa-portfolio .at-btn:hover {
+	transform: translateY(-2px);
+}
+
+.orisa-portfolio .at-btn:hover::after {
+	transform: scaleX(1);
+}
+
+.orisa-portfolio .at-btn-group .at-btn-circle {
+	width: 58px;
+	height: 58px;
+	background-color: var(--mapped-surface-action);
+	color: var(--mapped-text-on-action);
+}
+
+/* Body text inside the lifted blocks: Orisa's own near-black (#1D1D1D), which
+   this site expresses through its own tokens. */
+.orisa-embed,
+.orisa-portfolio {
+	color: var(--mapped-text-body);
+}
+
+/* ---------------------------------------------------------------------------
+   Forms: legibility and validation state
+
+   The fields and their placeholders were set at the template’s small size,
+   which is hard to read against the dark CTA panel — these are the inputs a
+   visitor has to fill in, so they get a size of their own.
+   --------------------------------------------------------------------------- */
+.cta-field.form-field,
+.cta-field.form-field::placeholder,
+textarea.cta-field.form-field,
+textarea.cta-field.form-field::placeholder {
+	font-size: 1.0625rem;
+}
+
+.cta-field.form-field {
+	padding-top: 0.85em;
+	padding-bottom: 0.85em;
+}
+
+.cta-field.form-field::placeholder {
+	opacity: 0.8;
+}
+
+.form-consent_text {
+	font-size: 0.9375rem;
+	line-height: 1.55;
+}
+
+/* Marked by forms.js when a field fails its constraints, cleared as soon as it
+   passes again. :user-invalid alone would not do: the visible submit is an <a>
+   and the form is submitted programmatically. */
+.form-field.is-invalid {
+	border-color: var(--mapped-text-error);
+	box-shadow: inset 0 -1px 0 0 var(--mapped-text-error);
+}
+
+/* A link inside running copy — the phone number in the CTA paragraph. Left
+   unstyled it took the browser default: blue and underlined. */
+.inline-link {
+	/* The Autovision red from the mark, not the action blue: on the CTA's
+	   near-black panel the blue sat too close to the body copy to draw the eye,
+	   and this is the one number on the page worth pulling out. */
+	color: var(--brand-red-500);
+	text-decoration: none;
+	border-bottom: 1px solid currentColor;
+	padding-bottom: 0.05em;
+	transition: color 0.2s ease-out;
+}
+
+.inline-link:hover,
+.inline-link:focus-visible {
+	color: var(--brand-red-600);
+}
+
+/* ---------------------------------------------------------------------------
+   Opening-hours cards
+
+   Orisa fills each card’s pill with one of its own photographs (img-81–84.webp),
+   which this project does not have — the rules pointed at files that 404, and
+   relative to the stylesheet at that, so the pills came out empty.
+
+   A photograph would be the wrong content anyway: these three cards are days of
+   the week, not places. They take the brand instead, with Sunday reading as
+   closed.
+   --------------------------------------------------------------------------- */
+.orisa-process .card__process-pill--1,
+.orisa-process .card__process-pill--2,
+.orisa-process .card__process-pill--3,
+.orisa-process .card__process-pill--4 {
+	background-image: none;
+	border-radius: 100vmax;
+}
+
+.orisa-process .card__process-pill--1 {
+	background-color: var(--mapped-surface-action);
+}
+
+.orisa-process .card__process-pill--2 {
+	background-color: var(--brand-blue-400);
+}
+
+/* Sunday: closed, so it reads as inactive rather than as another open day. */
+.orisa-process .card__process-pill--3 {
+	background-color: var(--alias-grey-200);
+}
+
+/* The number sits over the pill, so it needs to hold against it. */
+.orisa-process .card__process-num {
+	color: var(--mapped-text-on-action);
+}
+
+.orisa-process .card-3 .card__process-num {
+	color: var(--mapped-text-headings);
+}
+
+/* ---------------------------------------------------------------------------
+   Footer link hover, and the message box
+
+   The plaque stays the template’s grey; only the text that sweeps in over it
+   changes. It was --mapped-text-on-action (white), which the template chose
+   because its plaque was the accent colour — on a grey plaque white is
+   unreadable. It takes the site’s action blue instead, the same colour every
+   other link and control hovers to.
+   --------------------------------------------------------------------------- */
+.footer-link .footer-link_dup {
+	color: var(--mapped-text-action);
+}
+
+/* The message field: taller, and it does not resize. A drag handle on a field
+   inside a two-column grid lets the visitor pull the whole form out of shape;
+   a scrollbar handles a long message without moving anything. */
+textarea.cta-field.form-field {
+	resize: none;
+	min-height: 9.5em;
+	overflow-y: auto;
+}
+
+/* ---------------------------------------------------------------------------
+   One vertical rhythm for the page
+
+   Every .padding block on this site is --mapped-padding-md top and bottom, and
+   that token is em-based, so it grows with the viewport: 57px at 1280, 64 at
+   1440, 85 at 1920.
+
+   The two bands lifted from Orisa cannot use it INSIDE themselves. Orisa's base
+   rule pins font-size to 16px within each scope, and an em inside a custom
+   property is resolved against the element using it — so --mapped-padding-md
+   flattens to 64px there and stops scaling with everything around it.
+
+   The spacing therefore goes on the WRAPPER, outside the scope, where the token
+   still means what it means everywhere else. Orisa's own pt-120/pb-120 is
+   zeroed so the two do not stack.
+   --------------------------------------------------------------------------- */
+.section_service-cards > .container > .padding,
+.section_process-steps > .container > .padding.is-none {
+	padding-top: var(--mapped-padding-md);
+	padding-bottom: var(--mapped-padding-md);
+}
+
+.orisa-portfolio .alt-portfolio-area.pt-120 {
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+/* The hours cards are staggered downwards — card-3 sits 160px below card-1 —
+   so the row's own box is not where the content ends. This reserve keeps the
+   lowest card off the band beneath, and stays in place at every width: the
+   stagger is dropped below 575px but the cards are still taller than their row
+   reports there. */
+.orisa-process {
+	padding-bottom: 5em;
+}
+

@@ -1,0 +1,49 @@
+/* page/error.css -- the 404. Loaded only by src/pages/404.html, which uses
+   the `minimal` layout: no motion library, no page transition. */
+.error_page {
+	min-height: 100vh;
+	min-height: 100svh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: var(--mapped-padding-sm);
+	padding: var(--mapped-padding-md);
+	background-color: var(--alias-grey-800);
+	color: var(--alias-grey-100);
+	text-align: center;
+}
+.error_code {
+	font-family: var(--brand-font-family);
+	font-weight: var(--brand-weight-regular);
+	font-size: clamp(6rem, 30vw, 18rem);
+	line-height: 0.85;
+	letter-spacing: -0.03em;
+	color: var(--alias-brand-500);
+}
+.error_body {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: var(--mapped-padding-xs);
+	max-width: 30rem;
+}
+.error_links {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: var(--mapped-padding-xs);
+	margin-top: var(--mapped-padding-xs);
+}
+.error_link {
+	color: var(--alias-grey-200);
+	text-decoration: none;
+	border-bottom: 1px solid currentColor;
+	padding-bottom: 0.15em;
+	font-size: var(--type-paragraph-sm-size);
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+}
+.error_link:hover {
+	color: var(--alias-brand-500);
+}

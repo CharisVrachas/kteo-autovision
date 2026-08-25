@@ -1,0 +1,285 @@
+/* product.css */
+
+/* ---- structure ---- */
+.section_products {
+	background-color: var(--mapped-surface-default);
+	color: var(--mapped-text-body);
+}
+
+.product-card_title {
+	padding: var(--mapped-padding-sm);
+	grid-column-gap: 0px;
+	grid-row-gap: 0px;
+	grid-template-rows: auto;
+	grid-template-columns: 1fr 1fr;
+	grid-auto-columns: 1fr;
+	place-items: center stretch;
+	display: grid;
+}
+
+.product-card_title.is-border-btm {
+	border-bottom: 1px solid var(--mapped-border-default);
+}
+
+.product-card_preview {
+	width: 100%;
+	height: 25em;
+	padding: var(--mapped-padding-sm);
+	border-top: 1px solid var(--mapped-border-default);
+	border-bottom: 1px solid var(--mapped-border-default);
+	background-color: var(--mapped-surface-light-150);
+}
+
+.product-card_preview_background {
+	width: 100%;
+	height: 100%;
+	padding-top: var(--mapped-padding-sm);
+	padding-right: var(--mapped-padding-md);
+	padding-bottom: var(--mapped-padding-sm);
+	padding-left: var(--mapped-padding-md);
+	background-color: var(--mapped-surface-light-200);
+	clip-path: polygon(
+		1em 0%,
+		calc(100% - 1em) 0%,
+		100% 1em,
+		100% calc(100% - 1em),
+		calc(100% - 1em) 100%,
+		1em 100%,
+		0% calc(100% - 1em),
+		0% 1em
+	);
+}
+
+.product-card_img-holder {
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	position: relative;
+	/* Safari: .tools-colorer's mix-blend-mode does not blend with a <video>
+	   without its own stacking context (the video lives on a separate GPU
+	   layer) — it falls back to normal and merely darkens. isolate pulls the
+	   video and the overlay into one group. */
+	isolation: isolate;
+}
+
+/* When an image is used instead of a video (is-image-fallback) the situation is
+   different: isolate would darken the transparent area around the image,
+   because the colouring layer has nothing to blend with and its 50% overlay
+   shows through. Blending with an image works without isolate, so it is
+   removed here. */
+.product-card_img-holder:has(.is-image-fallback) {
+	isolation: auto;
+}
+
+.product-card_detail-img_wrap {
+	width: 100%;
+	height: 100%;
+	padding: var(--mapped-padding-md);
+}
+
+.product-tool-video {
+	object-fit: contain;
+	width: 100%;
+	height: 100%;
+}
+
+.product-card_description-wrap {
+	grid-column-gap: var(--mapped-padding-xs);
+	grid-row-gap: var(--mapped-padding-xs);
+	justify-content: flex-start;
+	align-items: flex-start;
+	display: flex;
+}
+
+/* ══ Portrait tablet, 480–991: targeted adjustments on top of the mobile
+   structure. Neither mobile (≤479) nor desktop (≥992) is affected. ══ */
+@media screen and (min-width: 480px) and (max-width: 991px) {
+	/* Stats and charts: the 22em mobile height is cramped on a tablet, so the
+	   blocks are taller and the vertical padding noticeably larger */
+	.card_content-big {
+		height: auto;
+		min-height: 30em;
+		padding: var(--mapped-padding-xl) var(--mapped-padding-md);
+	}
+	/* The rig illustration in the process section is hidden in this range only.
+	   Specificity 0,3,0 is required: a display:flex on the same selector lives in
+	   a later stylesheet, and 0,2,0 would not beat it. */
+	.section_process-intro .grid-col.process-intro_visual {
+		display: none;
+	}
+	/* Cases: one card per row leaves too much empty space, so show two.
+	   !important plus its position after the mobile block beats the 1/-1 !important */
+	.section_cases .content-grid {
+		grid-template-columns: 1fr 1fr;
+	}
+	.section_cases .content-grid > .grid-col {
+		grid-column: auto !important;
+	}
+	/* Product preview: the mobile 9em collapses into a strip at around 810px */
+	.product-card_preview {
+		height: 18em;
+	}
+
+	/* ── Second pass ── */
+	/* Scroller: the mobile 18em is a little small for a tablet */
+	.scroller_mobile-image {
+		height: 35em;
+	}
+	/* The "trusted by" logos: three per row instead of the mobile two */
+	.logo-grid {
+		grid-template-columns: 1fr 1fr 1fr;
+	}
+	/* Products page: two product cards per row */
+	.section_products-list .content-grid {
+		grid-template-columns: 1fr 1fr;
+	}
+	.section_products-list .content-grid > .grid-col {
+		grid-column: auto !important;
+	}
+	/* The proof section on the engineering page: two cases per row, as on the homepage */
+	.section_related-cases .content-grid {
+		grid-template-columns: 1fr 1fr;
+	}
+	.section_related-cases .content-grid > .grid-col {
+		grid-column: auto !important;
+	}
+
+	/* ── Third pass ── */
+	/* Products listing: the longer product names at display-md 6em do not fit in
+	   a half card. 3em is used instead, which is exactly the --type-h2-size token. */
+	.section_products-list .heading_display-large {
+		font-size: var(--type-h2-size);
+	}
+	/* Charts on the homepage: with height:auto the .chart-host card falls back to
+	   its 20em min-height and ApexCharts draws squashed. Pin the height instead. */
+	.card_content-big .chart-host {
+		min-height: 32em;
+	}
+}
+
+/* ---- overrides ---- */
+/* Product slider — a parallax image gallery with thumbnails.
+     Full width, with a parallax image inside each slide (xPercent ±50% during
+     the transition) and thumbnails below. Driven by initImageSlider() in
+     assets/js/components/sliders.js. */
+.section_product-slider {
+	width: 100%;
+	border-top: 1px solid var(--mapped-border-default);
+}
+.img-slider {
+	grid-column-gap: 1rem;
+	grid-row-gap: 1rem;
+	border-radius: 0.5em;
+	justify-content: center;
+	align-items: flex-end;
+	width: 100%;
+	height: 85vh;
+	display: flex;
+	position: relative;
+}
+.img-slider__list {
+	grid-template-rows: 100%;
+	grid-template-columns: 100%;
+	place-items: center;
+	width: 100%;
+	height: 100%;
+	display: grid;
+	overflow: hidden;
+}
+.img-slide {
+	opacity: 0;
+	pointer-events: none;
+	will-change: transform, opacity;
+	grid-area: 1 / 1 / -1 / -1;
+	place-items: center;
+	width: 100%;
+	height: 100%;
+	display: grid;
+	position: relative;
+	overflow: hidden;
+}
+.img-slide.is--current {
+	opacity: 1;
+	pointer-events: auto;
+}
+.img-slide__inner {
+	object-fit: cover;
+	will-change: transform;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+}
+.img-slider__nav {
+	z-index: 2;
+	grid-column-gap: 0.5rem;
+	grid-row-gap: 0.5rem;
+	pointer-events: none;
+	flex-flow: wrap;
+	justify-content: center;
+	align-items: center;
+	max-width: 95vw;
+	display: flex;
+	position: absolute;
+	bottom: 2rem;
+}
+.img-slider__thumb {
+	aspect-ratio: 1.5;
+	pointer-events: auto;
+	cursor: pointer;
+	border: 2px solid rgba(255, 255, 255, 0.2);
+	border-radius: 0.3125rem;
+	width: 7rem;
+	transition: border-color 0.2s;
+	position: relative;
+	overflow: hidden;
+}
+.img-slider__thumb:hover {
+	border-color: rgba(255, 255, 255, 0.4);
+}
+.img-slider__thumb.is--current {
+	border-color: var(--mapped-surface-action);
+}
+.slider-thumb__img {
+	object-fit: cover;
+	width: 100%;
+	height: 100%;
+}
+@media screen and (max-width: 991px) {
+	.img-slider__list {
+		width: 100%;
+	}
+	.img-slider__thumb {
+		flex: none;
+	}
+}
+@media screen and (max-width: 991px) {
+	.img-slider__nav {
+		flex-flow: wrap;
+	}
+	.img-slider__thumb {
+		border-radius: 0.25rem;
+		width: 5rem;
+	}
+}
+@media screen and (max-width: 991px) {
+	.img-slider__thumb {
+		width: 4.5rem;
+	}
+	/* The product slider is shorter on mobile (85vh on desktop). */
+	.img-slider {
+		height: 30em;
+	}
+}
+
+.product-card_img-holder video {
+	object-fit: contain;
+}
+/* Mobile: the video fills its holder. */
+@media screen and (max-width: 991px) {
+	.product-card_img-holder video {
+		object-fit: cover;
+	}
+}
+

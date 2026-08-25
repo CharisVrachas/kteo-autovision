@@ -1,0 +1,28 @@
+---
+/**
+ * A labelled text input for the tool forms. Reuses .cta-field / .form-field
+ * from the component set — the only thing added is the visible <span> label,
+ * which the design's own forms do without because they rely on placeholders.
+ */
+interface Props {
+	name: string;
+	label: string;
+	/** Narrowed to the values <input> actually accepts, so a typo fails the build. */
+	type?: "text" | "email" | "tel" | "date" | "number";
+	full?: boolean;
+	required?: boolean;
+}
+const { name, label, type = "text", full = false, required = false } = Astro.props;
+---
+
+<label class={`tool_field${full ? " tool_field-full" : ""}`}>
+	<span class="text_size-xsmall">{label}</span>
+	<input
+		class="cta-field form-field"
+		type={type}
+		name={name}
+		id={name}
+		maxlength="256"
+		required={required}
+	/>
+</label>

@@ -1,0 +1,61 @@
+/* pattern.css */
+
+/* ---- motion / hover ---- */
+
+/* ══════════════════════════════════════════════════════════════════════
+   Case card hover animations
+   - .case-card_img → mask (overflow:hidden), img translates in from top
+   - .case-card_description .text_size-small → SplitText per-line mask reveal
+   - .case-card_date → mask (overflow:hidden), .text-block translates in from bottom
+   - [data-pattern="plus"] crosses fade in on hover (grey/150 on case cards)
+   - .case-card_link — the bottom-right link variant: faint by default, fully
+     revealed on card hover through the [data-hover] cascade
+   - JS init in js/components/hover.js (initCaseCardHover) injects
+     .case-card_link,
+     sets data-hover/data-pattern, eager-loads imgs, builds timeline
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* Plus-pattern faint variant — data-pattern-strength="faint" recolors the
+   crosses to a less-visible grey. Pairs with the base [data-pattern="plus"]
+   mechanism. Theme-aware; (0,3,1) specificity beats the
+   base [data-theme-section] [data-pattern="plus"] rule regardless of source order.
+   Normal = grey/200 light · grey/700 dark; faint = grey/150 · grey/750
+   (both one step toward the background). */
+[data-theme-section="light"] [data-pattern="plus"][data-pattern-strength="faint"]::before {
+	--pattern-plus-color: var(--alias-grey-150);
+}
+[data-theme-section="dark"] [data-pattern="plus"][data-pattern-strength="faint"]::before {
+	--pattern-plus-color: var(--alias-grey-750);
+}
+
+/* ---- overrides ---- */
+/* ––––– Pattern ––––– */
+[data-pattern="plus"] {
+	position: relative;
+	isolation: isolate;
+}
+[data-pattern="plus"]::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+	pointer-events: none;
+	background-color: var(--pattern-plus-color);
+	-webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M4 7h8v1H4zM7 4h1v8H7z' fill='black'/></svg>");
+	mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M4 7h8v1H4zM7 4h1v8H7z' fill='black'/></svg>");
+	-webkit-mask-repeat: repeat;
+	mask-repeat: repeat;
+	-webkit-mask-size: 16px 16px;
+	mask-size: 16px 16px;
+}
+[data-pattern="plus"] > * {
+	position: relative;
+	z-index: 1;
+}
+/* Colour comes from the sections' existing data-theme-section */
+[data-theme-section="light"] [data-pattern="plus"]::before {
+	--pattern-plus-color: var(--alias-grey-200);
+}
+[data-theme-section="dark"] [data-pattern="plus"]::before {
+	--pattern-plus-color: var(--alias-grey-700);
+}

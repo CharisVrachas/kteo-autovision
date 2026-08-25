@@ -1,0 +1,90 @@
+/* kteo-stage.css -- fits the KTEO stage into this template.
+
+   The component ships its own stylesheet (assets/kteo-stage/kteo-stage.css) and
+   everything it draws is prefixed `kc-`. Nothing here changes the component; it
+   only adapts it, so the folder can be replaced wholesale by a newer build
+   without touching this file.
+
+   The chrome -- the two corner buttons, the scroll hint and the readout at the
+   right edge -- is NOT restyled here. The component's own chrome is hidden
+   below and assets/js/kteo-mount.js rebuilds the drill-string scene's markup
+   instead (#skip-cta, #back-cta, #scroll-hint, #depth-ui), which the rules
+   already in assets/css/pages/home-extra.css and components/button.css style
+   exactly as before. Approximating .button in a second place would drift from
+   it the first time either file changed.
+
+   Load order: this must come AFTER the component's own stylesheet. The
+   component injects that one itself from next to its module, which lands in
+   <head> at run time -- i.e. after every <link> written in the markup. That
+   would beat this file on document order, so every rule here is written at a
+   specificity the injected sheet cannot match (`.section_kteo .kc-*` against
+   its own `.kc-*`). */
+
+/* ── the section itself ─────────────────────────────────────────────── */
+
+.section_kteo {
+	position: relative;
+	width: 100%;
+	/* No `height` here: the stage sets the track height itself from its own
+	   timeline (TOTAL * VH_PER_UNIT), and a fixed height would fight it. A
+	   min-height only holds the space open until it does -- the element is empty
+	   until the module lands, and without this everything below it jumps up a
+	   screenful and back down again on load. */
+	min-height: 100vh;
+	background: var(--mapped-surface-default);
+}
+
+/* The canvas is transparent, so the line above is what sits behind the car --
+   the same value the drill-string section used, so the joins to the sections
+   above and below are invisible. */
+.section_kteo .kc-track {
+	--kc-accent: var(--mapped-surface-action);
+	--kc-ink: var(--mapped-text-body-inverse);
+	--kc-font: var(--brand-font-family);
+	--kc-bg: transparent;
+}
+
+/* ── captions and callouts: the template's type ────────────────────── */
+
+.section_kteo .kc-eyebrow {
+	font-family: var(--brand-font-family);
+	font-weight: var(--brand-weight-medium);
+	font-size: 0.75rem;
+	letter-spacing: 0.14em;
+}
+
+.section_kteo .kc-heading,
+.section_kteo .kc-sub {
+	font-family: var(--brand-font-family);
+}
+
+.section_kteo .kc-heading {
+	font-weight: var(--brand-weight-medium);
+}
+
+.section_kteo .kc-lbl {
+	font-family: var(--brand-font-family);
+	border-color: color-mix(in srgb, var(--mapped-surface-action) 45%, transparent);
+}
+
+/* ── the component's own chrome, stood down ────────────────────────── */
+
+/* Hidden rather than deleted: the stage wires dom.skip / dom.restart at mount
+   and reads dom.status, so the nodes have to stay in the tree. kteo-mount.js
+   drives the visible buttons and calls the same lenis.scrollTo those handlers
+   would have. */
+.section_kteo .kc-ui,
+.section_kteo .kc-hint,
+.section_kteo .kc-ticks {
+	display: none;
+}
+
+/* ── narrow screens ────────────────────────────────────────────────── */
+
+@media screen and (max-width: 900px) {
+	/* The readout is a desktop affordance -- the drill scene hid it on mobile
+	   too, where it would sit on top of the caption. */
+	#depth-ui {
+		display: none;
+	}
+}

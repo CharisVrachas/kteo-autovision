@@ -1,0 +1,84 @@
+/* transition.css */
+
+/* ---- overrides ---- */
+/* ──── Barba page transition overlay ─────────────────────────────────
+   Structure: .transition (a fixed wrapper, pointer-events:none) →
+   .transition__panel (the accent panel carrying the plus pattern) →
+   .transition__label (the page name, between two SVG brackets).
+
+   The panel starts just past the bottom edge of the screen (top:100%). The GSAP
+   timelines in assets/js/components/barba.js drive it: on leave it travels up to
+   yPercent:-100, covering the viewport with the label visible; on enter it
+   continues to -200, flying past the top edge and revealing the new page. The
+   panel is reset to autoAlpha:0 after every transition. */
+.transition {
+	z-index: 100;
+	pointer-events: none;
+	position: fixed;
+	inset: 0;
+	overflow: clip;
+}
+.transition__panel {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: var(--mapped-surface-dark);
+	/* The plus pattern uses the same colour as every other dark section
+	   (see [data-pattern='plus']::before — --alias-grey-700). */
+	--pattern-plus-color: var(--alias-grey-700);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.transition__label {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5em;
+	color: var(--alias-grey-100);
+	font-family: var(--brand-font-family);
+	font-size: 3em;
+	line-height: 1;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	font-weight: var(--brand-weight-medium, 500);
+}
+.transition__bracket {
+	display: inline-flex;
+	width: 0.3em;
+	height: 1em;
+	color: var(--alias-grey-100);
+}
+.transition__bracket.is-right {
+	transform: scaleX(-1);
+}
+.transition__bracket svg {
+	width: 100%;
+	height: 100%;
+}
+
+/* Mobile: 3em is too large for the transition label, and longer page names
+   (ENGINEERING, ABOUT US) no longer fit across the width. Reducing the label
+   font-size is enough — the brackets (width:0.3em / height:1em) inherit it and
+   scale proportionally on their own. */
+@media screen and (max-width: 767px) {
+	.transition__label {
+		font-size: 2em;
+	}
+}
+
+/* Reduced motion → the panel is not shown; the transition runs on autoAlpha alone. */
+@media (prefers-reduced-motion: reduce) {
+	.transition__panel {
+		display: none;
+	}
+}
+
+/* Pointer-events lock on the body during a Barba transition. Barba queues
+   navigation itself through preventRunning, but UI clicks (hovers, buttons) can
+   still corrupt the DOM state mid-transition. The body[data-barba-running] flag
+   is set in beforeLeave and cleared in afterEnter. */
+body[data-barba-running="true"] {
+	pointer-events: none;
+}

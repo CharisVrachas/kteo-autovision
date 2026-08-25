@@ -1,0 +1,109 @@
+---
+/**
+ * /online-calculator/ — "when is my KTEO due" calculator.
+ *
+ * The old site embedded Autovision's central calculator in an iframe. This one
+ * answers locally, in the browser, so its form must NOT carry .cta-form:
+ * forms.js wires every .cta-form to POST, and this one has nothing to send. For
+ * the same reason the submit is a real <button type="submit"> rather than the
+ * design's <a href="#">, which only works because forms.js intercepts it.
+ *
+ * The rules live in public/assets/js/components/kteo-tools.js and must stay in
+ * step with `deadlines` in src/data/site.ts, which states them in prose below.
+ */
+import Base from "../layouts/Base.astro";
+import InnerHero from "../components/sections/InnerHero.astro";
+import Field from "../components/ui/Field.astro";
+import Select from "../components/ui/Select.astro";
+import Button from "../components/ui/Button.astro";
+import Eyebrow from "../components/ui/Eyebrow.astro";
+import { deadlines } from "../data/site";
+
+/** Must stay in step with KTEO_RULES in kteo-tools.js. */
+const vehicleKinds = [
+	{ value: "epivatiko", label: "Επιβατικό Ι.Χ." },
+	{ value: "taxi", label: "Επιβατικό Δ.Χ. (ταξί)" },
+	{ value: "motosikleta", label: "Δίκυκλο" },
+	{ value: "trikyklo", label: "Τρίκυκλο / Τετράκυκλο" },
+	{ value: "fortigo_light", label: "Φορτηγό έως 3,5 τόνων" },
+	{ value: "fortigo", label: "Φορτηγό άνω 3,5 τόνων" },
+];
+---
+
+<Base
+	title="Πότε περνάω ΚΤΕΟ — Υπολογισμός προθεσμίας | ΙΚΤΕΟ Autovision Ρόδου"
+	description="Υπολογίστε πότε λήγει ο τεχνικός έλεγχος του οχήματός σας, ανά κατηγορία οχήματος."
+	namespace="calculator"
+	pageLabel="Πότε περνάω ΚΤΕΟ"
+	pageStyles={["tools"]}
+	pageScripts={["components/kteo-tools.js"]}
+>
+	<InnerHero
+		eyebrow="υπολογισμός"
+		title="Πότε περνάω ΚΤΕΟ"
+		lead="Διαλέξτε την κατηγορία του οχήματός σας και συμπληρώστε τις ημερομηνίες που γνωρίζετε. Ο υπολογισμός είναι ενημερωτικός — το δεσμευτικό στοιχείο είναι το Δελτίο Τεχνικού Ελέγχου σας."
+	/>
+
+	<section data-theme-section="dark" class="section_cta">
+		<div class="container">
+			<div class="padding">
+				<p class="text_size-medium">
+					Συμπληρώστε την ημερομηνία έκδοσης της πρώτης άδειας κυκλοφορίας ή, αν το όχημα έχει
+					ήδη περάσει έλεγχο, την ημερομηνία του τελευταίου ελέγχου. Αν συμπληρώσετε και τα δύο,
+					μετράει το τελευταίο.
+				</p>
+			</div>
+			<div class="padding is-none">
+				<div class="is-form">
+					<form class="tool_form" data-kteo-calc novalidate>
+						<fieldset class="tool_fieldset">
+							<legend class="tool_legend text_size-small">Στοιχεία οχήματος</legend>
+							<Select name="kind" label="Είδος οχήματος" options={vehicleKinds} full />
+							<Field name="first" label="Ημερομηνία 1ης άδειας" type="date" />
+							<Field name="last" label="Ημερομηνία τελευταίου ελέγχου" type="date" />
+						</fieldset>
+						<Button label="Υπολογισμός" submit />
+					</form>
+
+					<div class="tool_result" data-kteo-result role="status" aria-live="polite">
+						<div class="heading_h6" data-kteo-result-headline></div>
+						<div class="heading_h4 tool_result-date" data-kteo-result-date></div>
+						<p class="text_size-small tool_result-note" data-kteo-result-note></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- The rules in prose, so the answer above can be checked against them -->
+	<section data-theme-section="light" class="section_task-list">
+		<div class="container">
+			<div class="padding">
+				<div class="heading_container">
+					<Eyebrow text="προθεσμίες ΚΤΕΟ" />
+					<h2 class="heading_h2">Οι προθεσμίες ανά κατηγορία</h2>
+				</div>
+			</div>
+			<div class="padding is-none is-border-btn-none">
+				<ul role="list" class="feature-list is-list-unstyled">
+					{
+						deadlines.map((item) => (
+							<li class="feature-list_item has-description is-above">
+								<div class="feature-list_left">
+									<div class="annotation_container">
+										<div class="annotation_dot" />
+										<div class="annotation_text">{item.every}</div>
+									</div>
+									<h3 class="heading_h5">{item.title}</h3>
+								</div>
+								<div class="feature-list_right">
+									<p class="feature-list_description text_size-medium">{item.text}</p>
+								</div>
+							</li>
+						))
+					}
+				</ul>
+			</div>
+		</div>
+	</section>
+</Base>

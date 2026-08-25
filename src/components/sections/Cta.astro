@@ -1,0 +1,118 @@
+---
+/**
+ * The "book an appointment" block that closes most pages: a photo of the
+ * Rentis site beside the contact form.
+ *
+ * The visible submit is an <a href="#">, not a button — that is what the design
+ * ships, and forms.js intercepts the click and dispatches the form's submit
+ * event. The hidden <input type="submit"> exists so pressing Enter in a field
+ * still works.
+ */
+import Eyebrow from "../ui/Eyebrow.astro";
+import Button from "../ui/Button.astro";
+import { site, primaryPhone } from "../../data/site";
+---
+
+<section data-theme-section="dark" class="section_cta is-border-btm">
+	<div class="container">
+		<div class="padding is-none">
+			<div class="content-grid is-cols-2">
+				<div class="cta-col_img grid-col">
+					<div class="cta-img_container">
+						<img
+							src="/assets/img/rodos/kteo-asgourou.jpg"
+							loading="lazy"
+							alt="ΙΚΤΕΟ Autovision, 7ο χιλ. Ρόδου – Λίνδου"
+							class="cta-img"
+						/>
+					</div>
+				</div>
+
+				<div class="cta-col_form grid-col">
+					<div class="cta-head">
+						<Eyebrow text="απαντάμε αυθημερόν" />
+						<h2 class="heading_h2">Κλείστε το ραντεβού σας</h2>
+						<p>
+							Συμπληρώστε τα στοιχεία σας και επικοινωνούμε μαζί σας για την ημέρα και την ώρα που
+							σας βολεύει. Ή καλέστε μας απευθείας στο
+							<a href={primaryPhone.href} class="inline-link">{primaryPhone.label}</a>.
+						</p>
+					</div>
+
+					<div class="is-form">
+						<form
+							id="email-form"
+							name="email-form"
+							data-form-source="cta"
+							method="post"
+							class="cta-form"
+						>
+							<input class="cta-field form-field" maxlength="256" minlength="2" name="firstName" placeholder="Όνομα" type="text" id="firstName" autocomplete="given-name" required />
+							<input class="cta-field form-field" maxlength="256" minlength="2" name="lastName" placeholder="Επώνυμο" type="text" id="lastName" autocomplete="family-name" required />
+							<input class="cta-field form-field" maxlength="256" name="email" placeholder="Email" type="email" id="email" autocomplete="email" required />
+							{/* Greek numbers are ten digits; the pattern tolerates +30, spaces and
+							    dashes so a pasted number is not rejected for its formatting.
+							    Deliberately free of backslashes and parentheses: the browser
+							    compiles pattern with the regex `v` flag, where an unescaped -
+							    (or a parenthesis) inside a character class is a syntax error —
+							    and an invalid pattern is not reported, it is silently IGNORED,
+							    so the field accepted anything at all, Greek text included. The
+							    backslash is doubled because this is an Astro expression; written
+							    as a plain attribute the compiler eats it. */}
+							<input
+								class="cta-field form-field"
+								maxlength="256"
+								name="phone"
+								placeholder="Τηλέφωνο"
+								type="tel"
+								id="phone"
+								autocomplete="tel"
+								inputmode="tel"
+								pattern={"[0-9+][0-9 +\\-]{9,19}"}
+								title="Δέκα ψηφία, π.χ. 2241003333 ή +30 2241003333"
+								required
+							/>
+							<textarea
+								placeholder="Μήνυμα — τύπος οχήματος, προτιμώμενο ΙΚΤΕΟ, ημερομηνία"
+								maxlength="5000"
+								id="message"
+								name="message"
+								class="cta-field form-field cta-field_full"></textarea>
+							<input class="form-honeypot" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+							<label class="form-consent cta-field_full">
+								<input type="checkbox" name="consent" required class="form-consent_box" />
+								<span class="form-consent_text text_size-small"
+									>Συναινώ στην επεξεργασία των προσωπικών μου δεδομένων (όνομα, email, τηλέφωνο,
+									περιεχόμενο μηνύματος) από την {site.legalName} με σκοπό τη διαχείριση του
+									αιτήματός μου και την επικοινωνία μαζί μου, σύμφωνα με την
+									<a href="/privacy-policy/" target="_blank">Πολιτική Απορρήτου</a>.</span
+								>
+							</label>
+							<Button label="Αποστολή" />
+							<input type="submit" class="submit-button form-submit" value="Αποστολή" />
+						</form>
+
+						<div class="form-success">
+							<div class="form-feedback_title heading_h5">Ευχαριστούμε!</div>
+							<div class="form-feedback_text text_size-medium">
+								Το αίτημά σας στάλθηκε. Θα επικοινωνήσουμε μαζί σας εντός 24 ωρών.
+							</div>
+						</div>
+						<div class="form-error">
+							<div class="form-feedback_title heading_h5">Ωχ!</div>
+							<div class="form-feedback_text text_size-medium">
+								Η αποστολή απέτυχε. Δοκιμάστε ξανά ή στείλτε email στο {site.email}.
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<div data-theme-section="dark" class="cta-btm">
+	<div class="container">
+		<div class="padding"></div>
+	</div>
+</div>

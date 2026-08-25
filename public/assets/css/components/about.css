@@ -1,0 +1,64 @@
+/* about.css */
+
+/* ---- structure ---- */
+/* Full-bleed image section (the about page). Its height follows the image, and
+   the top border spans the full screen width because the section sits outside
+   the container. */
+.section_close-up {
+	border-top: 1px solid var(--mapped-border-default);
+	border-bottom: 1px solid var(--mapped-border-default);
+}
+
+.section_close-up img {
+	width: 100%;
+	height: auto;
+	display: block;
+}
+
+.section_about {
+	background-color: var(--mapped-surface-default);
+	color: var(--mapped-text-body);
+}
+
+.section_about-kompozit {
+	background-color: var(--mapped-surface-default);
+	color: var(--mapped-text-body);
+}
+
+.about-kompozit_wraper {
+	min-height: 100dvh;
+	padding-top: var(--mapped-padding-md);
+	padding-bottom: var(--mapped-padding-md);
+	border-right: 1px solid var(--mapped-border-default);
+	border-bottom: 1px solid var(--mapped-border-default);
+	border-left: 1px solid var(--mapped-border-default);
+	color: var(--mapped-text-body);
+	background-image: url("/assets/img/rodos/kteo-signage.jpg");
+	background-position: 50% 100%;
+	background-size: cover;
+	justify-content: flex-start;
+	align-items: center;
+	display: flex;
+}
+
+.about-kompozit_wraper.is-none {
+	padding-top: var(--mapped-padding-none);
+	padding-bottom: var(--mapped-padding-none);
+}
+
+.about-kompozit_wraper.is-border-none {
+	border: 1px #000;
+}
+
+.about-kompozit_wraper.is-border-btn-none {
+	border-bottom-style: none;
+}
+
+.kompozit-disclaimer-wrap {
+	max-width: 16em;
+	padding-left: var(--mapped-padding-sm);
+	grid-column-gap: var(--mapped-padding-xs);
+	grid-row-gap: var(--mapped-padding-xs);
+	flex-flow: column;
+	display: flex;
+}

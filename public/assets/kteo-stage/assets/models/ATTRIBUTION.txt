@@ -1,0 +1,35 @@
+car.glb — attribution required
+==============================
+
+This file is derived from:
+
+    "Generic Sedan Car" by MMC Works
+    https://sketchfab.com/3d-models/generic-sedan-car-58c33766470d46e7b2aed542650494e5
+    Licence: CC Attribution 4.0 International (CC BY 4.0)
+    https://creativecommons.org/licenses/by/4.0/
+
+The licence states it plainly: "Author must be credited. Commercial use is
+allowed."
+
+Changes made: the Rigacar rig was removed, modifiers were applied, the car was
+turned to face +Y and stood on the origin, the 134 loose objects were grouped
+into the dozen the page drives, each wheel's origin was moved onto its hub, the
+bonnet's origin was moved onto its hinge, and the textures were resized for the
+web. No geometry was modelled or removed — the bonnet, doors, brake discs,
+calipers, engine, exhaust, suspension, interior and lamps are all the author's.
+
+CC BY 4.0 requires that this credit travels with the work. It is kept here, next
+to the model, rather than only in the project README, because the folder this
+sits in is meant to be copied wholesale into a site — and a credit left behind in
+a README that did not get copied is a licence breach.
+
+Put the credit somewhere a visitor can reach it: a colophon, an "about" page, or
+a line in the page footer. Something like:
+
+    3D model: "Generic Sedan Car" by MMC Works, CC BY 4.0
+
+A note on why this model and not a nicer-looking one. Most free car models of
+this quality are of REAL, branded cars — the mesh may be CC-BY, but the car's
+design is the manufacturer's and is protected separately, whichever licence the
+modeller attached. This one is a generic design, which is what makes it safe to
+put on a commercial page.

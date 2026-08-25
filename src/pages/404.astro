@@ -1,0 +1,53 @@
+---
+/**
+ * The error page.
+ *
+ * Deliberately outside the Base layout: it loads three stylesheets instead of
+ * the full set and none of the animation stack. A 404 should render instantly
+ * even when whatever broke is the reason you are seeing it.
+ */
+import { mainNav } from "../data/navigation";
+---
+
+<!doctype html>
+<html lang="el">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Η σελίδα δεν βρέθηκε</title>
+		<meta name="description" content="Η σελίδα δεν υπάρχει. Επιστρέψτε στην αρχική." />
+		<meta name="robots" content="noindex" />
+
+		{/* Greek first: every heading on this site is Greek, so that subset is the
+		    one that blocks first paint. Latin follows for the Autovision wordmark,
+		    phone numbers and dates. The other subsets Roboto ships are declared in
+		    base.css but never fetched -- their unicode-ranges do not match anything
+		    on the page. */}
+		<link rel="preload" href="/assets/fonts/roboto-greek.woff2" as="font" type="font/woff2" crossorigin />
+		<link rel="preload" href="/assets/fonts/roboto-latin.woff2" as="font" type="font/woff2" crossorigin />
+		<link rel="stylesheet" href="/assets/css/base.css" />
+		<link rel="stylesheet" href="/assets/css/components/typography.css" />
+		<link rel="stylesheet" href="/assets/css/components/button.css" />
+		<link rel="stylesheet" href="/assets/css/pages/error.css" />
+
+		<link rel="icon" href="/assets/img/rodos/favicon-32.png" type="image/png" sizes="32x32" />
+		<link rel="manifest" href="/site.webmanifest" />
+		<meta name="theme-color" content="#164194" />
+	</head>
+
+	<body class="body" data-theme-section="dark">
+		<main class="error_page">
+			<div class="error_code">404</div>
+			<div class="error_body">
+				<h1 class="heading_h4">Η σελίδα δεν βρέθηκε</h1>
+				<p class="text_size-medium">
+					Η διεύθυνση ίσως έχει πληκτρολογηθεί λάθος, ή η σελίδα μετακινήθηκε.
+				</p>
+				<nav class="error_links" aria-label="Βασικές ενότητες">
+					<a href="/" class="error_link">Αρχική</a>
+					{mainNav.map((item) => <a href={item.href} class="error_link">{item.label}</a>)}
+				</nav>
+			</div>
+		</main>
+	</body>
+</html>

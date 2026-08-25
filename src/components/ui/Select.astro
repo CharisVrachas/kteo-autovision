@@ -1,0 +1,24 @@
+---
+/**
+ * A labelled <select>. The component set has no select rule, so the styling
+ * lives in assets/css/pages/tools.css and mirrors .form-field exactly — same
+ * underline, same colours, native arrow replaced with a drawn one so it does
+ * not switch to the OS widget on Windows.
+ */
+interface Props {
+	name: string;
+	label: string;
+	options: string[] | { value: string; label: string }[];
+	full?: boolean;
+	required?: boolean;
+}
+const { name, label, options, full = false, required = false } = Astro.props;
+const items = options.map((o) => (typeof o === "string" ? { value: o, label: o } : o));
+---
+
+<label class={`tool_field${full ? " tool_field-full" : ""}`}>
+	<span class="text_size-xsmall">{label}</span>
+	<select class="tool_select form-field" name={name} id={name} required={required}>
+		{items.map((o) => <option value={o.value}>{o.label}</option>)}
+	</select>
+</label>

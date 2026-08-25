@@ -1,0 +1,45 @@
+---
+/**
+ * /privacy-policy/ — the company's own privacy policy, carried across verbatim.
+ *
+ * The text lives in src/data/privacy.ts. It is the operator's legal wording;
+ * any change should come from the company or its lawyer, not from here.
+ */
+import Base from "../layouts/Base.astro";
+import InnerHero from "../components/sections/InnerHero.astro";
+import { privacyPolicy } from "../data/privacy";
+import { site } from "../data/site";
+---
+
+<Base
+	title="Πολιτική Απορρήτου — ΙΚΤΕΟ ΔΩΔΕΚΑΝΗΣΟΥ Α.Ε."
+	description="Πώς η ΙΚΤΕΟ ΔΩΔΕΚΑΝΗΣΟΥ Α.Ε. συλλέγει, χρησιμοποιεί και προστατεύει τα προσωπικά δεδομένα που συλλέγονται μέσω του kteo-rodos.gr."
+	namespace="privacy"
+	pageLabel="Πολιτική Απορρήτου"
+	pageStyles={["privacy"]}
+>
+	<InnerHero
+		eyebrow="νομικά"
+		title="Πολιτική Απορρήτου"
+		lead={`Η ${site.legalName} δεσμεύεται να προστατεύσει το απόρρητο των επισκεπτών του ${site.url.replace("https://", "")}, σύμφωνα με τον Γενικό Κανονισμό Προστασίας Δεδομένων (GDPR) και την ισχύουσα ελληνική νομοθεσία.`}
+	/>
+
+	<section data-theme-section="light">
+		<div class="container">
+			<div class="padding">
+				<div class="legal">
+					{
+						privacyPolicy.map((section) => (
+							<section class="legal_section">
+								<h2 class="heading_h4">{section.title}</h2>
+								{section.paragraphs.map((paragraph) => (
+									<p class="text_size-medium">{paragraph}</p>
+								))}
+							</section>
+						))
+					}
+				</div>
+			</div>
+		</div>
+	</section>
+</Base>

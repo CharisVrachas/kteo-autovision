@@ -1,0 +1,107 @@
+.section_contacts {
+	min-height: 100vh;
+}
+.contacts_wrap {
+	padding-top: var(--mapped-padding-md);
+}
+.contacts_cell {
+	padding: var(--mapped-padding-md) var(--mapped-padding-sm);
+	display: flex;
+	flex-direction: column;
+	gap: var(--mapped-padding-sm);
+}
+.contacts_cell.is-header {
+	padding-bottom: var(--mapped-padding-sm);
+	justify-content: flex-end;
+}
+.contacts_lead {
+	margin: 0;
+}
+.contacts_info {
+	display: flex;
+	flex-direction: column;
+	gap: var(--mapped-padding-sm);
+}
+.contacts_link {
+	color: var(--mapped-text-headings);
+	text-decoration: none;
+}
+.contacts_link:hover {
+	color: var(--mapped-surface-action);
+}
+.contacts_socials {
+	display: flex;
+	gap: var(--mapped-padding-xs);
+	margin-top: var(--mapped-padding-sm);
+}
+.contacts_social {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: var(--mapped-padding-md);
+	height: var(--mapped-padding-md);
+	background-color: var(--mapped-border-default);
+	color: var(--mapped-text-body);
+	clip-path: polygon(
+		0.5em 0%,
+		calc(100% - 0.5em) 0%,
+		100% 0.5em,
+		100% calc(100% - 0.5em),
+		calc(100% - 0.5em) 100%,
+		0.5em 100%,
+		0% calc(100% - 0.5em),
+		0% 0.5em
+	);
+	transition:
+		color 0.2s,
+		background-color 0.2s;
+}
+.contacts_social:before {
+	content: "";
+	position: absolute;
+	inset: 1px;
+	background-color: var(--mapped-surface-default);
+	clip-path: polygon(
+		0.5em 0%,
+		calc(100% - 0.5em) 0%,
+		100% 0.5em,
+		100% calc(100% - 0.5em),
+		calc(100% - 0.5em) 100%,
+		0.5em 100%,
+		0% calc(100% - 0.5em),
+		0% 0.5em
+	);
+}
+.contacts_social svg {
+	position: relative;
+	z-index: 1;
+	width: 50%;
+	height: 50%;
+}
+.contacts_social:hover {
+	background-color: var(--mapped-surface-action);
+	color: var(--mapped-surface-action);
+}
+.contacts_form {
+	width: 100%;
+}
+.contacts_company,
+.contacts_address-line {
+	margin: 0;
+	max-width: 60%;
+	color: var(--mapped-text-body-light);
+}
+@media screen and (max-width: 991px) {
+	.contacts_wrap {
+		padding-top: var(--mapped-padding-xl);
+	}
+	.contacts_social {
+		width: var(--mapped-padding-xl);
+		height: var(--mapped-padding-xl);
+	}
+	.contacts_company,
+	.contacts_address-line {
+		max-width: 90%;
+	}
+}

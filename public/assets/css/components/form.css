@@ -1,0 +1,129 @@
+/* form.css */
+
+/* ---- structure ---- */
+.cta-field {
+	border-style: none none solid;
+	border-width: 1px;
+	border-color: black black var(--mapped-border-default);
+	background-color: #fff0;
+	/* In the dark CTA section the text must be light throughout: as the
+	   placeholder (semi-transparent via mapped-text-body-light), while typing,
+	   and after blur. An inherited color:#333 used to win after blur, leaving
+	   dark text on a dark background — invisible input. */
+	color: var(--mapped-text-headings);
+}
+
+.cta-field::placeholder {
+	color: var(--mapped-text-body-light);
+}
+
+.cta-field:active,
+.cta-field:focus {
+	color: var(--mapped-text-headings);
+	border-bottom-color: color-mix(in srgb, var(--alias-brand-500) 40%, transparent);
+}
+
+/* form-success / form-error — the post-submit feedback. Styled to match the CTA
+   section: dark background, light text and a border, all from the mapped tokens.
+   This also overrides the default light .form-success background. */
+.form-success,
+.form-error {
+	display: none;
+	padding: var(--mapped-padding-sm);
+	background-color: transparent;
+	border: 1px solid var(--mapped-border-default);
+	color: var(--mapped-text-body);
+	text-align: left;
+}
+.form-success .form-feedback_title,
+.form-error .form-feedback_title {
+	color: var(--mapped-text-headings);
+	margin-bottom: var(--brand-scale-200);
+}
+.form-error {
+	border-color: var(--alias-brand-500);
+}
+.form-error .form-feedback_title {
+	color: var(--alias-brand-500);
+}
+
+.cta-form {
+	grid-column-gap: var(--mapped-padding-xs);
+	grid-row-gap: var(--mapped-padding-xs);
+	grid-template-rows: auto auto;
+	grid-template-columns: 1fr 1fr;
+	grid-auto-columns: 1fr;
+	display: grid;
+}
+
+/* Privacy consent: a checkbox plus small print linking to the policy. In grid
+   forms it spans the full width via .cta-field_full. */
+.form-consent {
+	display: flex;
+	align-items: flex-start;
+	gap: 0.75em;
+	cursor: pointer;
+}
+.form-consent_box {
+	flex-shrink: 0;
+	width: 1.1em;
+	height: 1.1em;
+	margin-top: 0.15em;
+	accent-color: var(--mapped-surface-action);
+	cursor: pointer;
+}
+.form-consent_text {
+	opacity: 0.75;
+}
+.form-consent_text a {
+	color: inherit;
+	text-decoration: underline;
+	text-underline-offset: 0.15em;
+	transition: color 0.2s;
+}
+.form-consent_text a:hover {
+	color: var(--mapped-text-action);
+}
+
+.submit-button {
+	display: none;
+}
+
+.submit-button-2 {
+	display: none;
+}
+
+/* ── Grid placement ── */
+.cta-field_full {
+	grid-area: span 1 / span 2 / span 1 / span 2;
+}
+
+/* 991 = the mobile structure also applies on tablet; see the note on the first block. */
+@media screen and (max-width: 991px) {
+	.cta-field {
+		grid-area: span 1 / span 2 / span 1 / span 2;
+	}
+	.is-mobile-first {
+		order: -9999;
+	}
+	.footer-btm-col.is-last {
+		justify-self: auto;
+	}
+	/* CTA button: prevent text wrap (EN "Contact us" had 2 lines on iPhone) */
+	.button__text {
+		white-space: nowrap;
+	}
+}
+
+/* Honeypot field — a decoy input kept out of sight and out of the tab order.
+   Real people never fill it in, so a submission that carries a value here is
+   discarded as spam (see initForms in assets/js/components/forms.js). It is
+   positioned off-screen rather than display:none, because some bots skip
+   fields that are not rendered at all. */
+.form-honeypot {
+	position: absolute;
+	left: -9999px;
+	width: 1px;
+	height: 1px;
+	opacity: 0;
+}

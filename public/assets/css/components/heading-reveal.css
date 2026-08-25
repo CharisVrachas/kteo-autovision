@@ -1,0 +1,24 @@
+/* heading-reveal.css -- anti-FOUC guard for JS-revealed headings
+
+   The heading reveal is driven by JS (SplitText + the highlight-marker bars in
+   assets/js/components/reveal-text.js), so the headings must start hidden or
+   they would flash unstyled before the bars are laid over them.
+
+   The 2s keyframe is the failsafe: if the script has not arrived by then (slow
+   network, a blocked asset) the text appears on its own, unanimated, rather
+   than staying hidden forever. The JS reveal skips anything already visible, so
+   the two cannot fight each other.
+
+   This stylesheet must load LAST in the head, after every other stylesheet. */
+
+@keyframes revealFallback {
+	to {
+		visibility: visible;
+	}
+}
+
+h1.heading_h1:not([data-anim]),
+.inner-hero_heading-container p {
+	visibility: hidden;
+	animation: revealFallback 0s linear forwards 2s;
+}

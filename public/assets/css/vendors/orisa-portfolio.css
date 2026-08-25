@@ -1,0 +1,935 @@
+/* orisa-portfolio.css -- lifted from the Orisa template, not rewritten.
+ *
+ * Source: Orisa v1.1.0, "Home 2 Section 6" of index-2.html. The rules below
+ * are Orisa's own, copied out of its built CSS (main.css, bootstrap.min.css,
+ * spacing.css) with their declarations untouched.
+ *
+ * The ONE change is the selector: every rule is prefixed with .orisa-embed.
+ * Orisa is Bootstrap-based, so it claims generic names -- .container, .row,
+ * .item, .wrapper, .h5 -- that this project's own template already uses for
+ * different things. Left global they would collide on every page. Scoped, they
+ * apply only inside the section that asked for them.
+ *
+ * Regenerate with scratchpad/rodos/extract_orisa_portfolio.py rather than editing here.
+ */
+
+.orisa-portfolio {
+	--at-common-black: #1e1e1e;
+	--at-common-white: #ffffff;
+	--at-ff-body: 'DM Sans', sans-serif;
+	--at-fz-ds-1: 124px;
+	--at-fz-font-3xl: 32px;
+	--at-fz-font-label: 12px;
+	--at-fz-font-lg: 20px;
+	--at-fz-font-md: 16px;
+	--at-neutral-0: #FEFEFE;
+	--at-neutral-100: #DFDFDF;
+	--at-neutral-50: #F2F2F2;
+	--at-neutral-500: #585959;
+	--at-neutral-900: #1D1D1D;
+	--at-neutral-950: #0F0F0F;
+	--at-theme-primary: #F0460E;
+	--bs-border-color: #dee2e6;
+	--bs-border-radius-pill: 50rem;
+	--bs-border-radius-xxl: 2rem;
+	--bs-border-style: solid;
+	--bs-border-width: 1px;
+	--bs-heading-color: inherit;
+	--bs-white-rgb: 255,255,255;
+}
+
+.orisa-portfolio .h1,
+.orisa-portfolio .h2,
+.orisa-portfolio .h3,
+.orisa-portfolio .h4,
+.orisa-portfolio .h5,
+.orisa-portfolio .h6,
+.orisa-portfolio h1,
+.orisa-portfolio h2,
+.orisa-portfolio h3,
+.orisa-portfolio h4,
+.orisa-portfolio h5,
+.orisa-portfolio h6 {margin-top:0;margin-bottom:.5rem;font-weight:500;line-height:1.2;color:var(--bs-heading-color)}
+.orisa-portfolio .h1,
+.orisa-portfolio h1 {font-size:calc(1.375rem + 1.5vw)}
+@media (min-width:1200px) {
+	.orisa-portfolio .h1,
+	.orisa-portfolio h1 {font-size:2.5rem}
+}
+.orisa-portfolio .h2,
+.orisa-portfolio h2 {font-size:calc(1.325rem + .9vw)}
+@media (min-width:1200px) {
+	.orisa-portfolio .h2,
+	.orisa-portfolio h2 {font-size:2rem}
+}
+.orisa-portfolio .h3,
+.orisa-portfolio h3 {font-size:calc(1.3rem + .6vw)}
+@media (min-width:1200px) {
+	.orisa-portfolio .h3,
+	.orisa-portfolio h3 {font-size:1.75rem}
+}
+.orisa-portfolio .h4,
+.orisa-portfolio h4 {font-size:calc(1.275rem + .3vw)}
+@media (min-width:1200px) {
+	.orisa-portfolio .h4,
+	.orisa-portfolio h4 {font-size:1.5rem}
+}
+.orisa-portfolio .h5,
+.orisa-portfolio h5 {font-size:1.25rem}
+.orisa-portfolio .h6,
+.orisa-portfolio h6 {font-size:1rem}
+.orisa-portfolio .container,
+.orisa-portfolio .container-fluid,
+.orisa-portfolio .container-lg,
+.orisa-portfolio .container-md,
+.orisa-portfolio .container-sm,
+.orisa-portfolio .container-xl,
+.orisa-portfolio .container-xxl {--bs-gutter-x:1.5rem;--bs-gutter-y:0;width:100%;padding-right:calc(var(--bs-gutter-x) * .5);padding-left:calc(var(--bs-gutter-x) * .5);margin-right:auto;margin-left:auto}
+@media (min-width:576px) {
+	.orisa-portfolio .container,
+	.orisa-portfolio .container-sm {max-width:540px}
+}
+@media (min-width:768px) {
+	.orisa-portfolio .container,
+	.orisa-portfolio .container-md,
+	.orisa-portfolio .container-sm {max-width:720px}
+}
+@media (min-width:992px) {
+	.orisa-portfolio .container,
+	.orisa-portfolio .container-lg,
+	.orisa-portfolio .container-md,
+	.orisa-portfolio .container-sm {max-width:960px}
+}
+@media (min-width:1200px) {
+	.orisa-portfolio .container,
+	.orisa-portfolio .container-lg,
+	.orisa-portfolio .container-md,
+	.orisa-portfolio .container-sm,
+	.orisa-portfolio .container-xl {max-width:1140px}
+}
+@media (min-width:1400px) {
+	.orisa-portfolio .container,
+	.orisa-portfolio .container-lg,
+	.orisa-portfolio .container-md,
+	.orisa-portfolio .container-sm,
+	.orisa-portfolio .container-xl,
+	.orisa-portfolio .container-xxl {max-width:1320px}
+}
+.orisa-portfolio .row {--bs-gutter-x:1.5rem;--bs-gutter-y:0;display:flex;flex-wrap:wrap;margin-top:calc(-1 * var(--bs-gutter-y));margin-right:calc(-.5 * var(--bs-gutter-x));margin-left:calc(-.5 * var(--bs-gutter-x))}
+.orisa-portfolio .row>* {flex-shrink:0;width:100%;max-width:100%;padding-right:calc(var(--bs-gutter-x) * .5);padding-left:calc(var(--bs-gutter-x) * .5);margin-top:var(--bs-gutter-y)}
+.orisa-portfolio .col-12 {flex:0 0 auto;width:100%}
+@media (min-width:768px) {
+	.orisa-portfolio .col-md-6 {flex:0 0 auto;width:50%}
+	.orisa-portfolio .col-md-8 {flex:0 0 auto;width:66.66666667%}
+}
+@media (min-width:992px) {
+	.orisa-portfolio .col-lg-4 {flex:0 0 auto;width:33.33333333%}
+	.orisa-portfolio .col-lg-5 {flex:0 0 auto;width:41.66666667%}
+	.orisa-portfolio .col-lg-6 {flex:0 0 auto;width:50%}
+	.orisa-portfolio .offset-lg-3 {margin-left:25%}
+}
+@media (min-width:1200px) {
+	.orisa-portfolio .col-xl-4 {flex:0 0 auto;width:33.33333333%}
+	.orisa-portfolio .col-xl-5 {flex:0 0 auto;width:41.66666667%}
+	.orisa-portfolio .offset-xl-2 {margin-left:16.66666667%}
+	.orisa-portfolio .offset-xl-3 {margin-left:25%}
+	.orisa-portfolio .offset-xl-4 {margin-left:33.33333333%}
+	.orisa-portfolio .offset-xl-7 {margin-left:58.33333333%}
+	.orisa-portfolio .offset-xl-8 {margin-left:66.66666667%}
+	.orisa-portfolio .offset-xl-9 {margin-left:75%}
+}
+@media (min-width:1400px) {
+	.orisa-portfolio .col-xxl-3 {flex:0 0 auto;width:25%}
+	.orisa-portfolio .col-xxl-4 {flex:0 0 auto;width:33.33333333%}
+	.orisa-portfolio .col-xxl-5 {flex:0 0 auto;width:41.66666667%}
+	.orisa-portfolio .offset-xxl-2 {margin-left:16.66666667%}
+	.orisa-portfolio .offset-xxl-4 {margin-left:33.33333333%}
+	.orisa-portfolio .offset-xxl-8 {margin-left:66.66666667%}
+	.orisa-portfolio .offset-xxl-9 {margin-left:75%}
+}
+.orisa-portfolio .navbar>.container,
+.orisa-portfolio .navbar>.container-fluid,
+.orisa-portfolio .navbar>.container-lg,
+.orisa-portfolio .navbar>.container-md,
+.orisa-portfolio .navbar>.container-sm,
+.orisa-portfolio .navbar>.container-xl,
+.orisa-portfolio .navbar>.container-xxl {display:flex;flex-wrap:inherit;align-items:center;justify-content:space-between}
+.orisa-portfolio .d-block {display:block!important}
+.orisa-portfolio .d-flex {display:flex!important}
+.orisa-portfolio .d-none {display:none!important}
+.orisa-portfolio .end-0 {right:0!important}
+.orisa-portfolio .border {border:var(--bs-border-width) var(--bs-border-style) var(--bs-border-color)!important}
+.orisa-portfolio .w-100 {width:100%!important}
+.orisa-portfolio .justify-content-center {justify-content:center!important}
+.orisa-portfolio .justify-content-between {justify-content:space-between!important}
+.orisa-portfolio .align-items-center {align-items:center!important}
+.orisa-portfolio .mx-2 {margin-right:.5rem!important;margin-left:.5rem!important}
+.orisa-portfolio .me-3 {margin-right:1rem!important}
+.orisa-portfolio .mb-0 {margin-bottom:0!important}
+.orisa-portfolio .px-3 {padding-right:1rem!important;padding-left:1rem!important}
+.orisa-portfolio .py-1 {padding-top:.25rem!important;padding-bottom:.25rem!important}
+.orisa-portfolio .text-uppercase {text-transform:uppercase!important}
+.orisa-portfolio .text-white {--bs-text-opacity:1;color:rgba(var(--bs-white-rgb),var(--bs-text-opacity))!important}
+.orisa-portfolio .bg-transparent {--bs-bg-opacity:1;background-color:transparent!important}
+.orisa-portfolio .rounded-5 {border-radius:var(--bs-border-radius-xxl)!important}
+.orisa-portfolio .rounded-pill {border-radius:var(--bs-border-radius-pill)!important}
+@media (min-width:992px) {
+	.orisa-portfolio .d-lg-inline-flex {display:inline-flex!important}
+	.orisa-portfolio .mx-lg-3 {margin-right:1rem!important;margin-left:1rem!important}
+}
+@media (min-width:1200px) {
+	.orisa-portfolio .justify-content-xl-start {justify-content:flex-start!important}
+}
+.orisa-portfolio .mt-10 {
+    margin-top: 10px
+}
+.orisa-portfolio .mt-20 {
+    margin-top: 20px
+}
+.orisa-portfolio .mb-10 {
+    margin-bottom: 10px
+}
+.orisa-portfolio .mb-15 {
+    margin-bottom: 15px
+}
+.orisa-portfolio .mb-30 {
+    margin-bottom: 30px
+}
+.orisa-portfolio .pt-120 {
+    padding-top: 120px
+}
+.orisa-portfolio .pb-120 {
+    padding-bottom: 120px
+}
+.orisa-portfolio .fz-ds-1 {
+  font-size: 80px !important;
+}
+@media screen and (min-width: 1401px) {
+	.orisa-portfolio .fz-ds-1 {
+    font-size: 124px !important;
+  }
+}
+.orisa-portfolio .fill-primary path {
+  fill: var(--at-theme-primary);
+}
+.orisa-portfolio .text-truncate-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 3em;
+}
+.orisa-portfolio .at-image-hover .content {
+  opacity: 0;
+  transition: all 0.5s ease;
+  transform: translateY(-15px);
+}
+.orisa-portfolio .at-image-hover:hover .content {
+  opacity: 1;
+  transform: translateY(0);
+}
+.orisa-portfolio .navigation-sec4home3 .item .content span {
+  flex: 0 0 60px;
+}
+.orisa-portfolio .navigation-sec4home3 .item .content .h6 {
+  flex: 1;
+}
+.orisa-portfolio .navigation-sec4home3 .item .content svg {
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+.orisa-portfolio .navigation-sec4home3 .item.active .content {
+  margin: 0 16px;
+  transition: all 0.3s ease;
+}
+.orisa-portfolio {
+  font-size: 16px;
+  line-height: 1.2;
+  font-weight: normal;
+  color: var(--at-neutral-900);
+  background-color: var(--at-neutral-0);
+  font-family: var(--at-ff-body);
+}
+.orisa-portfolio img {
+  max-width: 100%;
+}
+.orisa-portfolio a {
+  text-decoration: none;
+}
+.orisa-portfolio h1,
+.orisa-portfolio h2,
+.orisa-portfolio h3,
+.orisa-portfolio h4,
+.orisa-portfolio h5,
+.orisa-portfolio h6 {
+  margin-top: 0px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -5%;
+  transition: color 0.3s ease-out;
+  color: var(--at-neutral-900);
+  font-family: var(--at-ff-body);
+}
+.orisa-portfolio h1,
+.orisa-portfolio .h1 {
+  font-size: 70px;
+}
+.orisa-portfolio h2,
+.orisa-portfolio .h2 {
+  font-size: 60px;
+}
+.orisa-portfolio h3,
+.orisa-portfolio .h3 {
+  font-size: 52px;
+}
+.orisa-portfolio h4,
+.orisa-portfolio .h4 {
+  font-size: 38px;
+}
+.orisa-portfolio h5,
+.orisa-portfolio .h5 {
+  font-size: 26px;
+}
+.orisa-portfolio h6,
+.orisa-portfolio .h6 {
+  font-size: 20px;
+}
+.orisa-portfolio .fz-font-lg {
+  font-size: 18px !important;
+}
+@media screen and (min-width: 1401px) {
+	.orisa-portfolio h1,
+	.orisa-portfolio .h1 {
+    font-size: 84px;
+  }
+	.orisa-portfolio h2,
+	.orisa-portfolio .h2 {
+    font-size: 72px;
+  }
+	.orisa-portfolio h3,
+	.orisa-portfolio .h3 {
+    font-size: 64px;
+  }
+	.orisa-portfolio h4,
+	.orisa-portfolio .h4 {
+    font-size: 48px;
+  }
+	.orisa-portfolio h5,
+	.orisa-portfolio .h5 {
+    font-size: 34px;
+  }
+	.orisa-portfolio h6,
+	.orisa-portfolio .h6 {
+    font-size: 24px;
+  }
+	.orisa-portfolio .fz-font-lg {
+    font-size: 20px !important;
+  }
+}
+.orisa-portfolio p {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 15px;
+  letter-spacing: -2%;
+  line-height: 1.2;
+  font-family: var(--at-ff-body);
+  color: var(--at-neutral-500);
+}
+.orisa-portfolio a,
+.orisa-portfolio button {
+  color: inherit;
+  outline: none;
+  border: none;
+  background: transparent;
+}
+.orisa-portfolio .fix {
+  overflow: hidden;
+}
+.orisa-portfolio .z-index-1 {
+  position: relative;
+  z-index: 1;
+}
+.orisa-portfolio .p-relative {
+  position: relative;
+}
+.orisa-portfolio .common-underline {
+  background-image: linear-gradient(currentColor, currentColor), linear-gradient(currentColor, currentColor);
+  background-size: 0 1px, 0 1px;
+  background-position: 100% 100%, 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.3s linear;
+  transition: all 0.4s ease 0.3s ease-out;
+}
+.orisa-portfolio .common-underline:hover {
+  background-image: linear-gradient(currentColor, currentColor), linear-gradient(currentColor, currentColor);
+  background-size: 0 1px, 100% 1px;
+  background-position: 100% 100%, 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.3s linear;
+  transition: all 0.4s ease 0.3s ease-out;
+}
+@media (min-width: 1400px) {
+	.orisa-portfolio .container-2200 {
+    max-width: 2200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+.orisa-portfolio .fw-400 {
+  font-weight: 400;
+}
+.orisa-portfolio .fw-500 {
+  font-weight: 500;
+}
+.orisa-portfolio .fz-font-label {
+  font-size: var(--at-fz-font-label);
+}
+.orisa-portfolio .fz-font-md {
+  font-size: var(--at-fz-font-md);
+}
+.orisa-portfolio .fz-font-lg {
+  font-size: var(--at-fz-font-lg);
+}
+.orisa-portfolio .fz-font-3xl {
+  font-size: var(--at-fz-font-3xl);
+}
+.orisa-portfolio .fz-ds-1 {
+  font-size: var(--at-fz-ds-1);
+}
+.orisa-portfolio .neutral-950 {
+  color: var(--at-neutral-950) !important;
+}
+.orisa-portfolio .bg-neutral-50 {
+  background-color: var(--at-neutral-50) !important;
+}
+@media only screen and (min-width: 1200px) and (max-width: 1399px), only screen and (min-width: 992px) and (max-width: 1199px), only screen and (min-width: 768px) and (max-width: 991px), only screen and (min-width: 576px) and (max-width: 767px), (max-width: 574.98px) {
+	.orisa-portfolio .pt-120 {
+    padding-top: 80px;
+  }
+}
+@media only screen and (min-width: 1200px) and (max-width: 1399px), only screen and (min-width: 992px) and (max-width: 1199px), only screen and (min-width: 768px) and (max-width: 991px), only screen and (min-width: 576px) and (max-width: 767px), (max-width: 574.98px) {
+	.orisa-portfolio .pb-120 {
+    padding-bottom: 80px;
+  }
+}
+@media only screen and (min-width: 1200px) and (max-width: 1399px), only screen and (min-width: 992px) and (max-width: 1199px) {
+	.orisa-portfolio .fz-font-label {
+    font-size: 12px !important;
+  }
+	.orisa-portfolio .fz-font-md {
+    font-size: 18px !important;
+  }
+	.orisa-portfolio .fz-font-lg {
+    font-size: 20px !important;
+  }
+	.orisa-portfolio .fz-font-3xl {
+    font-size: 28px !important;
+  }
+	.orisa-portfolio .fz-ds-1 {
+    font-size: 72px !important;
+  }
+	.orisa-portfolio h1,
+	.orisa-portfolio .h1 {
+    font-size: 58px;
+  }
+	.orisa-portfolio h2,
+	.orisa-portfolio .h2 {
+    font-size: 50px;
+  }
+	.orisa-portfolio h3,
+	.orisa-portfolio .h3 {
+    font-size: 42px;
+  }
+	.orisa-portfolio h4,
+	.orisa-portfolio .h4 {
+    font-size: 30px;
+  }
+	.orisa-portfolio h5,
+	.orisa-portfolio .h5 {
+    font-size: 28px;
+  }
+	.orisa-portfolio h6,
+	.orisa-portfolio .h6 {
+    font-size: 20px;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+	.orisa-portfolio .fz-font-label {
+    font-size: 12px !important;
+  }
+	.orisa-portfolio .fz-font-md {
+    font-size: 16px !important;
+  }
+	.orisa-portfolio .fz-font-lg {
+    font-size: 18px !important;
+  }
+	.orisa-portfolio .fz-font-3xl {
+    font-size: 26px !important;
+  }
+	.orisa-portfolio .fz-ds-1 {
+    font-size: 60px !important;
+  }
+	.orisa-portfolio h1,
+	.orisa-portfolio .h1 {
+    font-size: 54px;
+  }
+	.orisa-portfolio h2,
+	.orisa-portfolio .h2 {
+    font-size: 52px;
+  }
+	.orisa-portfolio h3,
+	.orisa-portfolio .h3 {
+    font-size: 40px;
+  }
+	.orisa-portfolio h4,
+	.orisa-portfolio .h4 {
+    font-size: 36px;
+  }
+	.orisa-portfolio h5,
+	.orisa-portfolio .h5 {
+    font-size: 24px;
+  }
+	.orisa-portfolio h6,
+	.orisa-portfolio .h6 {
+    font-size: 20px;
+  }
+}
+@media (max-width: 574.98px) {
+	.orisa-portfolio .fz-font-label {
+    font-size: 12px !important;
+  }
+	.orisa-portfolio .fz-font-md {
+    font-size: 14px !important;
+  }
+	.orisa-portfolio .fz-font-lg {
+    font-size: 16px !important;
+  }
+	.orisa-portfolio .fz-font-3xl {
+    font-size: 24px !important;
+  }
+	.orisa-portfolio .fz-ds-1 {
+    font-size: 54px !important;
+  }
+	.orisa-portfolio h1,
+	.orisa-portfolio .h1 {
+    font-size: 50px;
+  }
+	.orisa-portfolio h2,
+	.orisa-portfolio .h2 {
+    font-size: 42px;
+  }
+	.orisa-portfolio h3,
+	.orisa-portfolio .h3 {
+    font-size: 36px;
+  }
+	.orisa-portfolio h4,
+	.orisa-portfolio .h4 {
+    font-size: 30px;
+  }
+	.orisa-portfolio h5,
+	.orisa-portfolio .h5 {
+    font-size: 20px;
+  }
+	.orisa-portfolio h6,
+	.orisa-portfolio .h6 {
+    font-size: 16px;
+  }
+}
+@media (min-width: 1400px) {
+	.orisa-portfolio .container {
+    max-width: 1750px;
+  }
+}
+.orisa-portfolio .at-offcanvas-2-wrapper .at-offcanvas-menu nav ul li .at-megamenu .col-xl-4 {
+  width: 100%;
+}
+.orisa-portfolio .alt-footer-link-item ul li a.fz-font-md::before {
+  width: 12px;
+  height: 12px;
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 14 13" fill="none"><g opacity="0.3" clip-path="url(%23clip0_1857_869)"><path d="M11.0037 3.41421L2.39712 12.0208L0.98291 10.6066L9.5895 2H2.00373V0H13.0037V11H11.0037V3.41421Z" fill="%23FEFEFE"/></g><defs><clipPath id="clip0_1857_869"><rect width="14" height="13" fill="white"/></clipPath></defs></svg>');
+}
+.orisa-portfolio .at-about-svg-wrap {
+  position: relative;
+  transform: translateY(-100px);
+}
+.orisa-portfolio .at-about-svg-wrap > svg:nth-child(1) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  top: 34px;
+}
+.orisa-portfolio .at-about-svg-wrap > svg:nth-child(3) {
+  position: absolute;
+  left: 56px;
+  top: 34px;
+}
+.orisa-portfolio .sec-1-home-4-wrap .sec-1-home-4__btns .at-btn {
+  padding: 14px 24px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid rgba(255, 255, 255, 0);
+  background: transparent;
+}
+.orisa-portfolio .sec-1-home-4-wrap .sec-1-home-4__btns .at-btn:hover {
+  background: rgba(229, 229, 229, 0.1);
+  border-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(3px);
+}
+@media only screen and (min-width: 768px) and (max-width: 991px), only screen and (min-width: 576px) and (max-width: 767px), (max-width: 574.98px) {
+	.orisa-portfolio .sec-1-home-4-wrap .sec-1-home-4__btns .at-btn {
+    background: rgba(229, 229, 229, 0.1);
+    border-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur(3px);
+  }
+}
+.orisa-portfolio .at-service-item .content .title {
+  color: var(--at-neutral-900);
+  font-weight: 600;
+  opacity: 0.3;
+  transition: all 0.5s;
+  margin-bottom: 0;
+}
+@media only screen and (min-width: 1200px) and (max-width: 1399px), only screen and (min-width: 992px) and (max-width: 1199px), only screen and (min-width: 768px) and (max-width: 991px), only screen and (min-width: 576px) and (max-width: 767px), (max-width: 574.98px) {
+	.orisa-portfolio .at-service-item .content .title {
+    font-size: 42px;
+    line-height: 42px;
+    letter-spacing: -2.4px;
+  }
+}
+@media screen and (max-width: 1725px) {
+	.orisa-portfolio .at-service-item .content .title {
+    font-size: 50px;
+  }
+}
+.orisa-portfolio .at-service-item .content .text {
+  opacity: 0;
+  max-height: 0px;
+  transition: all 0.5s;
+  max-width: 370px;
+  margin-bottom: 0;
+}
+.orisa-portfolio .alt-portfolio-content {
+  background: var(--at-neutral-0);
+  border-radius: 16px;
+  padding: 16px 20px;
+}
+.orisa-portfolio .alt-portfolio-thumb {
+  border-radius: 16px;
+}
+.orisa-portfolio .alt-portfolio-thumb::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: linear-gradient(180deg, rgba(26, 26, 26, 0) 11.93%, rgba(26, 26, 26, 0.76) 100%);
+  z-index: 1;
+}
+.orisa-portfolio .alt-portfolio-item {
+  position: relative;
+  z-index: 3;
+}
+@media only screen and (min-width: 992px) and (max-width: 1199px), only screen and (min-width: 768px) and (max-width: 991px), only screen and (min-width: 576px) and (max-width: 767px), (max-width: 574.98px) {
+	.orisa-portfolio .alt-portfolio-item {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+}
+.orisa-portfolio .alt-portfolio-item:hover .alt-portfolio-btn {
+  transition: all 0.4s ease;
+  transform: translateY(0);
+}
+.orisa-portfolio .alt-portfolio-item:hover .alt-portfolio-btn .des {
+  opacity: 1;
+  visibility: visible;
+  transition: all 0.4s ease;
+}
+.orisa-portfolio .alt-portfolio-item-2 {
+  margin-top: -105px;
+}
+.orisa-portfolio .alt-portfolio-item-3 {
+  margin-top: -200px;
+}
+.orisa-portfolio .alt-portfolio-item-4 {
+  margin-top: 200px;
+}
+.orisa-portfolio .alt-portfolio-item-6 {
+  margin-top: -200px;
+}
+.orisa-portfolio .alt-portfolio-btn {
+  position: absolute;
+  left: 54px;
+  bottom: 45px;
+  right: 80px;
+  z-index: 2;
+  transition: all 0.4s ease;
+  transform: translateY(40%);
+}
+@media only screen and (min-width: 1200px) and (max-width: 1399px), only screen and (min-width: 992px) and (max-width: 1199px), only screen and (min-width: 768px) and (max-width: 991px), only screen and (min-width: 576px) and (max-width: 767px), (max-width: 574.98px) {
+	.orisa-portfolio .alt-portfolio-btn {
+    left: 20px;
+    bottom: 20px;
+    right: 10px;
+  }
+	.orisa-portfolio .alt-portfolio-btn .h2 {
+    font-size: 28px;
+  }
+}
+.orisa-portfolio .alt-portfolio-btn .des {
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.4s ease;
+}
+.orisa-portfolio .alt-portfolio-btn .text {
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: -0.05em;
+  text-align: center;
+  color: var(--at-common-white);
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+}
+.orisa-portfolio .alt-portfolio-main-title span {
+  font-style: italic;
+  font-weight: 800;
+  font-size: 42px;
+  line-height: 1;
+  letter-spacing: -0.05em;
+}
+.orisa-portfolio .alt-portfolio-main-title span svg {
+  margin-top: -60px;
+  margin-left: 5px;
+}
+.orisa-portfolio .alt-portfolio-main-title-wrap {
+  margin-bottom: -270px;
+}
+@media only screen and (min-width: 992px) and (max-width: 1199px), only screen and (min-width: 768px) and (max-width: 991px), only screen and (min-width: 576px) and (max-width: 767px), (max-width: 574.98px) {
+	.orisa-portfolio .alt-portfolio-main-title-wrap {
+    margin-bottom: 30px;
+  }
+}
+.orisa-portfolio .mg-portfolio-dec {
+  letter-spacing: -0.03em;
+  color: var(--at-common-black);
+}
+@media only screen and (min-width: 1200px) and (max-width: 1399px), only screen and (min-width: 992px) and (max-width: 1199px), only screen and (min-width: 768px) and (max-width: 991px), only screen and (min-width: 576px) and (max-width: 767px), (max-width: 574.98px) {
+	.orisa-portfolio .mg-portfolio-dec br {
+    display: none;
+  }
+}
+@media (min-width: 1400px) {
+	.orisa-portfolio .card-award-content .container {
+    flex: 0 0 600px;
+  }
+}
+.orisa-portfolio .team-card-name .h6 {
+  color: var(--at-common-white);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  transition: color 0.3s ease;
+  line-height: 24px;
+}
+.orisa-portfolio .team-card-2__name .h6 {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+  transition: color 0.25s ease;
+}
+.orisa-portfolio .team-card-2__name:hover .h6 {
+  color: var(--at-theme-primary, #6366f1);
+}
+.orisa-portfolio .at-btn {
+  gap: 8px;
+  line-height: 1;
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: -0.05em;
+  padding: 17px 25px;
+  text-transform: capitalize;
+  color: #FEFEFE;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1D1D1D;
+  border-radius: 50px;
+}
+.orisa-portfolio .at-btn:hover {
+  color: #FEFEFE;
+}
+.orisa-portfolio .at-btn:hover span span.text-1 {
+  transform: translateY(-150%);
+}
+.orisa-portfolio .at-btn:hover span span.text-2 {
+  top: 50%;
+  transform: translateY(-50%);
+}
+.orisa-portfolio .at-btn:hover i svg:first-child {
+  transform: translate(16px, -16px);
+}
+.orisa-portfolio .at-btn:hover i svg:last-child {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(13px, -13px);
+}
+.orisa-portfolio .at-btn:hover i.icon-arrow-right svg:first-child {
+  transform: translate(16px, 0);
+}
+.orisa-portfolio .at-btn:hover i.icon-arrow-right svg:last-child {
+  transform: translate(16px, 0);
+}
+.orisa-portfolio .at-btn:hover i.icon-arrow-up-left svg:first-child {
+  transform: translate(-16px, -16px);
+}
+.orisa-portfolio .at-btn:hover i.icon-arrow-up-left svg:last-child {
+  transform: translate(-16px, -16px);
+}
+.orisa-portfolio .at-btn span {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  display: inline-block;
+}
+.orisa-portfolio .at-btn span span.text-1 {
+  position: relative;
+  display: block;
+  transition: 0.3s;
+}
+.orisa-portfolio .at-btn span span.text-2 {
+  position: absolute;
+  top: 100%;
+  display: block;
+  transition: 0.3s;
+}
+.orisa-portfolio .at-btn i {
+  position: relative;
+  overflow: hidden;
+  width: 16px;
+  height: 16px;
+  display: inline-flex;
+  margin-left: 4px;
+}
+.orisa-portfolio .at-btn i svg {
+  transform: translateY(-2px);
+  position: absolute;
+  bottom: -1px;
+  left: 1px;
+  transition: all 0.2s ease-out;
+}
+.orisa-portfolio .at-btn i svg:last-child {
+  left: -12px;
+  bottom: -12px;
+  transform: translate(0, 0);
+  opacity: 0;
+}
+.orisa-portfolio .at-btn i.icon-arrow-right svg:last-child {
+  left: -16px;
+  bottom: 0;
+}
+.orisa-portfolio .at-btn i.icon-arrow-up-left svg:last-child {
+  left: 16px;
+  bottom: -16px;
+}
+.orisa-portfolio .at-btn.btn-sm {
+  padding: 10px 20px;
+}
+.orisa-portfolio .at-btn.filter-btn {
+  border-radius: 100px;
+  border: 1px solid var(--at-neutral-100, #DFDFDF);
+  background: var(--at-neutral-0, #FEFEFE);
+  color: var(--at-neutral-900);
+}
+.orisa-portfolio .at-btn.active {
+  background: var(--at-neutral-900);
+  border-color: var(--at-neutral-900);
+  color: var(--at-neutral-0);
+}
+.orisa-portfolio .at-btn-group {
+  display: flex;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+.orisa-portfolio .at-btn-group > *:nth-child(1) {
+  transform: scale3d(0.5, 0.5, 1);
+  margin-inline-end: -52px;
+}
+.orisa-portfolio .at-btn-group > *:nth-child(2) {
+  transform: scale3d(1, 1, 1);
+}
+.orisa-portfolio .at-btn-group > *:nth-child(3) {
+  transform: scale3d(1, 1, 1);
+  margin-inline-start: 0;
+}
+.orisa-portfolio .at-btn-group:hover > *:nth-child(1) {
+  transform: scale3d(1, 1, 1);
+  margin-inline-end: 0;
+  background: #1D1D1D;
+}
+.orisa-portfolio .at-btn-group:hover > *:nth-child(2) {
+  transform: scale3d(1, 1, 1);
+  background: #1D1D1D;
+}
+.orisa-portfolio .at-btn-group:hover > *:nth-child(3) {
+  transform: scale3d(0.5, 0.5, 1);
+  margin-inline-start: -52px;
+  background: #1D1D1D;
+}
+.orisa-portfolio .at-btn-group .at-btn-circle {
+  text-align: center;
+  width: 50px;
+  height: 50px;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.5;
+  border-radius: 100%;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  background-color: #1D1D1D;
+  color: #FEFEFE;
+}
+.orisa-portfolio .at-btn-group .at-btn-circle i {
+  transform: rotate(-45deg);
+}
+.orisa-portfolio .at-btn-group-transparent .at-btn {
+  background: #FEFEFE;
+  border: 1px solid rgba(38, 38, 38, 0.1);
+  color: #1D1D1D;
+}
+.orisa-portfolio .at-btn-group-transparent .at-btn-circle {
+  background-color: #FEFEFE;
+  color: #1D1D1D;
+  border: 1px solid rgba(38, 38, 38, 0.1);
+}
+.orisa-portfolio .at-btn-group-transparent-2 .at-btn {
+  background: #fff5f3;
+  border: 1px solid rgba(38, 38, 38, 0.1);
+  color: #1D1D1D;
+}
+.orisa-portfolio .at-btn-group-transparent-2 .at-btn-circle {
+  background-color: #fff5f3;
+  color: #1D1D1D;
+  border: 1px solid rgba(38, 38, 38, 0.1);
+}
+.orisa-portfolio .at-btn.has-dot {
+  position: relative;
+}
+.orisa-portfolio .at-btn.has-dot::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
+  background-color: #fff;
+  border-radius: 50%;
+  opacity: 50%;
+}

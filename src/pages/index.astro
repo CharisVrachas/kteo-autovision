@@ -1,0 +1,234 @@
+---
+/** Homepage. */
+import Base from "../layouts/Base.astro";
+import Eyebrow from "../components/ui/Eyebrow.astro";
+import Button from "../components/ui/Button.astro";
+import Cta from "../components/sections/Cta.astro";
+import OpeningHours from "../components/sections/OpeningHours.astro";
+import Deadlines from "../components/sections/Deadlines.astro";
+import BranchPortfolio from "../components/sections/BranchPortfolio.astro";
+import { site, stats } from "../data/site";
+
+
+/** What the company offers, in three cards. */
+const pillars = [
+	{
+		title: "Όλες οι κατηγορίες",
+		text: "Επιβατικά, δίκυκλα, τρίκυκλα και τετράκυκλα, φορτηγά έως και άνω των 3,5 τόνων. Τα Ασγούρου ελέγχουν δίκυκλα από το 2011, το Τσαϊρι βαρέα οχήματα από το 2012.",
+		shape: "shape",
+		count: 5,
+	},
+	{
+		title: "Δίκτυο Autovision",
+		text: "Μέλος του πανευρωπαϊκού δικτύου AUTOVISION Contrôle Technique Automobile, της μεγαλύτερης εταιρείας ιδιωτικών ΚΤΕΟ στη Γαλλία. Αδιάβλητοι έλεγχοι, βασισμένοι σε υψηλά ποιοτικά πρότυπα.",
+		shape: "shape-engineering",
+		count: 4,
+	},
+	{
+		title: "Δύο σημεία στη Ρόδο",
+		text: "Στα Ασγούρου, στο 7ο χιλ. Ρόδου – Λίνδου, και στο Τσαϊρι, στον περιφερειακό προς το αεροδρόμιο. Σύντομα και τρίτο σημείο στα Αφάντου.",
+		shape: "shape-service",
+		count: 4,
+	},
+];
+---
+
+<Base
+	title={`${site.name} — Τεχνικός έλεγχος οχημάτων στη Ρόδο`}
+	description="Ιδιωτικά ΚΤΕΟ Autovision στη Ρόδο, σε Ασγούρου και Τσαϊρι. Τεχνικός έλεγχος για επιβατικά, δίκυκλα, τρίκυκλα και φορτηγά. Online ραντεβού και υπενθύμιση ΚΤΕΟ."
+	namespace="home"
+	pageLabel="Αρχική"
+	navTheme="hero"
+	pageStyles={["home-extra"]}
+	preloader
+	stage
+>
+	<!-- Hero -->
+	<section
+		data-theme-section="hero"
+		data-parallax="trigger"
+		data-parallax-start="-10"
+		data-parallax-end="10"
+		data-parallax-scrub="2"
+		class="section_hero"
+	>
+		<div class="container">
+			<div class="padding is-border-none">
+				<div class="hero_heading_container">
+					<h1 class="heading_h2">Το ΚΤΕΟ όπως ακριβώς το θέλεις. Και όσο ασφαλές το θέλεις</h1>
+					<div class="hero_para-wrap">
+						<p class="text_size-medium is-white">
+							Κλείσε ραντεβού online, <span class="is-accent-2">εύκολα και γρήγορα</span>, μέσω του συστήματος booking της
+							Autovision. Δύο σημεία τεχνικού ελέγχου στη Ρόδο — Ασγούρου και Τσαϊρι.
+						</p>
+					</div>
+					<Button label="Κλείσε ραντεβού" href="/online-rantevou/" />
+				</div>
+			</div>
+		</div>
+		<div data-parallax="target" class="hero_bg-video bg-video">
+			<video autoplay loop muted playsinline preload="metadata" class="hero_video">
+				<source src="/assets/video/main-framerate.webm" type="video/webm" />
+				<source src="/assets/video/main-framerate.mp4" type="video/mp4" />
+			</video>
+		</div>
+		<div class="darken"></div>
+		<div class="hero_scroll-darken"></div>
+	</section>
+
+	<!-- About -->
+	<section data-theme-section="light" class="section_about">
+		<div class="container">
+			<div class="padding">
+				<div class="heading_container">
+					<Eyebrow text="η εταιρεία" />
+					<h2 class="heading_h2">
+						Στον τεχνικό έλεγχο οχημάτων στη Ρόδο από το 2002, με δύο σημεία και όλες τις
+						κατηγορίες οχημάτων.
+					</h2>
+					<Button label="Μάθετε περισσότερα" href="/company/" />
+				</div>
+			</div>
+			<div class="padding is-none">
+				<div class="content-grid is-cols-3">
+					{
+						pillars.map((p) => (
+							<div class="grid-col">
+								<div class="card_wrap">
+									{/* The repeated shapes are the animation: card-shapes.js offsets
+									    each one, so the count is deliberate, not duplication. */}
+									<div class="card_illustration-wrap">
+										{Array.from({ length: p.count }, (_, i) => (
+											<img
+												src="/assets/img/shapes/shape.svg"
+												loading="lazy"
+												alt=""
+												class={`${p.shape} is-${i + 1}`}
+											/>
+										))}
+									</div>
+									<div class="card_info">
+										<h3 class="heading_h5">{p.title}</h3>
+										<p class="text_size-small">{p.text}</p>
+									</div>
+								</div>
+							</div>
+						))
+					}
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Numbers -->
+	<section data-theme-section="dark" class="section_numbers">
+		<div class="container">
+			<div class="padding">
+				<div class="heading_container">
+					<Eyebrow text="σε αριθμούς" />
+					<h2 class="heading_h2">Η παρουσία μας <br />στο νησί</h2>
+				</div>
+			</div>
+			<div class="padding is-none">
+				{
+					[stats.slice(0, 2), stats.slice(2)].map((row, rowIndex) => (
+						<div class={`content-grid is-cols-2${rowIndex === 0 ? " is-border-btm" : ""}`}>
+							{row.map((stat, i) => (
+								<div class={`grid-col${rowIndex === 1 && i === 1 ? " is-mobile-first" : ""}`}>
+									<div class="card_content-big" data-odometer-group>
+										<div class="card_info-block-big">
+											<Eyebrow text={stat.eyebrow} />
+											<div class="heading_display-large" data-odometer-element>
+												{stat.value}
+											</div>
+											<p class="text_size-large">{stat.label}</p>
+										</div>
+									</div>
+								</div>
+							))}
+						</div>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	<!-- Process intro -->
+	<section data-theme-section="dark" class="section_process-intro">
+		<div class="container">
+			<div class="padding is-none">
+				<div class="content-grid is-cols-3">
+					<div class="grid-col process-intro_visual">
+						<img
+							src="/assets/img/shapes/process-car.svg"
+							loading="lazy"
+							alt=""
+							class="process-intro_illustration"
+						/>
+					</div>
+					<div class="grid-col process-intro_lead is-span-2">
+						<div class="card_info">
+							<div class="annotation_container">
+								<div class="annotation_dot"></div>
+								<div class="annotation_text">Ο έλεγχος</div>
+							</div>
+							<h2 class="heading_h2">Δείτε τι ελέγχεται στο όχημά σας.</h2>
+							<p class="text_size-small process-intro_text">
+								Κυλήστε προς τα κάτω: ο έλεγχος καλύπτει κάθε σύστημα του οχήματος, από τον
+								κινητήρα ως τα καυσαέρια
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	{/* The scroll-driven 3D inspection stage. The component fills this element
+	    itself — canvas, captions, callout chips and corner buttons — and is
+	    mounted by /assets/js/kteo-mount.js.
+
+	    lang="el" is load-bearing, not bookkeeping: every caption inside is
+	    uppercased by CSS, and Greek drops the tonos when it goes to capitals.
+	    Browsers only apply that rule to text they know is Greek. The document is
+	    already lang="el", so this is belt and braces — keep it if the stage is
+	    ever moved to a page in another language. */}
+	<section id="kteo-stage" class="section_kteo" data-theme-section="dark" lang="el"></section>
+
+	<!-- Deadlines: pinned card stack -->
+	<Deadlines />
+
+	<!-- The two centres, plus the one on the way -->
+	<section data-theme-section="light" class="section_service-cards">
+		<div class="container">
+			{/* Same wrapper the deadlines band uses: .padding is where the section's
+			    vertical rules live, so the grid sits inside it rather than
+			    full-bleed and the lines run unbroken down the page. */}
+			<div class="padding is-none is-border-btn-none">
+				<BranchPortfolio />
+			</div>
+		</div>
+	</section>
+
+	<!-- Reminder, then the week's hours as Orisa's process cards -->
+	<section data-theme-section="light" class="section_process-steps">
+		<div class="container">
+			<div class="padding">
+				<div class="heading_container">
+					<Eyebrow text="ωράριο" />
+					<h2 class="heading_h2">Μην ξεχάσετε την προθεσμία σας.</h2>
+					<p class="text_size-medium">
+						Συμπληρώστε τη φόρμα και λάβετε έγκαιρη υπενθύμιση, μέσω e-mail ή τηλεφώνου, για την
+						καταληκτική ημερομηνία του τεχνικού ελέγχου.
+					</p>
+					<Button label="Υπενθύμιση ΚΤΕΟ" href="/kteo-reminder/" />
+				</div>
+			</div>
+			<div class="padding is-none is-border-btn-none">
+				<OpeningHours />
+			</div>
+		</div>
+	</section>
+
+	<Cta />
+</Base>

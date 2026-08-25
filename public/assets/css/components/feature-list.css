@@ -1,0 +1,63 @@
+/* feature-list.css -- numbered / badged list rows used by the case,
+   engineering and product pages. */
+
+.feature-list_item.is-above .feature-list_left {
+	flex-direction: column;
+	align-items: flex-start;
+	gap: var(--mapped-padding-xs);
+}
+@media screen and (max-width: 991px) {
+	.feature-list_item.is-above .feature-list_left {
+		gap: var(--mapped-padding-sm);
+	}
+}
+.feature-list_item.has-description {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	align-items: center;
+	column-gap: var(--mapped-padding-md);
+}
+.feature-list_left {
+	display: flex;
+	align-items: center;
+	gap: var(--brand-scale-400);
+}
+.feature-list_right {
+	display: flex;
+	align-items: center;
+	gap: var(--mapped-padding-sm);
+}
+.feature-list_description {
+	margin: 0;
+	opacity: 0.7;
+}
+.feature-list_badge {
+	display: inline-block;
+	background-color: var(--mapped-surface-action);
+	color: var(--mapped-text-on-action);
+	padding: var(--mapped-padding-xxs) var(--mapped-padding-xs);
+	border-radius: 0.1em;
+	font-size: var(--type-paragraph-sm-size);
+	line-height: 1;
+	white-space: nowrap;
+	flex-shrink: 0;
+}
+.section_task-list .feature-list_item {
+	padding-left: var(--mapped-padding-sm);
+}
+.section_task-list .feature-list_item:last-child {
+	padding-bottom: var(--mapped-padding-lg);
+}
+@media screen and (max-width: 991px) {
+	.feature-list_item.has-description {
+		grid-template-columns: 1fr;
+	}
+	.feature-list_left,
+	.feature-list_right {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+	.feature-list_badge {
+		align-self: flex-start;
+	}
+}

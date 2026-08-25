@@ -1,0 +1,91 @@
+---
+/**
+ * Pinned three-panel scroller: the image column is held in place while the text
+ * track scrolls through it. Driven by initScroller in core/app.js via the
+ * data-scroller, data-scroller-media and data-scroller-track hooks.
+ *
+ * The panels are written twice on purpose. The pinned version needs the images
+ * and the text in separate stacks so one can be held while the other moves;
+ * below the breakpoint that cannot work, so `.scroller_mobile` repeats them as
+ * ordinary stacked blocks. scroller.css shows exactly one of the two.
+ */
+import Eyebrow from "../ui/Eyebrow.astro";
+
+export type Panel = {
+	eyebrow: string;
+	title: string;
+	text: string;
+	image: string;
+	alt: string;
+};
+
+interface Props {
+	panels: Panel[];
+}
+const { panels } = Astro.props;
+---
+
+<section data-theme-section="light" class="fullscreen-scroller">
+	<div class="container scroller_outer">
+		<div class="scroller_slides" data-scroller>
+			<div class="scroller_grid">
+				<div class="scroller_image-wrapper">
+					{
+						panels.map((panel) => (
+							<div class="scroller_image-holder" data-scroller-media>
+								<img
+									src={panel.image}
+									alt={panel.alt}
+									sizes="100vw"
+									loading="eager"
+									decoding="sync"
+									class="scroller_image"
+								/>
+							</div>
+						))
+					}
+				</div>
+				<div data-pattern-strength="faint" data-pattern="plus" class="scroller_text-content_wrap">
+					<div class="scroller_text-track" data-scroller-track>
+						{
+							panels.map((panel) => (
+								<div class="scroller_slide-text">
+									<div class="scroller_text-content">
+										<Eyebrow text={panel.eyebrow} />
+										<div class="heading_h4">{panel.title}</div>
+										<p class="text_size-large">{panel.text}</p>
+									</div>
+								</div>
+							))
+						}
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="scroller_mobile">
+			{
+				panels.map((panel) => (
+					<div class="scroller_mobile-slide">
+						<div class="scroller_mobile-image">
+							<img
+								src={panel.image}
+								alt={panel.alt}
+								sizes="100vw"
+								loading="lazy"
+								class="scroller_image"
+							/>
+						</div>
+						<div data-pattern-strength="faint" data-pattern="plus" class="scroller_mobile-text">
+							<div class="scroller_text-content">
+								<Eyebrow text={panel.eyebrow} />
+								<div class="heading_h4">{panel.title}</div>
+								<p class="text_size-large">{panel.text}</p>
+							</div>
+						</div>
+					</div>
+				))
+			}
+		</div>
+	</div>
+</section>

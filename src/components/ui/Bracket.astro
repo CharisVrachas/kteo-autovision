@@ -1,0 +1,16 @@
+---
+/**
+ * The angled bracket that flanks every eyebrow label. Two of them, mirrored,
+ * are what the design uses instead of a rule or a dot.
+ */
+interface Props {
+	right?: boolean;
+}
+const { right = false } = Astro.props;
+---
+
+<div class={`eyebrow_bracket${right ? " is-right" : ""}`}>
+	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 80" fill="none">
+		<path fill="currentColor" d="M13 80h11v-8.5l-11-7v-49L24 9V0H13L0 8v63.5z"></path>
+	</svg>
+</div>

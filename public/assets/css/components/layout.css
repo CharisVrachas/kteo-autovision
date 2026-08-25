@@ -1,0 +1,170 @@
+/* layout.css */
+
+/* ---- structure ---- */
+.page {
+	background-color: var(--mapped-surface-page);
+}
+
+.container {
+	width: 100%;
+	padding-right: var(--mapped-padding-md);
+	padding-left: var(--mapped-padding-md);
+}
+
+.padding {
+	padding-top: var(--mapped-padding-md);
+	padding-bottom: var(--mapped-padding-md);
+	border-right: 1px solid var(--mapped-border-default);
+	border-bottom: 1px solid var(--mapped-border-default);
+	border-left: 1px solid var(--mapped-border-default);
+	color: var(--mapped-text-body);
+}
+
+.padding.is-none {
+	padding-top: var(--mapped-padding-none);
+	padding-bottom: var(--mapped-padding-none);
+}
+
+.padding.is-border-none {
+	border: 1px #000;
+}
+
+.padding.is-border-btn-none {
+	border-bottom-style: none;
+}
+
+/* ============================================================
+   Grid system — one primitive for every section layout.
+   .content-grid sets the column count via --cols; .grid-col
+   cells span via --span / --row-span. The 1px section borders
+   are drawn by the grid gap (the gap reveals the grid's
+   background), so no per-cell border classes are needed.
+   ============================================================ */
+.content-grid {
+	display: grid;
+	grid-template-columns: repeat(var(--cols, 2), 1fr);
+	gap: 1px;
+	width: 100%;
+	background-color: var(--mapped-border-default);
+}
+
+.content-grid.is-border-btm {
+	border-bottom: 1px solid var(--mapped-border-default);
+}
+
+/* Spaced variant — real gap, no gridline borders (e.g. logo grid). */
+.content-grid.is-spaced {
+	gap: var(--mapped-padding-xs);
+	background-color: transparent;
+}
+
+/* Plain variant — columns flush, no gridline borders (e.g. footer legal bar). */
+.content-grid.is-plain {
+	gap: 0;
+}
+
+.content-grid > .grid-col {
+	grid-column: span var(--span, 1);
+	grid-row: span var(--row-span, 1);
+	background-color: var(--mapped-surface-default);
+}
+
+.grid-col {
+	width: 100%;
+}
+
+/* ── Grid parameters ──────────────────────────────────────────
+   Column counts and cell spans, previously set with inline style
+   attributes. Placed after .content-grid > .grid-col so the explicit
+   placements below win on source order at equal specificity. */
+.content-grid.is-cols-2 {
+	--cols: 2;
+}
+.content-grid.is-cols-3 {
+	--cols: 3;
+}
+.content-grid.is-cols-4 {
+	--cols: 4;
+}
+.content-grid.is-cols-6 {
+	--cols: 6;
+}
+
+.grid-col.is-span-2 {
+	--span: 2;
+}
+
+/* Explicit placements for the few asymmetric feature grids. */
+.content-grid > .grid-col.is-area-a {
+	grid-column: 1 / span 2;
+	grid-row: 1 / span 2;
+}
+.content-grid > .grid-col.is-area-b {
+	grid-column: 3 / span 2;
+	grid-row: 1 / span 2;
+}
+.content-grid > .grid-col.is-area-c {
+	grid-column: 3 / span 2;
+	grid-row: 1 / span 3;
+}
+
+.grid-col.is-height-100 {
+	max-height: 100%;
+}
+
+.section_numbers {
+	background-color: var(--mapped-surface-default);
+}
+
+.section_facts {
+	background-color: var(--mapped-surface-default);
+}
+
+.section_proof {
+	background-color: var(--mapped-surface-default);
+}
+
+.section_proof.is-padding-btm {
+	border-bottom: 1px solid var(--mapped-border-default);
+}
+
+.section_inner-hero {
+	padding-top: var(--layout-nav-height);
+	background-color: var(--mapped-surface-default);
+	color: var(--mapped-text-body);
+}
+
+.section_story {
+	background-color: var(--mapped-surface-default);
+	color: var(--mapped-text-body);
+}
+
+/* ---- overrides ---- */
+.container {
+	max-width: var(--size-container);
+	margin: 0 auto;
+}
+.container.medium {
+	max-width: calc(var(--size-container) * 0.85);
+}
+.container.small {
+	max-width: calc(var(--size-container) * 0.7);
+}
+/* Grid item min-width fix: by default a grid item has min-width: auto
+   (= min-content, its natural size). A large image inside a cell pushes that
+   cell wider, and a 1fr 1fr template stops being even. Overriding to 0 keeps
+   the 1fr cells equal. */
+.content-grid > .grid-col {
+	min-width: 0;
+	min-height: 0;
+}
+
+/* Generic section background fallback, driven by data-theme-section.
+   Each .section_* class carries its own background, so a new section without a
+   registered class takes its background straight from data-theme-section
+   instead. The existing .section_* rules have higher specificity and keep
+   working unchanged. */
+section[data-theme-section="light"],
+section[data-theme-section="dark"] {
+	background-color: var(--mapped-surface-default);
+}

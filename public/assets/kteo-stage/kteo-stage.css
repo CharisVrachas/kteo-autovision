@@ -1,0 +1,327 @@
+/* kteo-stage.css — everything the stage needs, all under .kc- so it cannot collide
+   with the host page. Restyle by overriding the custom properties below. */
+
+.kc-track {
+	--kc-accent: #fe5b2a;
+	--kc-ink: #eff0f1;
+	--kc-ink-dim: #a3a3a4;
+	--kc-ink-faint: #747576;
+	--kc-line: #2f3032;
+	--kc-surface: #303336;
+	/* What sits behind the car. Transparent by default so the stage drops onto
+	   whatever the host page already has; set --kc-bg to put a colour back. */
+	--kc-bg: transparent;
+	/* The wash that keeps caption text legible over the picture. Dark because the
+	   captions are light — flip both together if you invert the stage. */
+	--kc-scrim: 12, 12, 12;
+	--kc-panel: rgba(12, 12, 12, 0.78);
+	--kc-font: inherit;
+
+	position: relative;
+	display: block;
+	background: var(--kc-bg);
+	color: var(--kc-ink);
+	font-family: var(--kc-font);
+}
+
+.kc-sticky {
+	position: sticky;
+	top: 0;
+	height: 100vh;
+	height: 100svh;
+	overflow: hidden;
+}
+
+.kc-canvas {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	display: block;
+	touch-action: pan-y;
+}
+
+/* keeps caption text legible when the car sits under it */
+.kc-scrim {
+	position: absolute;
+	inset: 0;
+	z-index: 30;
+	pointer-events: none;
+	background: linear-gradient(
+		270deg,
+		rgba(var(--kc-scrim), 0.82) 0%,
+		rgba(var(--kc-scrim), 0.62) 22%,
+		rgba(var(--kc-scrim), 0.2) 46%,
+		rgba(var(--kc-scrim), 0) 62%
+	);
+}
+
+/* ── part callouts: a dot on the 3D point, an elbow, a chip ── */
+.kc-leaders {
+	position: absolute;
+	inset: 0;
+	z-index: 34;
+	pointer-events: none;
+	overflow: visible;
+}
+.kc-leaders polyline {
+	fill: none;
+	stroke: var(--kc-accent);
+	stroke-width: 1;
+}
+.kc-leaders circle {
+	fill: var(--kc-accent);
+}
+
+.kc-labels {
+	position: absolute;
+	inset: 0;
+	z-index: 35;
+	pointer-events: none;
+}
+.kc-lbl {
+	position: absolute;
+	white-space: nowrap;
+	display: flex;
+	align-items: baseline;
+	gap: 0.55em;
+	font-size: 0.66rem;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--kc-ink);
+	background: var(--kc-panel);
+	border: 1px solid rgba(254, 91, 42, 0.45);
+	padding: 0.4em 0.7em;
+	backdrop-filter: blur(6px);
+}
+.kc-lbl i {
+	color: var(--kc-accent);
+	font-style: normal;
+	font-weight: 500;
+}
+.kc-lbl s {
+	color: var(--kc-ink-faint);
+	text-decoration: none;
+	letter-spacing: 0.06em;
+}
+
+/* ── captions ── */
+.kc-caps {
+	position: absolute;
+	inset: 0;
+	z-index: 40;
+	pointer-events: none;
+}
+.kc-cap {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	padding: 0 6vw 10vh;
+	opacity: 0;
+	visibility: hidden;
+}
+.kc-cap-text {
+	display: flex;
+	flex-direction: column;
+	gap: 1em;
+	/* Narrower than it looks like it should be. The stage pushes the car left to
+	   get it out from under this column; the narrower the column, the less it has
+	   to push, and the less of the car ends up cropped at the left edge. */
+	width: min(30em, 40vw);
+}
+.kc-eyebrow {
+	display: flex;
+	align-items: center;
+	gap: 0.6em;
+	font-size: 0.72rem;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	font-weight: 500;
+}
+.kc-eyebrow__sq {
+	width: 0.55em;
+	height: 0.55em;
+	background: var(--kc-accent);
+	flex: none;
+}
+.kc-heading {
+	font-size: clamp(1.35rem, 2.5vw, 2.6rem);
+	font-weight: 400;
+	line-height: 1.1;
+	letter-spacing: -0.015em;
+	text-transform: uppercase;
+}
+.kc-sub {
+	font-size: 0.9rem;
+	line-height: 1.5;
+	color: var(--kc-ink-dim);
+	max-width: 24em;
+}
+
+/* ── bottom UI ── */
+.kc-ui {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 50;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 2vw 1.6vh;
+	font-size: 0.68rem;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	color: var(--kc-ink-dim);
+}
+.kc-ui button {
+	background: none;
+	border: 0;
+	color: inherit;
+	font: inherit;
+	letter-spacing: inherit;
+	text-transform: inherit;
+	cursor: pointer;
+	padding: 0.6em;
+}
+.kc-ui button:hover {
+	color: var(--kc-ink);
+}
+
+.kc-hint {
+	position: absolute;
+	left: 50%;
+	bottom: 3.4vh;
+	transform: translateX(-50%);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.9em;
+	z-index: 50;
+	transition: opacity 0.4s ease;
+}
+.kc-chevrons {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+.kc-chevrons svg {
+	width: 22px;
+	height: 8px;
+	color: var(--kc-ink-faint);
+	animation: kc-pulse 1.6s infinite;
+}
+.kc-chevrons svg:nth-child(2) {
+	animation-delay: 0.15s;
+}
+.kc-chevrons svg:nth-child(3) {
+	animation-delay: 0.3s;
+}
+@keyframes kc-pulse {
+	0%,
+	100% {
+		opacity: 0.25;
+	}
+	50% {
+		opacity: 1;
+	}
+}
+
+/* ── progress ticks ── */
+.kc-ticks {
+	position: absolute;
+	top: 50%;
+	right: 2vw;
+	transform: translateY(-50%);
+	z-index: 50;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+.kc-tick {
+	width: 7px;
+	height: 7px;
+	background: var(--kc-line);
+	transition:
+		background 0.25s ease,
+		transform 0.25s ease;
+}
+.kc-tick.is-on {
+	background: var(--kc-accent);
+	transform: scale(1.35);
+}
+
+/* ── debug HUD (D key) ── */
+.kc-hud {
+	position: absolute;
+	top: 12px;
+	left: 12px;
+	z-index: 90;
+	margin: 0;
+	background: #000c;
+	border: 1px solid var(--kc-line);
+	padding: 10px 12px;
+	font: 11px/1.6 ui-monospace, monospace;
+	color: var(--kc-ink-dim);
+	white-space: pre;
+	display: none;
+}
+.kc-hud b {
+	color: var(--kc-accent);
+	font-weight: 500;
+}
+.kc-hud.is-on {
+	display: block;
+}
+
+/* ── narrow screens: the caption takes the bottom, callouts shrink ── */
+@media (max-width: 900px) {
+	.kc-cap {
+		align-items: flex-end;
+		justify-content: flex-start;
+		padding: 0 6vw 18vh;
+	}
+	.kc-cap-text {
+		width: 100%;
+		gap: 0.7em;
+	}
+	.kc-heading {
+		font-size: clamp(1.05rem, 4.2vw, 1.6rem);
+	}
+	.kc-sub {
+		font-size: 0.8rem;
+	}
+	.kc-scrim {
+		background: linear-gradient(0deg, rgba(var(--kc-scrim), 0.8) 0%, rgba(var(--kc-scrim), 0) 55%);
+	}
+	.kc-ticks {
+		display: none;
+	}
+	.kc-lbl {
+		font-size: 0.56rem;
+		padding: 0.3em 0.5em;
+		gap: 0.4em;
+	}
+	.kc-lbl s {
+		display: none;
+	}
+}
+@media (max-width: 560px) {
+	.kc-cap {
+		padding: 0 5vw 22vh;
+	}
+	.kc-lbl {
+		font-size: 0.52rem;
+	}
+	.kc-ui {
+		font-size: 0.6rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.kc-chevrons svg {
+		animation: none;
+	}
+}

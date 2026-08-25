@@ -1,0 +1,32 @@
+/* odometer.css */
+
+/* ---- overrides ---- */
+/* ── Number odometer (rolling-digit reveal) ─────────────────────────────
+   Structural styles only. There is deliberately no .odometer-h1 class — the
+   typography comes from .heading_display-large. Opt in by adding the
+   data-odometer attribute. Driven by initNumberOdometer() in
+   assets/js/components/odometer.js. */
+[data-odometer-element] {
+	display: inline-flex;
+	align-items: center;
+	font-variant-numeric: tabular-nums;
+}
+
+[data-odometer-part="mask"],
+[data-odometer-part="static"] {
+	display: inline-block;
+	overflow: clip;
+	padding: 0.05em;
+	margin: -0.05em;
+}
+
+[data-odometer-part="roller"] {
+	display: block;
+	white-space: pre;
+	text-align: center;
+	will-change: transform;
+}
+
+[data-odometer-part="static"] {
+	display: inline-block;
+}

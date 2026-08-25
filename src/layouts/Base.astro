@@ -1,0 +1,204 @@
+---
+/**
+ * The single page shell: <head>, preloader, page-transition overlay, nav,
+ * the page itself, footer, and the script chain.
+ *
+ * In the source template this shell was duplicated in all 23 HTML files, and
+ * the README warned that a menu change meant editing every one of them. Here
+ * it exists once.
+ *
+ * TWO ORDERINGS BELOW ARE LOAD-BEARING and must not be tidied:
+ *
+ *  1. STYLESHEETS. base.css first — its utilities set `display` on classes the
+ *     components override at *equal* specificity, so moving it later silently
+ *     breaks nav items and buttons. heading-reveal.css last — it hides the
+ *     headings until JS reveals them and has to win over everything above.
+ *
+ *  2. SCRIPTS. These are classic scripts sharing globals, not modules: core.js
+ *     declares `has`, `CARD_EASE` and `lenisReady`, the component files read
+ *     them, and app.js calls every init*(). Hence core.js first, app.js last,
+ *     and no `defer` on any of them — adding it breaks the chain.
+ *
+ * The 3D stage is the one exception: it is ES modules, so it loads as
+ * type="module" and shares nothing with the chain except window.__lenis, which
+ * it waits for.
+ */
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import Preloader from "../components/Preloader.astro";
+import { site } from "../data/site";
+
+interface Props {
+	title: string;
+	description: string;
+	/** Barba namespace; also the label shown in the page-transition overlay. */
+	namespace?: string;
+	pageLabel?: string;
+	/** Per-route stylesheets, loaded after the shared component set. */
+	pageStyles?: string[];
+	/** Extra classic scripts, appended after app.js. */
+	pageScripts?: string[];
+	/** Mount the 3D inspection stage. ES modules, so it loads separately. */
+	stage?: boolean;
+	/** Nav colour scheme at the top of the page: hero (transparent), light, dark. */
+	navTheme?: "hero" | "light" | "dark";
+	/** The preloader only makes sense on the entry page. */
+	preloader?: boolean;
+	/**
+	 * Hide the footer on this page. The markup still ships — Barba needs the
+	 * same shell on both sides of a transition — and footer.css hides it off
+	 * this attribute.
+	 */
+	noFooter?: boolean;
+	/** Social image; falls back to the site-wide one. */
+	ogImage?: string;
+}
+
+const {
+	title,
+	description,
+	namespace = "page",
+	pageLabel = "Σελίδα",
+	pageStyles = [],
+	pageScripts = [],
+	stage = false,
+	navTheme = "light",
+	preloader = false,
+	noFooter = false,
+	ogImage = site.ogImage,
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, site.url).href;
+const ogImageUrl = new URL(ogImage, site.url).href;
+
+/** Shared component stylesheets, in the order the design depends on. */
+const componentStyles = [
+	"typography", "layout", "feature-list", "button", "card", "about", "hero",
+	"nav", "product", "reveal", "cta", "form", "footer", "scroller",
+	"pattern", "transition", "preloader", "odometer",
+];
+
+/** The animation stack, in dependency order. */
+const scripts = [
+	"gsap.min.js", "ScrollTrigger.min.js", "ScrollToPlugin.min.js",
+	"CustomEase.min.js", "SplitText.min.js", "barba.umd.js", "core.js",
+	"components/reveal-text.js", "components/reveal-section.js",
+	"components/nav.js", "components/hover.js", "components/sliders.js",
+	"components/parallax.js", "components/odometer.js",
+	"components/card-shapes.js",
+	"components/deadline-stack.js", "components/orisa-portfolio.js", "components/forms.js",
+	"components/preloader.js", "components/barba.js",
+	"app.js",
+];
+---
+
+<!doctype html>
+<html lang="el">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<link rel="canonical" href={canonical} />
+
+		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content={site.name} />
+		<meta property="og:locale" content="el_GR" />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={canonical} />
+		<meta property="og:image" content={ogImageUrl} />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={ogImageUrl} />
+
+		<link rel="icon" href="/assets/img/rodos/favicon-32.png" type="image/png" sizes="32x32" />
+		<link rel="icon" href="/assets/img/rodos/favicon-48.png" type="image/png" sizes="48x48" />
+		<link rel="apple-touch-icon" href="/assets/img/rodos/favicon-180.png" sizes="180x180" />
+		<link rel="manifest" href="/site.webmanifest" />
+		<meta name="theme-color" content="#164194" />
+
+		{/* On the critical path for every page: start fetching before the CSS is parsed. */}
+		{/* Greek first: every heading on this site is Greek, so that subset is the
+		    one that blocks first paint. Latin follows for the Autovision wordmark,
+		    phone numbers and dates. The other subsets Roboto ships are declared in
+		    base.css but never fetched -- their unicode-ranges do not match anything
+		    on the page. */}
+		<link rel="preload" href="/assets/fonts/roboto-greek.woff2" as="font" type="font/woff2" crossorigin />
+		<link rel="preload" href="/assets/fonts/roboto-latin.woff2" as="font" type="font/woff2" crossorigin />
+
+		<link rel="stylesheet" href="/assets/css/lenis.css" />
+		<link rel="stylesheet" href="/assets/css/base.css" />
+		{componentStyles.map((name) => (
+			<link rel="stylesheet" href={`/assets/css/components/${name}.css`} />
+		))}
+		{/* Lifted wholesale from the Orisa template for the deadline card stack.
+		    Every rule inside is scoped to .orisa-embed, so it cannot reach the rest
+		    of the site — see the file's own header. */}
+		<link rel="stylesheet" href="/assets/css/vendors/orisa-process-scroll.css" />
+		<link rel="stylesheet" href="/assets/css/vendors/orisa-portfolio.css" />
+		<link rel="stylesheet" href="/assets/css/vendors/orisa-process-cards.css" />
+		{/* Our own additions on top of the template — after the component set so
+		    they win, before the route sheets so a route can still override. */}
+		<link rel="stylesheet" href="/assets/css/site.css" />
+
+		{pageStyles.map((name) => <link rel="stylesheet" href={`/assets/css/pages/${name}.css`} />)}
+
+		{/* Skin for the 3D stage. The component injects its own stylesheet at run
+		    time, which lands after every <link> here, so this file is written to
+		    out-specify it rather than to out-order it. */}
+		<link rel="stylesheet" href="/assets/css/components/kteo-stage.css" />
+
+		<link rel="stylesheet" href="/assets/css/components/heading-reveal.css" />
+		<noscript>
+			<link rel="stylesheet" href="/assets/css/components/heading-reveal-noscript.css" />
+		</noscript>
+	</head>
+
+	<body class="body" data-barba="wrapper">
+		{preloader && <Preloader />}
+
+		<div data-transition-wrap class="transition" aria-hidden="true">
+			<div data-pattern="plus" data-transition-panel class="transition__panel">
+				<span data-transition-label class="transition__label">
+					<span class="transition__bracket">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 80" fill="none">
+							<path fill="currentColor" d="M13 80h11v-8.5l-11-7v-49L24 9V0H13L0 8v63.5z"></path>
+						</svg>
+					</span>
+					<span data-transition-label-text>{pageLabel}</span>
+					<span class="transition__bracket is-right">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 80" fill="none">
+							<path fill="currentColor" d="M13 80h11v-8.5l-11-7v-49L24 9V0H13L0 8v63.5z"></path>
+						</svg>
+					</span>
+				</span>
+			</div>
+		</div>
+
+		{/* Nav and page are siblings inside one wrapper: the transition slides
+		    over both, and Barba swaps only <main> underneath. */}
+		<div class="site-shell">
+			<Nav theme={navTheme} />
+
+			<main
+				class="page"
+				data-barba="container"
+				data-barba-namespace={namespace}
+				data-page-label={pageLabel}
+				data-no-footer={noFooter ? "true" : undefined}
+			>
+				<slot />
+				<Footer />
+			</main>
+		</div>
+
+		{scripts.map((src) => <script is:inline src={`/assets/js/${src}`}></script>)}
+		{pageScripts.map((src) => <script is:inline src={`/assets/js/${src}`}></script>)}
+		{stage && (
+			<script is:inline type="module" src="/assets/js/kteo-mount.js"></script>
+		)}
+	</body>
+</html>

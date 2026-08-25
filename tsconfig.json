@@ -1,0 +1,8 @@
+{
+	"extends": "astro/tsconfigs/strict",
+	// Only src/ is ours. public/ holds vendor bundles — mapbox-gl (1.7 MB),
+	// three.js, GSAP — which the checker has no business parsing; including
+	// them exhausts the heap before it reaches a single .astro file.
+	"include": [".astro/types.d.ts", "src/**/*", "astro.config.mjs"],
+	"exclude": ["dist", "public", "node_modules"]
+}

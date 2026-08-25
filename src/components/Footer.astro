@@ -1,0 +1,225 @@
+---
+/**
+ * Site footer: logo and address, page links, the three branches, newsletter
+ * sign-up, social icons and the legal line.
+ *
+ * It ships inside <main> on every page because Barba needs both sides of a
+ * transition to have the same shell. Pages that hide it use `data-no-footer`
+ * on <main>, which footer.css handles.
+ */
+import { site, branches, openBranches, primaryPhone } from "../data/site";
+import { footerNav } from "../data/navigation";
+import Eyebrow from "./ui/Eyebrow.astro";
+
+const year = new Date().getFullYear();
+---
+
+<footer data-footer-parallax="true" class="footer-wrap">
+	<div data-footer-parallax-inner="true" class="footer">
+		<div class="container">
+			<div class="footer-grid">
+				<div class="content-grid is-border-btm is-cols-3">
+					<div class="footer-col grid-col">
+						<a href="/" class="is-inline-block">
+							<img
+								src="/assets/img/rodos/logo-autovision.jpg"
+								loading="lazy"
+								alt="AUTOVISION — Τεχνικός έλεγχος οχημάτων"
+								class="footer-logo"
+							/>
+						</a>
+						<p class="text_size-small">
+							{site.legalName} — {branches[0].address}, {branches[0].area}, Ρόδος
+						</p>
+					</div>
+
+					<div class="footer-col is-grid grid-col">
+						<div class="footer-col_content">
+							<Eyebrow text="Σελίδες" size="text_size-medium-m" />
+							<ul role="list" class="footer-link-list is-list-unstyled">
+								{
+									footerNav.map((link) => (
+										<li class="footer-link-list_item">
+											<a href={link.href} class="footer-link is-inline-block">
+												<div class="text_size-small">{link.label}</div>
+											</a>
+										</li>
+									))
+								}
+							</ul>
+						</div>
+
+						<div class="footer-col_content">
+							<Eyebrow text="Επικοινωνία" size="text_size-medium-m" />
+							<ul role="list" class="footer-link-list is-list-unstyled">
+								{
+									site.phones.map((phone) => (
+										<li class="footer-link-list_item">
+											<a href={phone.href} class="footer-link is-inline-block">
+												<div class="text_size-small">{phone.label}</div>
+											</a>
+										</li>
+									))
+								}
+								<li class="footer-link-list_item">
+									<a href={`mailto:${site.email}`} class="footer-link is-inline-block">
+										<div class="text_size-small">{site.email}</div>
+									</a>
+								</li>
+								{
+									openBranches.map((branch) => (
+										<li class="footer-link-list_item">
+											<a
+												href={branch.maps}
+												target="_blank"
+												rel="noopener noreferrer"
+												class="footer-link is-inline-block"
+											>
+												<div class="text_size-small">{branch.name} — Οδηγίες</div>
+											</a>
+										</li>
+									))
+								}
+							</ul>
+						</div>
+					</div>
+
+					<div class="footer-col is-last grid-col">
+						<div class="footer-subscribe">
+							<div class="footer-col_content">
+								<Eyebrow text="Newsletter" size="text_size-medium-m" />
+							</div>
+							<div class="footer-form is-form">
+								<form
+									id="wf-form-Email-subscribe-form"
+									name="wf-form-Email-subscribe-form"
+									data-form-source="footer-subscribe"
+									method="post"
+								>
+									<input
+										class="text-field form-field"
+										maxlength="256"
+										name="Email-subscribe"
+										placeholder="Email"
+										type="email"
+										id="Email-subscribe"
+										required
+									/>
+									{/* Bot trap: a real person never fills a hidden field. */}
+									<input
+										class="form-honeypot"
+										type="text"
+										name="website"
+										tabindex="-1"
+										autocomplete="off"
+										aria-hidden="true"
+									/>
+									<label class="form-consent form-consent_footer">
+										<input type="checkbox" name="consent" required class="form-consent_box" />
+										<span class="form-consent_text text_size-small"
+											>Εγγραφείτε στο Newsletter μας για να λαμβάνετε πρώτοι τις προσφορές και τα
+											νέα μας. Συναινώ στη διαχείριση της διεύθυνσής μου όπως περιγράφεται στην
+											<a href="/privacy-policy/" target="_blank">Πολιτική Απορρήτου</a>.</span
+										>
+									</label>
+									<input type="submit" class="submit-button-2 form-submit" value="Αποστολή" />
+								</form>
+							</div>
+						</div>
+
+						<div class="footer-socials_wrap">
+							<a href={`mailto:${site.email}`} class="social-icon_wrap" aria-label="Email">
+								<div class="icon-embed-xsmall">
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										width="100%"
+										height="100%"
+										viewBox="0 0 22 22"
+										fill="none"
+										aria-hidden="true"
+										role="img"
+									>
+										<path
+											d="M2.33325 4.78809V17.879M2.33325 4.78809H11.3333H20.3333M2.33325 4.78809L9.30097 10.5794M2.33325 17.879H20.3333M2.33325 17.879L9.30097 10.5794M20.3333 4.78809V17.879M20.3333 4.78809L13.3655 10.5794M9.30097 10.5794L10.2873 11.3992C10.8936 11.9032 11.7729 11.9032 12.3792 11.3992L13.3655 10.5794M20.3333 17.879L13.3655 10.5794"
+											stroke="currentColor"
+											stroke-linecap="round"
+											stroke-linejoin="round"></path>
+									</svg>
+								</div>
+							</a>
+							<a href={primaryPhone.href} class="social-icon_wrap" aria-label="Τηλέφωνο">
+								<div class="icon-embed-xsmall">
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										width="100%"
+										height="100%"
+										viewBox="0 0 22 22"
+										fill="none"
+										aria-hidden="true"
+										role="img"
+									>
+										<path
+											d="M7.2 2.5H4.1c-.9 0-1.6.7-1.6 1.6C2.5 12.4 9.6 19.5 18.4 19.5c.9 0 1.6-.7 1.6-1.6v-3.1c0-.7-.4-1.3-1.1-1.5l-3-1c-.6-.2-1.3 0-1.7.5l-.8 1c-2.3-1.1-4.1-2.9-5.2-5.2l1-.8c.5-.4.7-1.1.5-1.7l-1-3c-.2-.7-.8-1.1-1.5-1.1z"
+											stroke="currentColor"
+											stroke-linecap="round"
+											stroke-linejoin="round"></path>
+									</svg>
+								</div>
+							</a>
+							
+						</div>
+					</div>
+				</div>
+
+				{/* The address strip the old site carried on every page: the two
+				    centres you can visit today, plus the one on the way. */}
+				<div class="footer-branches">
+					<p class="footer-branches_title text_size-medium">2 σημεία τεχνικού ελέγχου</p>
+					{/* The inner .text_size-small below is not decoration. .footer-link draws
+					    a plaque behind itself on hover and initFooterLinkHover clones THAT
+					    element to sit above it; with bare text in the anchor there was nothing
+					    to clone, so the plaque covered the words — and nothing set a colour
+					    either, leaving the browser's default link blue. */}
+					<ul role="list" class="footer-branches_list is-list-unstyled">
+						{
+							openBranches.map((branch) => (
+								<li class="footer-branches_item">
+									<a
+										href={branch.maps}
+										target="_blank"
+										rel="noopener noreferrer"
+										class="footer-link is-inline-block"
+									>
+										<div class="text_size-small">
+											{branch.address} ({branch.area})
+										</div>
+									</a>
+								</li>
+							))
+						}
+						<li class="footer-branches_item is-upcoming text_size-small">
+							Σύντομα κοντά σας νέο ΙΚΤΕΟ Autovision (Αφάντου)
+						</li>
+					</ul>
+				</div>
+
+				<div class="content-grid is-plain is-cols-3">
+					<div class="footer-btm-col grid-col">
+						<p class="text_size-small is-color-light">
+							© {site.founded}–{year} {site.legalName} All Rights Reserved.
+						</p>
+					</div>
+					<div class="footer-btm-col grid-col">
+						<a href="/privacy-policy/" class="footer-link is-inline-block">
+							<p class="text_size-small is-color-light">Πολιτική Απορρήτου</p>
+						</a>
+					</div>
+					<div class="footer-btm-col is-last grid-col">
+						<p class="text_size-small is-color-light">Μέλος του δικτύου AUTOVISION</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div data-footer-parallax-dark="true" class="footer-wrap__dark"></div>
+</footer>

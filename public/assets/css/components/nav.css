@@ -1,0 +1,775 @@
+/* nav.css */
+
+/* ---- structure ---- */
+.nav {
+	z-index: 99;
+	width: 100%;
+	height: var(--layout-nav-height);
+	border-bottom: 1px solid var(--brand-grey-600);
+	position: fixed;
+}
+
+.nav_wrap {
+	justify-content: space-between;
+	align-items: stretch;
+	width: 100%;
+	height: 100%;
+	display: flex;
+}
+
+.nav_items-wrap {
+	align-items: center;
+	display: flex;
+}
+
+.nav_logo-container {
+	height: 100%;
+	padding-right: var(--mapped-padding-sm);
+	padding-left: var(--mapped-padding-sm);
+	border-right: 1px solid var(--brand-grey-600);
+	border-left: 1px solid var(--brand-grey-600);
+	color: #fff;
+	justify-content: center;
+	align-items: center;
+	display: flex;
+}
+
+.nav_item {
+	height: 100%;
+	padding-right: var(--mapped-padding-sm);
+	padding-left: var(--mapped-padding-sm);
+	color: var(--brand-grey-150);
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	justify-content: center;
+	align-items: center;
+	font-family:
+		Roboto,
+		Arial,
+		sans-serif;
+	font-size: 0.75em;
+	text-decoration: none;
+	transition: background-color 0.2s;
+	display: flex;
+}
+
+.nav_item:hover {
+	background-color: var(--brand-grey-750);
+}
+
+.nav_item.is-border {
+	border-right: 1px solid var(--mapped-border-default);
+	transition: background-color 0.2s;
+}
+
+.nav_item-text {
+	text-decoration: none;
+}
+
+/* ---- Υπηρεσίες submenu ----
+   The stock nav is a flat row; the client's menu has one dropdown, so this is
+   the only structural addition to it. The trigger keeps .nav_item wholesale --
+   same height, padding, hover and theme inheritance -- and the panel hangs off
+   a positioned wrapper beneath it.
+
+   Opened by :hover AND :focus-within, so it is reachable by keyboard with no
+   JS: tabbing into any link inside the panel keeps the wrapper focused, which
+   keeps the panel open. Nothing here runs on scroll, so the navbar's own theme
+   switching is untouched.
+
+   The panel paints its own dark surface rather than inheriting the bar's: over
+   the hero the bar is transparent, and a transparent dropdown would put the
+   links straight on top of the video. */
+.nav_item-wrap {
+	height: 100%;
+	position: relative;
+	display: flex;
+	align-items: stretch;
+}
+
+.nav_item-wrap > .nav_item {
+	gap: 0.5em;
+}
+
+/* The caret. A border triangle rather than an SVG, so it takes currentColor
+   and re-themes with the bar for free. */
+.nav_caret {
+	width: 0;
+	height: 0;
+	border-left: 0.28em solid transparent;
+	border-right: 0.28em solid transparent;
+	border-top: 0.3em solid currentColor;
+	flex: none;
+	transition: transform 0.2s;
+}
+
+.nav_item-wrap:hover .nav_caret,
+.nav_item-wrap:focus-within .nav_caret {
+	transform: rotate(180deg);
+}
+
+.nav_sub {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	min-width: 17em;
+	padding: 0.5em 0;
+	background-color: var(--brand-grey-800);
+	border: 1px solid var(--brand-grey-600);
+	border-top: none;
+	opacity: 0;
+	visibility: hidden;
+	transform: translateY(-0.35em);
+	transition:
+		opacity 0.18s,
+		transform 0.18s,
+		visibility 0.18s;
+	display: flex;
+	flex-direction: column;
+}
+
+.nav_item-wrap:hover .nav_sub,
+.nav_item-wrap:focus-within .nav_sub {
+	opacity: 1;
+	visibility: visible;
+	transform: translateY(0);
+}
+
+/* Clicked through: initNavSubmenu (nav.js) sets this on the wrapper so the
+   panel does not stay open over the page you just navigated to. Barba swaps
+   <main> without a reload, so :hover and :focus-within both still hold at that
+   moment. Released on mouseleave / focusout, so the next hover behaves normally.
+
+   Same specificity as the two rules above (three classes each), so this MUST
+   stay below them -- source order is what decides it. */
+.nav_item-wrap.is-suppressed .nav_sub {
+	opacity: 0;
+	visibility: hidden;
+	transform: translateY(-0.35em);
+}
+
+.nav_item-wrap.is-suppressed .nav_caret {
+	transform: none;
+}
+
+.nav_sub-item {
+	padding: 0.85em var(--mapped-padding-sm);
+	color: var(--brand-grey-150);
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	font-family:
+		Roboto,
+		Arial,
+		sans-serif;
+	font-size: 0.75em;
+	line-height: 1.2;
+	text-decoration: none;
+	white-space: nowrap;
+	transition:
+		background-color 0.2s,
+		color 0.2s;
+}
+
+.nav_sub-item:hover,
+.nav_sub-item:focus-visible {
+	background-color: var(--brand-grey-750);
+	color: var(--brand-grey-100);
+}
+
+
+.nav-container {
+	z-index: 98;
+	height: 100%;
+	position: relative;
+}
+
+.nav_contact {
+	height: 100%;
+	padding-right: var(--mapped-padding-md);
+	padding-left: var(--mapped-padding-md);
+	border-right: 1px solid var(--brand-grey-600);
+	border-left: 1px solid var(--brand-grey-600);
+	color: var(--brand-grey-150);
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	justify-content: center;
+	align-items: center;
+	font-family:
+		Roboto,
+		Arial,
+		sans-serif;
+	font-size: 0.75em;
+	text-decoration: none;
+	transition: background-color 0.2s;
+	display: flex;
+}
+
+.nav_contact:hover {
+	background-color: var(--mapped-surface-action-hover);
+	color: var(--mapped-text-on-action);
+}
+
+.nav_contact.is-border {
+	border-right: 1px solid var(--mapped-border-default);
+}
+
+/* ─── Mobile menu — a MENU/X toggle, a panel sliding down from the top, and a
+   scrim ───
+   Desktop: all hidden. Mobile (≤479): the contact button is hidden and MENU
+   takes its place; the panel is fixed below the navbar and slides out via GSAP
+   (initMobileMenu). */
+.nav_menu-toggle {
+	display: none;
+}
+.nav_menu,
+.nav_menu-scrim {
+	display: none;
+}
+
+/* The mobile structure is extended to portrait tablets: the 480–991 range had
+   no layout of its own and the desktop one was simply squeezed. The token tiers
+   in base.css are left alone, so the scale stays tablet-sized (ideal 834). */
+@media screen and (max-width: 991px) {
+	.nav_contact {
+		display: none;
+	}
+
+	/* The toggle is a grid stack: the label and the X share one cell, so the
+	   width is set by MENU and the button does not resize when it swaps to X,
+	   which stays centred. Borders on both sides use mapped-border, and the
+	   colour is inherited from nav-container so it follows the nav theme. */
+	.nav_menu-toggle {
+		height: 100%;
+		display: inline-grid;
+		place-items: center;
+		padding-left: var(--mapped-padding-md);
+		padding-right: var(--mapped-padding-md);
+		border-left: 1px solid var(--mapped-border-default);
+		border-right: 1px solid var(--mapped-border-default);
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		font-family:
+			Roboto,
+			Arial,
+			sans-serif;
+		font-size: 0.75em;
+	}
+	.nav_menu-toggle-label,
+	.nav_menu-toggle-x {
+		grid-area: 1 / 1;
+	}
+	.nav_menu-toggle-x {
+		visibility: hidden;
+		line-height: 0;
+	}
+	.nav_menu-toggle-x svg {
+		width: 1.5em;
+		height: 1.5em;
+	}
+	.nav[data-menu-open] .nav_menu-toggle-label {
+		visibility: hidden;
+	}
+	.nav[data-menu-open] .nav_menu-toggle-x {
+		visibility: visible;
+	}
+
+	/* The bar sits above the panel, which slides out from behind it. Do NOT
+	   override the z-index: the base .nav-container z-index:98 is already above
+	   both the panel (1) and nav_blur (90). A z-index:2 here used to push the bar
+	   UNDER nav_blur, blurring the logo and menu on the mobile hero. */
+
+	/* The panel: full width, dark, chamfered along the bottom. The side borders
+	   are NOT on the panel (they would sit against the screen edges) but on
+	   .nav_menu-inner instead. */
+	.nav_menu {
+		display: block;
+		position: fixed;
+		/* -1px covers the seam with the navbar: a sub-pixel gap from the em-based
+		   height plus the bar's border-bottom left a ~1px slit between them. */
+		top: calc(var(--layout-nav-height) - 1px);
+		left: 0;
+		right: 0;
+		z-index: 1;
+		background-color: var(--mapped-surface-default);
+		/* The divider between bar and menu LIVES on the panel, travelling with it,
+		   so the navbar's static border-bottom never flickers beneath the moving
+		   layer. It uses the same token as the inner border and the items, giving
+		   the menu one continuous frame. The navbar's own border is hidden while
+		   the menu is open (see .nav[data-menu-open]). */
+		border-top: 1px solid var(--mapped-border-default);
+		padding: 0 var(--mapped-padding-sm);
+		clip-path: polygon(
+			0 0,
+			100% 0,
+			100% calc(100% - 1em),
+			calc(100% - 1em) 100%,
+			1em 100%,
+			0 calc(100% - 1em)
+		);
+	}
+	/* The inner frame around the items — side borders, inset like the container's */
+	.nav_menu-inner {
+		border-left: 1px solid var(--mapped-border-default);
+		border-right: 1px solid var(--mapped-border-default);
+	}
+	.nav_menu-item {
+		display: block;
+		padding: var(--mapped-padding-md) var(--mapped-padding-sm);
+		border-bottom: 1px solid var(--mapped-border-default);
+		text-decoration: none;
+	}
+	/* The first item has no border-top: it used to stack with the navbar's
+	   border-bottom, drawing two lines between the bar and the menu. The navbar
+	   border is the divider, and the other items are separated by border-bottom
+	   so no doubled lines appear. */
+	.nav_menu-item:last-child {
+		border-bottom: none;
+	}
+	/* The active item (the current page) is highlighted with a background and is
+	   not clickable. Light theme: grey-150; dark panel theme: the inverse
+	   grey-750. */
+	.nav_menu-item.is-active {
+		pointer-events: none;
+		background-color: var(--mapped-surface-light-150);
+	}
+	[data-theme-section="dark"] .nav_menu-item.is-active {
+		background-color: var(--alias-grey-750);
+	}
+
+	/* The Υπηρεσίες children. The panel is one flat list -- there is no room to
+	   nest a real submenu at this width -- so the relationship is carried by an
+	   indent and a smaller type size instead of by structure. */
+	.nav_menu-item.is-sub {
+		padding-top: var(--mapped-padding-sm);
+		padding-bottom: var(--mapped-padding-sm);
+		padding-left: calc(var(--mapped-padding-sm) * 2);
+	}
+	.nav_menu-item.is-sub .nav_menu-item-text {
+		font-size: 0.7em;
+		opacity: 0.75;
+	}
+
+	/* The scrim dims the content beneath the menu */
+	.nav_menu-scrim {
+		display: block;
+		position: fixed;
+		inset: 0;
+		z-index: 0;
+		background-color: rgb(0 0 0 / 70%);
+	}
+}
+
+.nav-logo {
+	max-width: 5.9375em;
+}
+
+/* The client wordmark is a raster banner, not the template's mono SVG: it is
+   ~6.5:1, so height-driven sizing (as .nav_logo-svg does) would blow past the
+   5.9375em cap above and squash it. Size it off its own height instead and
+   release the cap. It carries its own colours, so it does not follow the nav's
+   currentColor re-theming -- correct for a brand mark, and it reads on both the
+   light and the dark bar. */
+.nav_logo-img {
+	display: block;
+	height: 3.5em;
+	width: auto;
+	max-width: none;
+}
+
+.globe-nav__counter {
+	text-transform: uppercase;
+	margin-bottom: 0;
+	font-size: 0.875em;
+}
+
+.globe-nav__button-icon {
+	width: 0.75em;
+}
+
+.globe-nav__button {
+	width: 2em;
+	height: 2em;
+	color: var(--mapped-icon-on-action);
+	background-color: #0000;
+	border-radius: 100em;
+	justify-content: center;
+	align-items: center;
+	padding: 0;
+	display: flex;
+}
+
+/* ---- motion / hover ---- */
+
+/* NB: every nav selector here is prefixed with `.nav ` (specificity 0,2,1+),
+   because an earlier block using `.nav_item::before` (0,1,1) is still alive —
+   during the restructure it moved into the `overrides` section at the end of
+   this file. The `.nav ` prefix wins regardless of source order.
+   TODO: that older block draws its sweep with ::before while this one uses
+   ::after, so TWO layers currently overlap. Remove the old one, but only after
+   checking the hover visually — this is not a mechanical de-duplication. */
+.nav .nav_item,
+.nav .nav_contact {
+	position: relative;
+	isolation: isolate;
+	overflow: hidden;
+}
+
+/* Suppress the plain hover background and replace it with the animated sweep.
+   `.is-active` is excluded: the active item keeps a permanent background and
+   must not react to hover. */
+.nav .nav_item:hover:not(.is-active),
+.nav .nav_contact:hover {
+	background-color: transparent !important;
+}
+
+/* ::after — the background layer (a clip-path sweep, with NO scale, which would
+   otherwise pull the background away from the edges). */
+.nav .nav_item::after,
+.nav .nav_contact::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	pointer-events: none;
+	background-color: var(--nav-sweep-fill);
+	clip-path: polygon(0% 50%, 100% 50%, 100% 50%, 0% 50%);
+	transition: clip-path var(--nav-sweep-duration-out) var(--nav-sweep-ease);
+}
+
+/* ::before — the hover-text layer (its clip-path is synced with ::after, plus
+   scale 0.85→1 for the two-text dance). */
+.nav .nav_item::before,
+.nav .nav_contact::before {
+	content: attr(data-text);
+	position: absolute;
+	inset: 0;
+	z-index: 2;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	pointer-events: none;
+	font: inherit;
+	color: inherit;
+	letter-spacing: inherit;
+	text-transform: inherit;
+	clip-path: polygon(0% 50%, 100% 50%, 100% 50%, 0% 50%);
+	scale: var(--nav-text-scale-hover-resting);
+	transition:
+		clip-path var(--nav-sweep-duration-out) var(--nav-sweep-ease),
+		scale 0.35s var(--nav-sweep-ease);
+}
+
+/* The default text scales but keeps its opacity; the ::after sweep covers it. */
+.nav .nav_item-text {
+	display: inline-block;
+	transition: scale 0.35s var(--nav-sweep-ease);
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+	.nav .nav_item:hover:not(.is-active)::after,
+	.nav .nav_contact:hover::after,
+	.nav .nav_item:hover:not(.is-active)::before,
+	.nav .nav_contact:hover::before {
+		clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+		transition: clip-path var(--nav-sweep-duration-in) 0.05s var(--nav-sweep-ease);
+	}
+
+	.nav .nav_item:hover:not(.is-active)::before,
+	.nav .nav_contact:hover::before {
+		scale: 1;
+		transition:
+			clip-path var(--nav-sweep-duration-in) 0.05s var(--nav-sweep-ease),
+			scale 0.35s 0.1s var(--nav-sweep-ease);
+	}
+
+	.nav .nav_item:hover:not(.is-active) .nav_item-text,
+	.nav .nav_contact:hover .nav_item-text {
+		scale: var(--nav-text-scale-default-hovered);
+		transition: scale 0.35s 0.05s var(--nav-sweep-ease);
+	}
+}
+
+/* Per-theme fill, hooked into the existing nav-theme cascade */
+.nav[data-theme-nav="hero"] {
+	--nav-sweep-fill: rgba(255, 255, 255, 0.1);
+}
+.nav[data-theme-nav="light"] {
+	--nav-sweep-fill: var(--alias-grey-150);
+}
+.nav[data-theme-nav="dark"] {
+	--nav-sweep-fill: var(--alias-grey-700);
+}
+
+/* .nav_contact is the primary action: it uses the surface-action fill (the brand accent) in every theme */
+.nav .nav_contact::after {
+	background-color: var(--mapped-surface-action);
+}
+
+/* Hero theme: the background is translucent (10% white) and so does not
+   physically cover the default text. Fade that text out on opacity to avoid the
+   two texts overlapping. In the light and dark themes the background is opaque,
+   the covering works on its own and no fade is needed. */
+.nav[data-theme-nav="hero"] .nav_item .nav_item-text {
+	transition:
+		scale 0.35s var(--nav-sweep-ease),
+		opacity 0.15s 0.05s ease-out;
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+	.nav[data-theme-nav="hero"] .nav_item:hover .nav_item-text {
+		opacity: 0;
+		transition:
+			scale 0.35s 0.05s var(--nav-sweep-ease),
+			opacity 0.15s ease-out;
+	}
+}
+
+/* ---- overrides ---- */
+/* Progressive blur along the bottom edge of the bar, in the `hero` theme
+   only -- there the bar is transparent over the page. Backdrop-filter
+   layers with mask gradients that open up towards the bottom edge, so
+   the top stays legible and the lower edge fades into the page.
+   Saturate was dropped; it made the effect too heavy. */
+.nav_blur {
+	pointer-events: none;
+	isolation: isolate;
+	contain: paint;
+	width: 100%;
+	height: 12em;
+	transform-style: preserve-3d;
+	position: absolute;
+	top: 0;
+	left: 0;
+	overflow: hidden;
+	/* scaleY(-1) reverses the progression. The mask gradient concentrates the
+	   strongest blur at the BOTTOM edge of the element, which suits a
+	   bottom-fixed bar; in a top nav the strongest blur is needed at the TOP,
+	   where the logo and items sit, fading toward the nav's lower edge. Flipping
+	   is equivalent to inverting all five gradients. */
+	transform: scaleY(-1) translateZ(0);
+	z-index: 90;
+}
+.nav_blur_layer {
+	position: absolute;
+	inset: 0;
+}
+/* Two layers, not five.
+
+   The original stacked five backdrop-filters with stepped mask gradients
+   to fake a progressive blur. Each one is a separate compositing layer
+   that re-samples everything behind it, and the bar is position:fixed, so
+   all five were recomputed every frame while scrolling -- the single most
+   expensive thing on the page, and on weaker GPUs the steps showed as
+   visible bands rather than a gradient.
+
+   Two layers with wide, overlapping gradients read the same at a glance
+   and cost 60% less. Add `.is--3` back if you want a longer ramp; the
+   pattern is: raise the blur, start the mask later. */
+.nav_blur_layer.is--1 {
+	-webkit-backdrop-filter: blur(0.2em);
+	backdrop-filter: blur(0.2em);
+	-webkit-mask: linear-gradient(#0000 45%, #000 80%, #000 100%);
+	mask: linear-gradient(#0000 45%, #000 80%, #000 100%);
+}
+.nav_blur_layer.is--2 {
+	-webkit-backdrop-filter: blur(1em);
+	backdrop-filter: blur(1em);
+	-webkit-mask: linear-gradient(#0000 70%, #000 100%);
+	mask: linear-gradient(#0000 70%, #000 100%);
+}
+/* The effect is only active in the hero state, where the nav is transparent. In
+   the light and dark themes the navbar has a solid background, so the blur
+   layers are unnecessary and are dropped from rendering. */
+.nav:not([data-theme-nav="hero"]) .nav_blur {
+	display: none;
+}
+/* Mobile menu open over the hero: the transparent navbar turns dark, so the
+   open menu does not show through from above. .nav-container already carries a
+   background-color transition, so closing fades smoothly back to transparent.
+   The blur is hidden because the bar is now opaque and no longer needs it.
+   Specificity (0,4,0) beats the base transparent hero rule (0,3,0). */
+.nav[data-theme-nav="hero"][data-menu-open] .nav-container {
+	background-color: var(--alias-grey-800);
+}
+.nav[data-menu-open] .nav_blur {
+	display: none;
+}
+/* Color cascade — flows from .nav-container down */
+.nav .nav-container,
+.nav .nav_wrap,
+.nav .nav_items-wrap,
+.nav .nav_item,
+.nav .nav_item-text,
+.nav .nav_contact,
+.nav .nav_logo-container,
+.nav .nav_logo-svg {
+	color: inherit;
+}
+.nav_logo-svg {
+	display: block;
+	height: 100%;
+	width: auto;
+}
+/* Clear inner pill so .nav-container's bg shows full-width */
+.nav .nav_wrap {
+	background-color: transparent !important;
+	border-color: transparent !important;
+}
+/* ─── Hero — transparent bg + subtle visible borders + native backdrop ─── */
+.nav[data-theme-nav="hero"] .nav-container {
+	background-color: transparent;
+	color: var(--alias-grey-100);
+}
+.nav[data-theme-nav="hero"],
+.nav[data-theme-nav="hero"] .nav-container,
+.nav[data-theme-nav="hero"] .nav_logo-container,
+.nav[data-theme-nav="hero"] .nav_contact,
+.nav[data-theme-nav="hero"] .nav_item.is-border,
+.nav[data-theme-nav="hero"] .nav_menu-toggle {
+	border-color: transparent; /* hero: all borders hidden, for a clean look over the hero video */
+}
+/* ─── Light — alias tokens (mode-independent) ─── */
+.nav[data-theme-nav="light"] .nav-container {
+	background-color: var(--alias-grey-100);
+	color: var(--alias-grey-900);
+}
+.nav[data-theme-nav="light"],
+.nav[data-theme-nav="light"] .nav-container,
+.nav[data-theme-nav="light"] .nav_logo-container,
+.nav[data-theme-nav="light"] .nav_contact,
+.nav[data-theme-nav="light"] .nav_item.is-border,
+.nav[data-theme-nav="light"] .nav_menu-toggle {
+	border-color: var(--alias-grey-200);
+}
+/* ─── Dark — alias tokens (mode-independent) ─── */
+.nav[data-theme-nav="dark"] .nav-container {
+	background-color: var(--alias-grey-800);
+	color: var(--alias-grey-100);
+}
+.nav[data-theme-nav="dark"],
+.nav[data-theme-nav="dark"] .nav-container,
+.nav[data-theme-nav="dark"] .nav_logo-container,
+.nav[data-theme-nav="dark"] .nav_contact,
+.nav[data-theme-nav="dark"] .nav_item.is-border,
+.nav[data-theme-nav="dark"] .nav_menu-toggle {
+	border-color: var(--alias-grey-700);
+}
+/* ─── Transitions ─── */
+.nav,
+.nav .nav-container,
+.nav .nav_logo-container,
+.nav .nav_contact,
+.nav .nav_item.is-border {
+	transition:
+		background-color var(--nav-theme-transition),
+		border-color var(--nav-theme-transition),
+		color var(--nav-theme-transition),
+		backdrop-filter var(--nav-theme-transition);
+}
+/* With the menu open, hide the navbar's static border-bottom: the divider
+   between bar and menu now lives on the panel itself (.nav_menu border-top) and
+   travels with it. Otherwise that static line flickers beneath the moving panel.
+   This rule sits AFTER the theme groups — specificity is equal at 0,2,0, so
+   source order decides — and the border-color transition above makes the fade
+   smooth. */
+.nav[data-menu-open] {
+	border-bottom-color: transparent;
+}
+/* ─── Hover / active states on .nav_item per theme ─── */
+.nav[data-theme-nav="light"] .nav_item:hover {
+	background-color: var(--alias-grey-150);
+}
+.nav[data-theme-nav="light"] .nav_item:active {
+	background-color: var(--alias-grey-200);
+}
+.nav[data-theme-nav="dark"] .nav_item:active {
+	background-color: var(--alias-grey-700);
+}
+/* ─── Active nav item — a background highlight plus side borders, with no
+   hover. The background is the item's hover colour (light: alias/150, dark:
+   alias/750), so the active item always looks highlighted and hover does not
+   fire on it. */
+.nav .nav_item.is-active {
+	border-left: 1px solid;
+	border-right: 1px solid;
+}
+.nav[data-theme-nav="hero"] .nav_item.is-active,
+.nav[data-theme-nav="hero"] .nav_item.is-active:hover {
+	border-color: transparent;
+	background-color: var(--alias-grey-750);
+}
+.nav[data-theme-nav="dark"] .nav_item.is-active,
+.nav[data-theme-nav="dark"] .nav_item.is-active:hover {
+	border-color: var(--alias-grey-700);
+	background-color: var(--alias-grey-750);
+}
+.nav[data-theme-nav="light"] .nav_item.is-active,
+.nav[data-theme-nav="light"] .nav_item.is-active:hover {
+	border-color: var(--alias-grey-200);
+	background-color: var(--alias-grey-150);
+}
+/* An item marked is-border already draws its own right border, and the item
+   following it borrows that same edge as its left border. In those two cases the
+   active item's left border is not added; every other item keeps both. */
+.nav .nav_item.is-active.is-border,
+.nav .nav_item.is-border + .nav_item.is-active {
+	border-left-style: none;
+}
+/* Positioning context + clipping region */
+.nav_item,
+.nav_contact {
+	position: relative;
+	isolation: isolate; /* keeps z-index:-1 from escaping behind the card */
+	overflow: hidden; /* stops the sweep spilling past the borders */
+}
+/* Disable the plain hover background; the animated sweep replaces it */
+.nav_item:hover:not(.is-active),
+.nav_contact:hover {
+	background-color: transparent !important;
+}
+/* The sweep layer */
+.nav_item::before,
+.nav_contact::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	pointer-events: none;
+	background-color: var(--nav-sweep-fill);
+	clip-path: polygon(0% 50%, 100% 50%, 100% 50%, 0% 50%);
+	transition: clip-path var(--nav-sweep-duration-out) var(--nav-sweep-ease);
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+	.nav_item:hover:not(.is-active)::before,
+	.nav_contact:hover::before {
+		clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+		transition: clip-path var(--nav-sweep-duration-in) 0.05s var(--nav-sweep-ease);
+	}
+}
+/* Per-theme fills — each branch sets its fill colour and the rest cascades */
+.nav[data-theme-nav="hero"] {
+	--nav-sweep-fill: rgba(255, 255, 255, 0.1);
+} /* ← adjust to match the current hero hover background */
+.nav[data-theme-nav="light"] {
+	--nav-sweep-fill: var(--alias-grey-150);
+}
+.nav[data-theme-nav="dark"] {
+	--nav-sweep-fill: var(--alias-grey-700);
+}
+/* .nav_contact may want its own colour — override it separately if needed */
+.nav[data-theme-nav="light"] .nav_contact::before {
+	background-color: var(--mapped-surface-action); /* ← substitute your own */
+}
+.nav[data-theme-nav="dark"] .nav_contact::before {
+	background-color: var(--mapped-surface-action); /* ← substitute your own */
+}
+.nav[data-theme-nav="hero"] .nav_contact::before {
+	background-color: var(--mapped-surface-action); /* ← substitute your own */
+}
+
+/* ---- shared, was per-route ----
+   Nav theme tokens. Was duplicated across nine per-route stylesheets. */
+.nav[data-theme-nav="dark"] {
+	--mapped-border-default: var(--alias-grey-700);
+	--mapped-surface-default: var(--alias-grey-800);
+}

@@ -1,0 +1,45 @@
+/* page/privacy.css -- per-route styles, lifted out of the inline <style> in <head> */
+.cta-btm.is-light {
+	background-color: var(--mapped-surface-default);
+}
+.legal {
+	max-width: 50em;
+	padding: 0 var(--mapped-padding-sm);
+	display: flex;
+	flex-direction: column;
+	gap: var(--mapped-padding-md);
+}
+.legal_meta {
+	margin: 0;
+	padding-bottom: var(--brand-scale-500);
+	border-bottom: 1px solid var(--mapped-border-default);
+}
+.legal_section {
+	display: flex;
+	flex-direction: column;
+	gap: var(--brand-scale-500);
+}
+.legal_section h2,
+.legal_section p {
+	margin: 0;
+}
+.legal_list {
+	margin: 0;
+	padding-left: var(--brand-scale-800);
+	display: flex;
+	flex-direction: column;
+	gap: var(--brand-scale-200);
+}
+.legal a {
+	color: var(--mapped-text-action);
+	text-decoration: underline;
+	text-underline-offset: 0.15em;
+	transition: color 0.2s;
+}
+.legal a:hover {
+	color: var(--mapped-text-action-hover);
+}
+.legal strong {
+	color: var(--mapped-text-headings);
+	font-weight: 500;
+}

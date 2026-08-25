@@ -1,0 +1,615 @@
+/* orisa-process-scroll.css -- lifted from the Orisa template, not rewritten.
+ *
+ * Source: Orisa v1.1.0, "about section 2" of services-3.html. The rules below
+ * are Orisa's own, copied out of its built CSS (main.css, bootstrap.min.css,
+ * spacing.css) with their declarations untouched.
+ *
+ * The ONE change is the selector: every rule is prefixed with .orisa-embed.
+ * Orisa is Bootstrap-based, so it claims generic names -- .container, .row,
+ * .item, .wrapper, .h5 -- that this project's own template already uses for
+ * different things. Left global they would collide on every page. Scoped, they
+ * apply only inside the section that asked for them.
+ *
+ * Regenerate with scratchpad/rodos/extract_orisa.py rather than editing here.
+ */
+
+.orisa-embed {
+	--at-common-white: #ffffff;
+	--at-ff-body: 'DM Sans', sans-serif;
+	--at-fz-font-lg: 20px;
+	--at-neutral-0: #FEFEFE;
+	--at-neutral-100: #DFDFDF;
+	--at-neutral-500: #585959;
+	--at-neutral-700: #303030;
+	--at-neutral-800: #212121;
+	--at-neutral-900: #1D1D1D;
+	--at-theme-primary: #F0460E;
+	--bs-heading-color: inherit;
+}
+
+.orisa-embed .h1,
+.orisa-embed .h2,
+.orisa-embed .h3,
+.orisa-embed .h4,
+.orisa-embed .h5,
+.orisa-embed .h6,
+.orisa-embed h1,
+.orisa-embed h2,
+.orisa-embed h3,
+.orisa-embed h4,
+.orisa-embed h5,
+.orisa-embed h6 {margin-top:0;margin-bottom:.5rem;font-weight:500;line-height:1.2;color:var(--bs-heading-color)}
+.orisa-embed .h5,
+.orisa-embed h5 {font-size:1.25rem}
+.orisa-embed .h6,
+.orisa-embed h6 {font-size:1rem}
+.orisa-embed .container,
+.orisa-embed .container-fluid,
+.orisa-embed .container-lg,
+.orisa-embed .container-md,
+.orisa-embed .container-sm,
+.orisa-embed .container-xl,
+.orisa-embed .container-xxl {--bs-gutter-x:1.5rem;--bs-gutter-y:0;width:100%;padding-right:calc(var(--bs-gutter-x) * .5);padding-left:calc(var(--bs-gutter-x) * .5);margin-right:auto;margin-left:auto}
+@media (min-width:576px) {
+	.orisa-embed .container,
+	.orisa-embed .container-sm {max-width:540px}
+}
+@media (min-width:768px) {
+	.orisa-embed .container,
+	.orisa-embed .container-md,
+	.orisa-embed .container-sm {max-width:720px}
+}
+@media (min-width:992px) {
+	.orisa-embed .container,
+	.orisa-embed .container-lg,
+	.orisa-embed .container-md,
+	.orisa-embed .container-sm {max-width:960px}
+}
+@media (min-width:1200px) {
+	.orisa-embed .container,
+	.orisa-embed .container-lg,
+	.orisa-embed .container-md,
+	.orisa-embed .container-sm,
+	.orisa-embed .container-xl {max-width:1140px}
+}
+@media (min-width:1400px) {
+	.orisa-embed .container,
+	.orisa-embed .container-lg,
+	.orisa-embed .container-md,
+	.orisa-embed .container-sm,
+	.orisa-embed .container-xl,
+	.orisa-embed .container-xxl {max-width:1320px}
+}
+.orisa-embed .row {--bs-gutter-x:1.5rem;--bs-gutter-y:0;display:flex;flex-wrap:wrap;margin-top:calc(-1 * var(--bs-gutter-y));margin-right:calc(-.5 * var(--bs-gutter-x));margin-left:calc(-.5 * var(--bs-gutter-x))}
+.orisa-embed .row>* {flex-shrink:0;width:100%;max-width:100%;padding-right:calc(var(--bs-gutter-x) * .5);padding-left:calc(var(--bs-gutter-x) * .5);margin-top:var(--bs-gutter-y)}
+.orisa-embed .col-12 {flex:0 0 auto;width:100%}
+@media (min-width:992px) {
+	.orisa-embed .col-lg-5 {flex:0 0 auto;width:41.66666667%}
+	.orisa-embed .col-lg-7 {flex:0 0 auto;width:58.33333333%}
+}
+@media (min-width:1400px) {
+	.orisa-embed .col-xxl-4 {flex:0 0 auto;width:33.33333333%}
+	.orisa-embed .col-xxl-8 {flex:0 0 auto;width:66.66666667%}
+	.orisa-embed .g-xxl-5,
+	.orisa-embed .gx-xxl-5 {--bs-gutter-x:3rem}
+	.orisa-embed .g-xxl-5,
+	.orisa-embed .gy-xxl-5 {--bs-gutter-y:3rem}
+}
+.orisa-embed .navbar>.container,
+.orisa-embed .navbar>.container-fluid,
+.orisa-embed .navbar>.container-lg,
+.orisa-embed .navbar>.container-md,
+.orisa-embed .navbar>.container-sm,
+.orisa-embed .navbar>.container-xl,
+.orisa-embed .navbar>.container-xxl {display:flex;flex-wrap:inherit;align-items:center;justify-content:space-between}
+.orisa-embed .d-flex {display:flex!important}
+.orisa-embed .flex-column {flex-direction:column!important}
+.orisa-embed .align-items-start {align-items:flex-start!important}
+.orisa-embed .align-items-center {align-items:center!important}
+.orisa-embed .order-1 {order:1!important}
+.orisa-embed .order-2 {order:2!important}
+.orisa-embed .mb-0 {margin-bottom:0!important}
+.orisa-embed .mb-4 {margin-bottom:1.5rem!important}
+.orisa-embed .gap-2 {gap:.5rem!important}
+.orisa-embed .gap-3 {gap:1rem!important}
+.orisa-embed .rounded-circle {border-radius:50%!important}
+.orisa-embed .z-0 {z-index:0!important}
+.orisa-embed .z-1 {z-index:1!important}
+@media (min-width:768px) {
+	.orisa-embed .flex-md-row {flex-direction:row!important}
+	.orisa-embed .align-items-md-center {align-items:center!important}
+}
+@media (min-width:992px) {
+	.orisa-embed .order-lg-1 {order:1!important}
+	.orisa-embed .order-lg-2 {order:2!important}
+	.orisa-embed .mb-lg-0 {margin-bottom:0!important}
+}
+@media (min-width:1400px) {
+	.orisa-embed .flex-xxl-row {flex-direction:row!important}
+}
+.orisa-embed .pt-60 {
+    padding-top: 60px
+}
+.orisa-embed .pt-120 {
+    padding-top: 120px
+}
+.orisa-embed .pb-50 {
+    padding-bottom: 50px
+}
+.orisa-embed .pb-120 {
+    padding-bottom: 120px
+}
+.orisa-embed .text-truncate-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 4.5em;
+}
+.orisa-embed .scroll-active-item .item.active .block-number {
+  background: var(--at-theme-primary) !important;
+  transition: all 0.3s ease;
+}
+.orisa-embed .scroll-active-item .item.active .block-number .number {
+  color: var(--at-neutral-0);
+  transition: all 0.3s ease;
+}
+.orisa-embed .scroll-active-item .item.active .rectangular::after {
+  opacity: 1;
+  width: 99px;
+  height: 99px;
+  transition: all 0.3s ease;
+}
+.orisa-embed .scroll-active-item .item .rectangular {
+  content: "";
+  position: absolute;
+  bottom: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  height: 50px;
+  background: var(--at-neutral-800);
+  border-radius: 16px;
+  border: 1px solid var(--at-neutral-700);
+  padding: 50px;
+  z-index: -2;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+.orisa-embed .scroll-active-item .item .rectangular::after {
+  content: "";
+  position: absolute;
+  bottom: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  background: var(--at-theme-primary);
+  filter: blur(125px);
+  opacity: 0;
+  z-index: -1;
+  transition: all 0.5s ease;
+}
+.orisa-embed .navigation-section-10 .item {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+@media only screen and (min-width: 1200px) and (max-width: 1399px), only screen and (min-width: 992px) and (max-width: 1199px) {
+	.orisa-embed .navigation-section-10 .item {
+    width: 70px;
+    height: 70px;
+  }
+}
+@media (max-width: 574.98px) {
+	.orisa-embed .navigation-section-10 .item {
+    width: 58px;
+    height: 58px;
+  }
+}
+.orisa-embed .navigation-section-10 .item.active {
+  scale: 0.9;
+  transition: all 0.3s ease;
+}
+.orisa-embed .navigation-sec4home3 .item {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--at-neutral-100);
+  transition: all 0.3s ease;
+}
+.orisa-embed .navigation-sec4home3 .item .content span {
+  flex: 0 0 60px;
+}
+.orisa-embed .navigation-sec4home3 .item .content .h6 {
+  flex: 1;
+}
+.orisa-embed .navigation-sec4home3 .item .content svg {
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+.orisa-embed .navigation-sec4home3 .item.active {
+  background-color: var(--at-neutral-100);
+}
+.orisa-embed .navigation-sec4home3 .item.active .content {
+  margin: 0 16px;
+  transition: all 0.3s ease;
+}
+.orisa-embed .navigation-sec4home3 .item.active svg {
+  opacity: 1;
+}
+.orisa-embed {
+  font-size: 16px;
+  line-height: 1.2;
+  font-weight: normal;
+  color: var(--at-neutral-900);
+  background-color: var(--at-neutral-0);
+  font-family: var(--at-ff-body);
+}
+.orisa-embed img {
+  max-width: 100%;
+}
+.orisa-embed a {
+  text-decoration: none;
+}
+.orisa-embed h1,
+.orisa-embed h2,
+.orisa-embed h3,
+.orisa-embed h4,
+.orisa-embed h5,
+.orisa-embed h6 {
+  margin-top: 0px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -5%;
+  transition: color 0.3s ease-out;
+  color: var(--at-neutral-900);
+  font-family: var(--at-ff-body);
+}
+.orisa-embed h1,
+.orisa-embed .h1 {
+  font-size: 70px;
+}
+.orisa-embed h2,
+.orisa-embed .h2 {
+  font-size: 60px;
+}
+.orisa-embed h3,
+.orisa-embed .h3 {
+  font-size: 52px;
+}
+.orisa-embed h4,
+.orisa-embed .h4 {
+  font-size: 38px;
+}
+.orisa-embed h5,
+.orisa-embed .h5 {
+  font-size: 26px;
+}
+.orisa-embed h6,
+.orisa-embed .h6 {
+  font-size: 20px;
+}
+.orisa-embed .fz-font-lg {
+  font-size: 18px !important;
+}
+@media screen and (min-width: 1401px) {
+	.orisa-embed h1,
+	.orisa-embed .h1 {
+    font-size: 84px;
+  }
+	.orisa-embed h2,
+	.orisa-embed .h2 {
+    font-size: 72px;
+  }
+	.orisa-embed h3,
+	.orisa-embed .h3 {
+    font-size: 64px;
+  }
+	.orisa-embed h4,
+	.orisa-embed .h4 {
+    font-size: 48px;
+  }
+	.orisa-embed h5,
+	.orisa-embed .h5 {
+    font-size: 34px;
+  }
+	.orisa-embed h6,
+	.orisa-embed .h6 {
+    font-size: 24px;
+  }
+	.orisa-embed .fz-font-lg {
+    font-size: 20px !important;
+  }
+}
+.orisa-embed p {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 15px;
+  letter-spacing: -2%;
+  line-height: 1.2;
+  font-family: var(--at-ff-body);
+  color: var(--at-neutral-500);
+}
+.orisa-embed a,
+.orisa-embed button {
+  color: inherit;
+  outline: none;
+  border: none;
+  background: transparent;
+}
+.orisa-embed .p-relative {
+  position: relative;
+}
+.orisa-embed .img-cover {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.orisa-embed .fw-500 {
+  font-weight: 500;
+}
+.orisa-embed .fw-600 {
+  font-weight: 600;
+}
+.orisa-embed .fz-font-lg {
+  font-size: var(--at-fz-font-lg);
+}
+@media only screen and (min-width: 1200px) and (max-width: 1399px), only screen and (min-width: 992px) and (max-width: 1199px), only screen and (min-width: 768px) and (max-width: 991px), only screen and (min-width: 576px) and (max-width: 767px), (max-width: 574.98px) {
+	.orisa-embed .pt-120 {
+    padding-top: 80px;
+  }
+}
+@media only screen and (min-width: 1200px) and (max-width: 1399px), only screen and (min-width: 992px) and (max-width: 1199px), only screen and (min-width: 768px) and (max-width: 991px), only screen and (min-width: 576px) and (max-width: 767px), (max-width: 574.98px) {
+	.orisa-embed .pb-120 {
+    padding-bottom: 80px;
+  }
+}
+@media only screen and (min-width: 1200px) and (max-width: 1399px), only screen and (min-width: 992px) and (max-width: 1199px) {
+	.orisa-embed .fz-font-lg {
+    font-size: 20px !important;
+  }
+	.orisa-embed h1,
+	.orisa-embed .h1 {
+    font-size: 58px;
+  }
+	.orisa-embed h2,
+	.orisa-embed .h2 {
+    font-size: 50px;
+  }
+	.orisa-embed h3,
+	.orisa-embed .h3 {
+    font-size: 42px;
+  }
+	.orisa-embed h4,
+	.orisa-embed .h4 {
+    font-size: 30px;
+  }
+	.orisa-embed h5,
+	.orisa-embed .h5 {
+    font-size: 28px;
+  }
+	.orisa-embed h6,
+	.orisa-embed .h6 {
+    font-size: 20px;
+  }
+	.orisa-embed .scroll-section .pb-80 {
+    padding-bottom: 0;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+	.orisa-embed .fz-font-lg {
+    font-size: 18px !important;
+  }
+	.orisa-embed h1,
+	.orisa-embed .h1 {
+    font-size: 54px;
+  }
+	.orisa-embed h2,
+	.orisa-embed .h2 {
+    font-size: 52px;
+  }
+	.orisa-embed h3,
+	.orisa-embed .h3 {
+    font-size: 40px;
+  }
+	.orisa-embed h4,
+	.orisa-embed .h4 {
+    font-size: 36px;
+  }
+	.orisa-embed h5,
+	.orisa-embed .h5 {
+    font-size: 24px;
+  }
+	.orisa-embed h6,
+	.orisa-embed .h6 {
+    font-size: 20px;
+  }
+	.orisa-embed .scroll-section .pb-80 {
+    padding-bottom: 0;
+  }
+}
+@media (max-width: 574.98px) {
+	.orisa-embed .fz-font-lg {
+    font-size: 16px !important;
+  }
+	.orisa-embed h1,
+	.orisa-embed .h1 {
+    font-size: 50px;
+  }
+	.orisa-embed h2,
+	.orisa-embed .h2 {
+    font-size: 42px;
+  }
+	.orisa-embed h3,
+	.orisa-embed .h3 {
+    font-size: 36px;
+  }
+	.orisa-embed h4,
+	.orisa-embed .h4 {
+    font-size: 30px;
+  }
+	.orisa-embed h5,
+	.orisa-embed .h5 {
+    font-size: 20px;
+  }
+	.orisa-embed h6,
+	.orisa-embed .h6 {
+    font-size: 16px;
+  }
+	.orisa-embed .scroll-section .pb-80 {
+    padding-bottom: 0;
+  }
+}
+@media (min-width: 1400px) {
+	.orisa-embed .container {
+    max-width: 1750px;
+  }
+}
+.orisa-embed .process-scroll .process-card {
+  padding: 40px;
+  background: var(--at-neutral-0);
+}
+.orisa-embed .process-scroll .process-card__img-wrap img {
+  width: 100%;
+  height: 100%;
+}
+.orisa-embed .process-scroll .process-card__content {
+  padding-left: 0;
+}
+.orisa-embed .process-scroll .process-card__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  margin-bottom: 26px;
+  border-bottom: 1px solid var(--at-neutral-100);
+}
+.orisa-embed .process-scroll .process-card__title {
+  font-weight: 600;
+  line-height: normal;
+  margin-bottom: 0;
+  letter-spacing: -1.8px;
+  color: var(--at-neutral-900);
+}
+.orisa-embed .process-scroll .process-card__desc {
+  line-height: 1.6;
+  letter-spacing: -0.01em;
+  color: var(--at-neutral-500);
+  margin-bottom: 20px;
+  max-width: 75%;
+}
+.orisa-embed .process-scroll .process-card__meta {
+  padding-top: 8px;
+}
+.orisa-embed .process-scroll .process-card__meta-text {
+  font-size: 16px;
+  color: var(--at-neutral-900);
+  font-weight: 600;
+}
+.orisa-embed .process-scroll .process-card__meta-label {
+  display: inline-block;
+  margin-left: 4px;
+}
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+	.orisa-embed .process-scroll .process-card__title {
+    font-size: 24px;
+  }
+	.orisa-embed .process-scroll .process-card__desc {
+    font-size: 16px;
+  }
+	.orisa-embed .process-scroll .process-card__img-wrap {
+    min-height: 240px;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+	.orisa-embed .process-scroll .process-card__img-wrap {
+    aspect-ratio: 16/10;
+    min-height: 220px;
+  }
+	.orisa-embed .process-scroll .process-card__header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+@media only screen and (min-width: 576px) and (max-width: 767px), (max-width: 574.98px) {
+	.orisa-embed .process-scroll .process-card {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+	.orisa-embed .process-scroll .process-card__title {
+    font-size: 22px;
+  }
+	.orisa-embed .process-scroll .process-card__desc {
+    font-size: 15px;
+  }
+	.orisa-embed .process-scroll .process-card__meta {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+	.orisa-embed .process-scroll .process-card__img-wrap {
+    min-height: 200px;
+  }
+	.orisa-embed .process-scroll .process-card__content {
+    padding-top: 0;
+  }
+}
+@media (max-width: 574.98px) {
+	.orisa-embed .process-scroll .process-card__title {
+    font-size: 20px;
+  }
+	.orisa-embed .process-scroll .process-card__desc {
+    font-size: 14px;
+  }
+	.orisa-embed .process-scroll .process-card__img-wrap {
+    min-height: 180px;
+  }
+}
+@media (min-width: 1400px) {
+	.orisa-embed .card-award-content .container {
+    flex: 0 0 600px;
+  }
+}
+.orisa-embed .scroll-section .wrapper {
+  position: relative;
+  height: auto;
+}
+.orisa-embed .scroll-section .list {
+  height: 100%;
+  position: relative;
+}
+.orisa-embed .scroll-section .item {
+  min-height: 100vh;
+  width: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: auto;
+}
+.orisa-embed .scroll-section .item:first-child {
+  min-height: 100%;
+  height: 100%;
+}
+.orisa-embed .scroll-section .item:not(:first-child) {
+  position: absolute;
+}
+.orisa-embed .team-card-name .h6 {
+  color: var(--at-common-white);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  transition: color 0.3s ease;
+  line-height: 24px;
+}
+.orisa-embed .team-card-2__name .h6 {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+  transition: color 0.25s ease;
+}
+.orisa-embed .team-card-2__name:hover .h6 {
+  color: var(--at-theme-primary, #6366f1);
+}

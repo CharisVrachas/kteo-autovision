@@ -1,0 +1,141 @@
+---
+/**
+ * /online-rantevou/ — hand-off to Autovision's own booking system.
+ *
+ * The company does not take bookings on its own site: the network runs one
+ * central system for every member centre. So this page explains what the
+ * visitor will be asked for and then sends them there, rather than
+ * reimplementing a form whose data has nowhere to go.
+ */
+import Base from "../layouts/Base.astro";
+import InnerHero from "../components/sections/InnerHero.astro";
+import Button from "../components/ui/Button.astro";
+import Eyebrow from "../components/ui/Eyebrow.astro";
+import { site, openBranches, openingHours, primaryPhone } from "../data/site";
+
+const steps = [
+	{
+		title: "Είδος οχήματος",
+		text: "Επιλέξτε την κατηγορία του οχήματός σας — επιβατικό, δίκυκλο, τρίκυκλο ή φορτηγό.",
+	},
+	{
+		title: "Περιοχή και ΙΚΤΕΟ",
+		text: "Επιλέξτε περιοχή ΝΗΣΙΑ και στη συνέχεια ΡΟΔΟΣ (Ασγούρου) ή ΡΟΔΟΣ (Τσαϊρι).",
+	},
+	{
+		title: "Ημερομηνία και ώρα",
+		text: "Διαλέξτε από τις διαθέσιμες ημερομηνίες και ώρες του σημείου που επιλέξατε.",
+	},
+	{
+		title: "Τα στοιχεία σας",
+		text: "Συμπληρώστε τα στοιχεία επικοινωνίας σας και ολοκληρώστε την κράτηση.",
+	},
+];
+---
+
+<Base
+	title="Online ραντεβού — ΙΚΤΕΟ Autovision Ρόδου"
+	description="Κλείστε online το ραντεβού σας για τεχνικό έλεγχο στα ΙΚΤΕΟ Autovision σε Ασγούρου και Τσαϊρι, μέσω του συστήματος κρατήσεων της Autovision."
+	namespace="booking"
+	pageLabel="Online ραντεβού"
+>
+	<InnerHero
+		eyebrow="ραντεβού"
+		title="Online ραντεβού"
+		lead="Κλείστε το ραντεβού σας εύκολα και γρήγορα, μέσω του ασφαλούς συστήματος booking της Autovision."
+	/>
+
+	<section data-theme-section="dark" class="section_task-list">
+		<div class="container">
+			<div class="padding is-none is-border-btn-none">
+				{/* The booking form as the visitor will meet it, so the hand-off to
+				    another domain is not a surprise. Same shot the old site used. */}
+				<img
+					src="/assets/img/rodos/autovision-booking-ipad.png"
+					width="800"
+					height="544"
+					loading="lazy"
+					alt="Η online φόρμα ραντεβού της Autovision"
+					class="booking_preview"
+				/>
+			</div>
+			<div class="padding">
+				<div class="heading_container">
+					<Eyebrow text="πώς γίνεται" />
+					<h2 class="heading_h2">Τέσσερα βήματα</h2>
+					<p class="text_size-medium">
+						Πατώντας το κουμπί μεταφέρεστε στο ασφαλές περιβάλλον της online φόρμας ραντεβού της
+						Autovision. Εκεί θα σας ζητηθούν τα εξής:
+					</p>
+				</div>
+			</div>
+			<div class="padding is-none is-border-btn-none">
+				<ul role="list" class="feature-list is-list-unstyled">
+					{
+						steps.map((step, i) => (
+							<li class="feature-list_item has-description is-above">
+								<div class="feature-list_left">
+									<div class="annotation_container">
+										<div class="annotation_dot" />
+										<div class="annotation_text">{String(i + 1).padStart(2, "0")}</div>
+									</div>
+									<h3 class="heading_h5">{step.title}</h3>
+								</div>
+								<div class="feature-list_right">
+									<p class="feature-list_description text_size-medium">{step.text}</p>
+								</div>
+							</li>
+						))
+					}
+				</ul>
+			</div>
+			<div class="padding">
+				<div class="btn-big_container">
+					<Button
+						label="Πατήστε εδώ για την Online Φόρμα Ραντεβού της Autovision"
+						href={site.bookingUrl}
+						big
+					/>
+				</div>
+				<p class="text_size-small">
+					Ή καλέστε μας στο <a href={primaryPhone.href}>{primaryPhone.label}</a> —
+					{openingHours[0].days} {openingHours[0].hours}, {openingHours[1].days}{" "}
+					{openingHours[1].hours}.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<section data-theme-section="light" class="section_service-cards">
+		<div class="container">
+			<div class="padding">
+				<div class="heading_container">
+					<h2 class="heading_h2">Πού θα έρθετε</h2>
+				</div>
+			</div>
+			<div class="padding is-none">
+				<div class="content-grid is-cols-2">
+					{
+						openBranches.map((branch) => (
+							<div class="grid-col">
+								<div class="card_wrap">
+									<div class="card_info">
+										<h3 class="heading_h5">{branch.name}</h3>
+										<p class="text_size-small">
+											{branch.address}
+											{branch.postcode ? `, Τ.Κ. ${branch.postcode}` : ""} — {branch.note}
+										</p>
+										<p class="text_size-small">{branch.speciality}</p>
+										<a href={branch.maps} target="_blank" rel="noopener noreferrer" class="map-link">
+											Οδηγίες →
+										</a>
+									</div>
+								</div>
+							</div>
+						))
+					}
+				</div>
+			</div>
+		</div>
+	</section>
+</Base>

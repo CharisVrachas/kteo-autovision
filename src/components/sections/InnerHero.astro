@@ -1,0 +1,30 @@
+---
+/**
+ * The heading block every page except the homepage opens with.
+ * `eyebrow` is optional — the listing pages use it, the legal pages do not.
+ */
+import Eyebrow from "../ui/Eyebrow.astro";
+
+interface Props {
+	title: string;
+	lead?: string;
+	eyebrow?: string;
+	/** `is-narrow` keeps the lead to a readable measure on detail pages. */
+	narrowLead?: boolean;
+	id?: string;
+}
+const { title, lead, eyebrow, narrowLead = true, id } = Astro.props;
+---
+
+<section id={id} data-theme-section="light" class="section_inner-hero">
+	<div class="container">
+		<div data-pattern="plus" class="pattern-container is-border-l-r"></div>
+		<div class="padding">
+			<div class="inner-hero_heading-container">
+				{eyebrow && <Eyebrow text={eyebrow} />}
+				<h1 class="heading_h1" set:html={title} />
+				{lead && <p class={`text_size-medium${narrowLead ? " is-narrow" : ""}`}>{lead}</p>}
+			</div>
+		</div>
+	</div>
+</section>

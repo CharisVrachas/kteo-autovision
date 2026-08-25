@@ -1,0 +1,416 @@
+/* card.css */
+
+/* ---- structure ---- */
+.card_wrap {
+	width: 100%;
+	height: 100%;
+	padding: var(--mapped-padding-sm) var(--mapped-padding-sm) var(--mapped-padding-md);
+	grid-column-gap: var(--mapped-padding-xs);
+	grid-row-gap: var(--mapped-padding-xs);
+	flex-flow: column;
+	display: flex;
+}
+
+.card_wrap.border-none {
+	border-right-style: none;
+}
+
+.card_info {
+	grid-column-gap: var(--mapped-padding-xs);
+	grid-row-gap: var(--mapped-padding-xs);
+	flex-flow: column;
+	display: flex;
+}
+
+.card_illustration-wrap {
+	justify-content: center;
+	align-items: center;
+	width: 12em;
+	height: 12em;
+	display: flex;
+	position: relative;
+}
+
+.shape {
+	position: absolute;
+}
+
+.shape.is-1 {
+	z-index: 5;
+}
+
+.shape.is-2 {
+	z-index: 4;
+}
+
+.shape.is-3 {
+	z-index: 3;
+}
+
+.shape.is-4 {
+	z-index: 2;
+}
+
+.shape.is-5 {
+	z-index: 1;
+}
+
+.card_content-big {
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 41.875em;
+	display: flex;
+}
+
+.card_info-block-big {
+	grid-column-gap: var(--brand-scale-600);
+	grid-row-gap: var(--brand-scale-600);
+	flex-flow: column;
+	max-width: 20em;
+	display: flex;
+}
+
+/* Variant for the "facts in figures" section — centred alignment */
+.card_info-block-big.is-centered {
+	text-align: center;
+	align-items: center;
+}
+
+.shape-engineering {
+	position: absolute;
+}
+
+.shape-engineering.is-1 {
+	z-index: 5;
+}
+
+.shape-engineering.is-2 {
+	z-index: 4;
+}
+
+.shape-engineering.is-3 {
+	z-index: 3;
+}
+
+.shape-engineering.is-4 {
+	z-index: 2;
+}
+
+.shape-engineering.is-5 {
+	z-index: 1;
+}
+
+.shape-vault {
+	position: absolute;
+}
+
+.shape-vault.is-1 {
+	z-index: 5;
+}
+
+.shape-vault.is-2 {
+	z-index: 4;
+}
+
+.shape-vault.is-3 {
+	z-index: 3;
+}
+
+.shape-vault.is-4 {
+	z-index: 2;
+}
+
+.shape-stack {
+	transform-origin: 50%;
+	position: absolute;
+}
+
+.shape-stack.is-1 {
+	z-index: 5;
+}
+
+.shape-stack.is-2 {
+	z-index: 4;
+}
+
+.shape-stack.is-3 {
+	z-index: 3;
+}
+
+.shape-bloom {
+	transform-origin: 50%;
+	position: absolute;
+}
+
+.shape-bloom.is-1 {
+	z-index: 5;
+}
+
+.shape-bloom.is-2 {
+	z-index: 4;
+}
+
+.shape-bloom.is-3 {
+	z-index: 3;
+}
+
+.shape-bloom.is-4 {
+	z-index: 2;
+}
+
+.shape-trace {
+	transform-origin: 50%;
+	position: absolute;
+}
+
+.shape-trace.is-1 {
+	z-index: 5;
+}
+
+.shape-trace.is-2 {
+	z-index: 4;
+}
+
+.shape-service {
+	transform-origin: 50%;
+	position: absolute;
+}
+
+.shape-service.is-1 {
+	z-index: 5;
+}
+
+.shape-service.is-2 {
+	z-index: 4;
+}
+
+.shape-service.is-3 {
+	z-index: 3;
+}
+
+.shape-service.is-4 {
+	z-index: 2;
+}
+
+.shape-service.is-5 {
+	z-index: 1;
+}
+
+.annotation_container {
+	grid-column-gap: var(--brand-scale-200);
+	grid-row-gap: var(--brand-scale-200);
+	justify-content: flex-start;
+	align-items: center;
+	display: flex;
+}
+
+.annotation_dot {
+	background-color: var(--mapped-surface-action);
+	width: 0.5em;
+	height: 0.5em;
+}
+
+.annotation_dot:where(.is-disabled) {
+	background-color: var(--mapped-icon-disabled);
+}
+
+.annotation_text {
+	font-family: var(--brand-font-family);
+	color: var(--mapped-text-body-light);
+	font-size: var(--type-eyebrow-size);
+	line-height: var(--type-eyebrow-lh);
+	font-weight: var(--brand-weight-regular);
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+}
+
+/* ---- motion / hover ---- */
+
+/* ══════════════════════════════════════════════════════════════════════
+   The bore effect — a look "inside" through the tool's through-hole.
+   The end-on detail photo gets a radial mask that cuts out its centre (the
+   through-hole). Behind the photo sits a static stack of ring "walls" that
+   narrow with depth, ending in a TRANSPARENT opening (the mask on
+   .bore-tunnel), so the card background is visible down the tunnel. Pure CSS —
+   no JS and no parallax.
+
+   The geometry is set per product with custom properties on the element:
+   --bore-cx/cy place the centre of the hole as a fraction of the image, and
+   --bore-rx/ry set its radius. The radii are chosen so the visible hole
+   diameter is IDENTICAL across every product. Light-coloured products use the
+   .bore-scene-light modifier.
+   ══════════════════════════════════════════════════════════════════════ */
+.bore-scene {
+	position: relative;
+	height: 100%;
+	--bore-cx: 50%;
+	--bore-cy: 50%;
+	--bore-rx: 20.6%;
+	--bore-ry: 19.67%;
+}
+
+/* Cutting the hole out of the photo: a transparent centre so the tunnel shows
+   through. The wide 76→100% feather dissolves the photo into the tunnel with no
+   visible cut edge. */
+.bore-scene .tool-detail-img {
+	position: relative;
+	z-index: 1;
+	-webkit-mask-image: radial-gradient(
+		ellipse var(--bore-rx) var(--bore-ry) at var(--bore-cx) var(--bore-cy),
+		transparent 0 76%,
+		#000 100%
+	);
+	mask-image: radial-gradient(
+		ellipse var(--bore-rx) var(--bore-ry) at var(--bore-cx) var(--bore-cy),
+		transparent 0 76%,
+		#000 100%
+	);
+}
+
+.bore-depth {
+	position: absolute;
+	inset: 0;
+	z-index: 0;
+}
+
+.bore-tunnel {
+	position: absolute;
+	left: var(--bore-cx);
+	top: var(--bore-cy);
+	width: calc(var(--bore-rx) * 2);
+	height: calc(var(--bore-ry) * 2);
+	transform: translate(-50%, -50%);
+	/* The opening: the centre of the tunnel (~37% of the diameter, the far end of
+	   the channel) is fully transparent, revealing the background behind the
+	   card. A wide 31→46% feather dissolves the walls into that opening. */
+	-webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, transparent 0 31%, #000 46%);
+	mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, transparent 0 31%, #000 46%);
+}
+
+/* A ring "wall": a disc with a conic highlight (uneven light) over fine
+   concentric scoring, suggesting machining marks. The deeper the ring, the
+   smaller (--size), darker (--tone) and fainter its highlight (--glow). A light
+   blur softens the steps between rings so the depth reads as continuous. */
+.bore-ring {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	width: var(--size);
+	height: var(--size);
+	border-radius: 50%;
+	transform: translate(-50%, -50%);
+	filter: blur(2px);
+	background:
+		repeating-radial-gradient(
+			circle at 50% 50%,
+			rgba(255, 255, 255, 0.04) 0 1px,
+			transparent 1px 6px
+		),
+		conic-gradient(
+			from 210deg,
+			rgba(255, 255, 255, var(--glow, 0.09)),
+			rgba(255, 255, 255, 0) 25%,
+			rgba(0, 0, 0, 0.3) 50%,
+			rgba(255, 255, 255, 0) 72%,
+			rgba(255, 255, 255, var(--glow, 0.09))
+		),
+		var(--tone);
+	box-shadow:
+		inset 0 0.35em 0.9em rgba(0, 0, 0, 0.55),
+		inset 0 -0.15em 0.5em rgba(255, 255, 255, 0.05);
+}
+
+.bore-ring.is-1 {
+	--size: 104%;
+	--tone: #262a33;
+}
+.bore-ring.is-2 {
+	--size: 87%;
+	--tone: #1e222a;
+}
+.bore-ring.is-3 {
+	--size: 72%;
+	--tone: #171a21;
+}
+.bore-ring.is-4 {
+	--size: 59%;
+	--tone: #101318;
+	--glow: 0.05;
+}
+.bore-ring.is-5 {
+	--size: 48%;
+	--tone: #0a0c10;
+	--glow: 0.04;
+}
+
+/* The light wall theme, for products with a silver body: the walls at the
+   entrance are lighter but darken toward the opening in the same way. */
+.bore-scene-light .bore-ring.is-1 {
+	--tone: #8a8e97;
+}
+.bore-scene-light .bore-ring.is-2 {
+	--tone: #6f737c;
+}
+.bore-scene-light .bore-ring.is-3 {
+	--tone: #565a62;
+}
+.bore-scene-light .bore-ring.is-4 {
+	--tone: #3e4148;
+}
+.bore-scene-light .bore-ring.is-5 {
+	--tone: #26282e;
+}
+
+/* ---- overrides ---- */
+/* Override: inside the centred stat-card variant the badge must stay centred on
+   mobile too. A general rule sets .feature-list_badge { align-self: flex-start }
+   at @media 479 (needed for the column stack in task-list items), so it is reset
+   here and align-items:center from the .is-centered parent works again. This
+   (0,3,0) selector beats the (0,1,0) one deterministically, whatever the load
+   order. */
+@media screen and (max-width: 991px) {
+	.card_info-block-big.is-centered .feature-list_badge {
+		align-self: auto;
+	}
+}
+
+/* ---- shared, was per-route ----
+   Card head / tag. Was duplicated across four per-route stylesheets. */
+.card_wrap {
+	padding: var(--mapped-padding-md) var(--mapped-padding-sm) var(--mapped-padding-md);
+}
+.card_head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--mapped-padding-sm);
+}
+.card_head-left {
+	display: flex;
+	align-items: center;
+	gap: var(--mapped-padding-sm);
+}
+.card_tag {
+	display: inline-block;
+	background-color: var(--alias-grey-700);
+	color: var(--mapped-text-body);
+	padding: var(--mapped-padding-xxs) var(--mapped-padding-xs);
+	border-radius: 0.1em;
+	font-size: var(--type-paragraph-sm-size);
+	line-height: 1;
+	white-space: nowrap;
+}
+
+/* Bore geometry presets. --bore-cx/cy place the centre of the through-hole as
+   a fraction of the image; --bore-rx/ry set its radius. */
+.bore-preset-a {
+	--bore-rx: 20.6%;
+	--bore-ry: 19.64%;
+}
+.bore-preset-b {
+	--bore-cx: 49.98%;
+	--bore-cy: 49.72%;
+	--bore-rx: 20.6%;
+	--bore-ry: 19.9%;
+}

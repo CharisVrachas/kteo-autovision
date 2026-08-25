@@ -1,0 +1,19 @@
+---
+/**
+ * Small bracketed label above a heading. `size` swaps the type scale — the
+ * footer column headings use a larger one than the section eyebrows.
+ */
+import Bracket from "./Bracket.astro";
+
+interface Props {
+	text: string;
+	size?: string;
+}
+const { text, size = "text_eyebrow" } = Astro.props;
+---
+
+<div class="ede">
+	<Bracket />
+	<div class={size}>{text}</div>
+	<Bracket right />
+</div>

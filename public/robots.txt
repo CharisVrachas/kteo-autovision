@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kteo-rodos.gr/sitemap-index.xml

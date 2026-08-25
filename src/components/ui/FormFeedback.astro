@@ -1,0 +1,25 @@
+---
+/**
+ * Success and failure panels for a form. forms.js toggles them after the POST
+ * resolves; both are hidden until then.
+ */
+import { primaryPhone } from "../../data/site";
+
+interface Props {
+	success?: string;
+}
+const {
+	success = "Το αίτημά σας στάλθηκε. Θα επικοινωνήσουμε μαζί σας εντός 24 ωρών.",
+} = Astro.props;
+---
+
+<div class="form-success">
+	<div class="form-feedback_title heading_h5">Ευχαριστούμε!</div>
+	<div class="form-feedback_text text_size-medium">{success}</div>
+</div>
+<div class="form-error">
+	<div class="form-feedback_title heading_h5">Ωχ!</div>
+	<div class="form-feedback_text text_size-medium">
+		Η αποστολή απέτυχε. Δοκιμάστε ξανά ή καλέστε μας στο {primaryPhone.label}.
+	</div>
+</div>

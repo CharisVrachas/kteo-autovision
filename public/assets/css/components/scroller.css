@@ -1,0 +1,124 @@
+/* scroller.css */
+
+/* ---- structure ---- */
+.fullscreen-scroller {
+	background-color: var(--mapped-surface-default);
+}
+
+.scroller_slides {
+	height: var(--layout-section-viewport);
+	border-right: 1px solid var(--mapped-border-default);
+	border-bottom: 1px solid var(--mapped-border-default);
+	border-left: 1px solid var(--mapped-border-default);
+	color: var(--mapped-text-body);
+}
+
+.scroller_slides.is-none {
+	padding-top: var(--mapped-padding-none);
+	padding-bottom: var(--mapped-padding-none);
+}
+
+.scroller_slides.is-border-none {
+	border: 1px #000;
+}
+
+.scroller_slides.is-border-btn-none {
+	border-bottom-style: none;
+}
+
+.scroller_text-content {
+	grid-column-gap: var(--brand-scale-600);
+	grid-row-gap: var(--brand-scale-600);
+	flex-flow: column;
+	max-width: 22em;
+	display: flex;
+}
+
+.scroller_image-holder {
+	width: 100%;
+	height: 100%;
+	padding: var(--mapped-padding-sm);
+	position: absolute;
+	inset: 0%;
+}
+
+.scroller_image-wrapper {
+	border-right: 1px solid var(--mapped-border-default);
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	position: relative;
+}
+
+.scroller_image {
+	object-fit: cover;
+	width: 100%;
+	height: 100%;
+}
+
+.scroller_text-content_wrap {
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+	display: flex;
+}
+
+/* ── Fullscreen scroller — the multi-slide structure ───────────────── */
+/* .scroller_outer provides the scroll budget; the stage inside is pinned with sticky */
+.container.scroller_outer {
+	height: calc(var(--layout-section-viewport) * 3);
+}
+
+/* The stage pins with native sticky — smooth, and sitting just under the nav */
+.scroller_slides {
+	position: sticky;
+	top: var(--layout-nav-height);
+}
+
+.scroller_grid {
+	grid-template-columns: 1fr 1fr;
+	height: 100%;
+	display: grid;
+}
+
+/* The right column acts as a mask. display:block is required: the wrapper
+   otherwise inherits display:flex, which would centre the strip vertically —
+   putting the middle slide in view and pushing the first one out of the mask.
+   Its height matches the section exactly and the overflowing strip is hidden. */
+.scroller_text-content_wrap {
+	display: block;
+	height: var(--layout-section-viewport);
+	position: relative;
+	overflow: hidden;
+}
+
+/* The text-slide strip: its height is the sum of the slots, and it translates vertically */
+.scroller_text-track {
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+/* Each slide is a slot one section tall, with its text centred. The height comes
+   straight from the token, avoiding a chain of percentage heights through
+   absolute + flex. */
+.scroller_slide-text {
+	height: var(--layout-section-viewport);
+	justify-content: center;
+	align-items: center;
+	display: flex;
+}
+
+/* Base state without JS: only the first image is visible */
+.scroller_image-holder:not(:first-child) {
+	clip-path: inset(100% 0% 0% 0%);
+}
+
+/* The static mobile scroller: hidden on desktop, shown at ≤479px */
+.scroller_mobile {
+	display: none;
+}

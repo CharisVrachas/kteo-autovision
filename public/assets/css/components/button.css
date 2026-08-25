@@ -1,0 +1,341 @@
+/* button.css */
+
+/* ---- structure ---- */
+.button-wrap {
+	padding-top: var(--mapped-padding-xs);
+	padding-right: var(--brand-scale-700);
+	padding-bottom: var(--mapped-padding-xs);
+	padding-left: var(--brand-scale-500);
+	grid-column-gap: var(--brand-scale-200);
+	grid-row-gap: var(--brand-scale-200);
+	background-color: var(--mapped-surface-action);
+	clip-path: polygon(
+		0.5em 0%,
+		calc(100% - 0.5em) 0%,
+		100% 0.5em,
+		100% calc(100% - 0.5em),
+		calc(100% - 0.5em) 100%,
+		0.5em 100%,
+		0% calc(100% - 0.5em),
+		0% 0.5em
+	);
+	flex-flow: row;
+	justify-content: center;
+	align-items: center;
+	transition-property: background-color;
+	transition-duration: 0.2s;
+	transition-timing-function: ease;
+	display: inline-flex;
+	position: relative;
+}
+
+.button-wrap:hover {
+	background-color: var(--mapped-icon-action-hover);
+}
+
+.button-text {
+	color: var(--mapped-text-on-action);
+	letter-spacing: 0.03em;
+	text-transform: uppercase;
+	font-family:
+		Roboto,
+		Arial,
+		sans-serif;
+	font-size: 0.75em;
+	font-weight: 500;
+	line-height: 1.3;
+}
+
+.button-text.is-absolute {
+	position: absolute;
+	top: 100%;
+}
+
+.btn-big_container {
+	width: 100%;
+	padding: var(--mapped-padding-md) var(--mapped-padding-sm);
+	grid-column-gap: var(--mapped-padding-sm);
+	grid-row-gap: var(--mapped-padding-sm);
+	flex-flow: row;
+	justify-content: center;
+	align-items: center;
+	display: block;
+}
+
+.btn-big_container.is-padding-btm {
+	border-bottom: 1px none var(--mapped-border-default);
+}
+
+.btn-big_container.is-border-btm {
+	border-bottom: 1px solid var(--mapped-border-default);
+}
+
+.button {
+	-webkit-user-select: none;
+	user-select: none;
+	background-color: #0000;
+	outline-style: none;
+	flex: 0 auto;
+	align-self: flex-start;
+	padding: 0;
+	line-height: 1;
+	text-decoration: none;
+	display: inline-grid;
+	position: relative;
+}
+
+.button.is-big {
+	align-self: auto;
+	width: 100%;
+}
+
+.button__hover {
+	pointer-events: none;
+	color: var(--button-hover-color);
+	z-index: 2;
+	grid-area: 1 / 1;
+	display: grid;
+}
+
+.button__text {
+	text-align: center;
+	letter-spacing: 0.03em;
+	text-transform: uppercase;
+	padding: var(--button-padding);
+	z-index: 1;
+	grid-area: 1 / 1;
+	font-family:
+		Roboto,
+		Arial,
+		sans-serif;
+	font-size: 0.75em;
+	font-weight: 500;
+}
+
+.button__text.is-big {
+	padding: var(--button-padding-big);
+}
+
+.button__bg {
+	grid-area: 1 / 1;
+	place-self: center;
+	width: calc(100% - 1px);
+	height: calc(100% - 1px);
+	padding: 0;
+}
+
+.button__bg.is--hover {
+	background-color: var(--button-hover-color-background);
+}
+
+.button__bg.is--default {
+	background-color: var(--button-color-background);
+	width: calc(100% - 2px);
+	height: calc(100% - 2px);
+}
+
+.button__default {
+	pointer-events: none;
+	color: var(--button-color);
+	grid-area: 1 / 1;
+	display: grid;
+}
+
+/* ---- motion / hover ---- */
+
+/* 
+  :root {
+  --button-color: #131313;
+  --button-color-background: #fff;
+  --button-hover-color: #fff;
+  --button-hover-color-background: #ff5100;
+  --button-color-focus: #000;
+  --button-border-radius: 2.5em;
+  --button-padding: 0.75em 1em;
+  --button-focus-inset: -0.125em;
+  --button-click-scale: 0.955 0.925;
+  --button-default-text-scale: 1.2;
+  --button-hover-text-scale: 0.85;
+  --button-ease-hover: cubic-bezier(0.675, 0.15, 0.1, 1);
+  --button-ease-click: cubic-bezier(0.4, 0, 0.2, 1);
+  --button-ease-focus: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.button {
+  -webkit-tap-highlight-color: transparent;
+  transition: scale 0.15s var(--button-ease-click);
+}
+
+.button:is(:focus-visible)::after {
+  box-shadow: 0 0 0 0.125em var(--button-color-focus);
+}
+
+.button:active {
+  scale: var(--button-click-scale);
+}
+
+.button::after {
+  content: '';
+  display: block;
+  position: absolute;
+  inset: var(--button-focus-inset);
+  border-radius: var(--button-border-radius);
+  transition: box-shadow 0.3s var(--button-ease-focus);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.button__hover {
+  clip-path: polygon(0% 50%, 100% 50%, 100% 50%, 0% 50%);
+  transition: clip-path 0.375s var(--button-ease-hover);
+}
+
+.button__hover .button__text {
+  scale: var(--button-hover-text-scale);
+  opacity: 0;
+  transition: scale 0.35s var(--button-ease-hover), opacity 0.15s 0.05s ease-out;
+}
+
+.button__default .button__text {
+  scale: 1;
+  transition: scale 0.35s var(--button-ease-hover);
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .button:is(:hover, :focus-visible) .button__default .button__text,
+  [data-hover]:is(:hover, :focus-visible) .button .button__default .button__text {
+    scale: var(--button-default-text-scale);
+    transition: scale 0.35s 0.05s var(--button-ease-hover);
+  }
+
+  .button:is(:hover, :focus-visible) .button__hover,
+  [data-hover]:is(:hover, :focus-visible) .button .button__hover {
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+    transition: clip-path 0.425s 0.05s var(--button-ease-hover);
+  }
+
+  .button:is(:hover, :focus-visible) .button__hover .button__text,
+  [data-hover]:is(:hover, :focus-visible) .button .button__hover .button__text {
+    scale: 1;
+    opacity: 1;
+    transition: scale 0.35s 0.1s var(--button-ease-hover), opacity 0.15s 0.15s ease-out;
+  }
+} */
+.button__text {
+	display: inline-flex; /* gives the icon somewhere to sit */
+	align-items: center;
+	gap: var(--button-icon-gap);
+	justify-content: center;
+}
+
+.button__text::before {
+	content: "";
+	display: inline-block;
+	height: var(--button-icon-size);
+	aspect-ratio: var(--button-icon-aspect);
+	flex-shrink: 0;
+	background-color: currentColor;
+	-webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 10' fill='none' stroke='black' stroke-width='1.2' stroke-miterlimit='10'><path d='M7 3.88574L9.5 6.38574L7 8.88574'/><path d='M1.5 0.885742V4.88574L3 6.38574H9.5'/></svg>")
+		center / contain no-repeat;
+	mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 10' fill='none' stroke='black' stroke-width='1.2' stroke-miterlimit='10'><path d='M7 3.88574L9.5 6.38574L7 8.88574'/><path d='M1.5 0.885742V4.88574L3 6.38574H9.5'/></svg>")
+		center / contain no-repeat;
+}
+
+/* ──────────────────────────────────────────────────────────────────────
+   button default-text blink fix
+   The default text must change ONLY its scale on hover; its opacity stays at 1,
+   because the hover layer physically covers it with the sweep. Locking
+   opacity:1 with !important prevents an inherited rule from fading it 1→0.
+   ────────────────────────────────────────────────────────────────────── */
+.button__default .button__text {
+	opacity: 1 !important;
+}
+
+/* ---- overrides ---- */
+/* Click scale — applies to whole button */
+.button {
+	transition: scale 0.15s var(--button-ease-click);
+	-webkit-tap-highlight-color: transparent;
+}
+.button:active {
+	scale: var(--button-click-scale);
+}
+/* Focus ring — inset shadow that follows octagonal clip */
+.button::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	z-index: 3;
+	grid-area: 1 / 1;
+	box-shadow: none;
+	transition: box-shadow 0.3s var(--button-ease-focus);
+	clip-path: polygon(
+		var(--button-corner) 0%,
+		calc(100% - var(--button-corner)) 0%,
+		100% var(--button-corner),
+		100% calc(100% - var(--button-corner)),
+		calc(100% - var(--button-corner)) 100%,
+		var(--button-corner) 100%,
+		0% calc(100% - var(--button-corner)),
+		0% var(--button-corner)
+	);
+}
+.button:focus-visible::after {
+	box-shadow: inset 0 0 0 0.125em var(--button-color-focus);
+}
+/* Octagonal corners on the background layer */
+.button__bg {
+	clip-path: polygon(
+		var(--button-corner) 0%,
+		calc(100% - var(--button-corner)) 0%,
+		100% var(--button-corner),
+		100% calc(100% - var(--button-corner)),
+		calc(100% - var(--button-corner)) 100%,
+		var(--button-corner) 100%,
+		0% calc(100% - var(--button-corner)),
+		0% var(--button-corner)
+	);
+}
+/* Hover sweep — animates clip-path from horizontal stripe to full */
+.button__hover {
+	clip-path: polygon(0% 50%, 100% 50%, 100% 50%, 0% 50%);
+	transition: clip-path 0.375s var(--button-ease-hover);
+}
+/* Text scale + fade transitions */
+.button__hover .button__text {
+	scale: var(--button-hover-text-scale);
+	opacity: 0;
+	transition:
+		scale 0.35s var(--button-ease-hover),
+		opacity 0.15s 0.05s ease-out;
+}
+.button__default .button__text {
+	scale: 1;
+	opacity: 1;
+	transition:
+		scale 0.35s var(--button-ease-hover),
+		opacity 0.15s 0.1s ease-out;
+}
+/* Hover state animations */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+	.button:is(:hover, :focus-visible) .button__hover,
+	[data-hover]:is(:hover, :focus-visible) .button .button__hover {
+		clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+		transition: clip-path 0.425s 0.05s var(--button-ease-hover);
+	}
+	.button:is(:hover, :focus-visible) .button__hover .button__text,
+	[data-hover]:is(:hover, :focus-visible) .button .button__hover .button__text {
+		scale: 1;
+		opacity: 1;
+		transition: scale 0.35s 0.1s var(--button-ease-hover);
+		/* opacity 0.15s 0.15s ease-out; */
+	}
+	.button:is(:hover, :focus-visible) .button__default .button__text,
+	[data-hover]:is(:hover, :focus-visible) .button .button__default .button__text {
+		scale: var(--button-default-text-scale);
+		opacity: 0;
+		transition: scale 0.35s 0.05s var(--button-ease-hover);
+		/* opacity 0.15s ease-out; */
+	}
+}

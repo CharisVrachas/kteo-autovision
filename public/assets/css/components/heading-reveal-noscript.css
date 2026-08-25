@@ -1,0 +1,10 @@
+/* heading-reveal-noscript.css -- loaded only inside <noscript>
+
+   With scripting off nothing will ever reveal the headings, so the guard in
+   heading-reveal.css is undone entirely and the text renders immediately. */
+
+h1.heading_h1,
+.inner-hero_heading-container p {
+	visibility: visible !important;
+	animation: none !important;
+}

@@ -1,0 +1,148 @@
+/* tools.css — per-route styles for the three service tools: the booking form,
+   the reminder sign-up and the "when is my KTEO due" calculator.
+
+   Everything visual comes from the component set: .cta-form lays out the grid,
+   .form-field styles the inputs, .button draws the submit. What is missing
+   there is a <select> (the template has none) and a fieldset legend, so those
+   are the only rules here — written to match .form-field exactly rather than
+   to invent a second input style. */
+
+.tool_form {
+	max-width: 44em;
+}
+
+.tool_fieldset {
+	border: none;
+	padding: 0;
+	margin: 0 0 var(--mapped-padding-md);
+	display: grid;
+	grid-column-gap: var(--mapped-padding-sm);
+	grid-row-gap: var(--mapped-padding-sm);
+	grid-template-columns: 1fr 1fr;
+}
+
+.tool_legend {
+	grid-column: 1 / -1;
+	padding: 0 0 var(--mapped-padding-xs);
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+}
+
+.tool_field-full {
+	grid-column: 1 / -1;
+}
+
+/* The select mirrors .form-field (form.css): same underline, same colours, same
+   transparent background. The native arrow is replaced with a drawn one so the
+   control does not switch to the OS widget style on Windows. */
+.tool_select {
+	-webkit-appearance: none;
+	appearance: none;
+	width: 100%;
+	padding: 0 1.75em 0 0;
+	border-style: none none solid;
+	border-width: 1px;
+	border-color: transparent transparent var(--mapped-border-default);
+	background-color: #fff0;
+	background-image: linear-gradient(45deg, transparent 50%, currentColor 50%),
+		linear-gradient(135deg, currentColor 50%, transparent 50%);
+	background-position:
+		right 0.75em center,
+		right 0.4em center;
+	background-size:
+		0.35em 0.35em,
+		0.35em 0.35em;
+	background-repeat: no-repeat;
+	color: inherit;
+	font-family: inherit;
+	font-size: inherit;
+	line-height: inherit;
+}
+
+.tool_select:focus-visible {
+	outline: none;
+	border-bottom-color: var(--alias-orange-500, var(--brand-orange-500));
+}
+
+.tool_select option {
+	color: #18191b;
+	background-color: #fff;
+}
+
+/* The calculator's answer panel. Hidden until the script fills it in, so an
+   empty box never shows on load. */
+.tool_result {
+	margin-top: var(--mapped-padding-md);
+	padding: var(--mapped-padding-sm);
+	border: 1px solid var(--mapped-border-default);
+	display: none;
+}
+
+.tool_result.is-visible {
+	display: block;
+}
+
+.tool_result-date {
+	margin-top: var(--mapped-padding-xs);
+}
+
+.tool_result-note {
+	margin-top: var(--mapped-padding-xs);
+	opacity: 0.7;
+}
+
+@media screen and (max-width: 767px) {
+	.tool_fieldset {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* The calculator's submit is a real <button type="submit">, not the <a> the
+   template's forms use — that form answers locally and must not be wired to
+   forms.js. .button styles it already; these two lines only undo the UA button
+   defaults so it matches the anchors elsewhere. */
+button.button {
+	border: none;
+	background: none;
+	font: inherit;
+	cursor: pointer;
+	padding: 0;
+}
+
+/* Satisfaction survey. The radio scale has no equivalent in the component set,
+   so this is the one block here that is not a restyled .cta-field: a legend,
+   then the four fixed points laid out in a row that wraps. Everything else on
+   the page — text inputs, textareas, the submit — is the stock form. */
+.survey_block {
+	grid-template-columns: 1fr;
+}
+
+.survey_question {
+	border: none;
+	padding: 0 0 var(--mapped-padding-sm);
+	margin: 0;
+}
+
+.survey_legend {
+	padding: 0 0 var(--mapped-padding-xs);
+	opacity: 0.85;
+}
+
+.survey_options {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--mapped-padding-xs) var(--mapped-padding-md);
+}
+
+.survey_option {
+	display: flex;
+	align-items: center;
+	gap: 0.5em;
+	cursor: pointer;
+}
+
+.survey_option input {
+	accent-color: var(--brand-orange-500);
+	flex: none;
+	margin: 0;
+}

@@ -1,0 +1,176 @@
+---
+/** /company/ — company profile and the timeline from 2002 to today. */
+import Base from "../layouts/Base.astro";
+import InnerHero from "../components/sections/InnerHero.astro";
+import Cta from "../components/sections/Cta.astro";
+import Scroller from "../components/sections/Scroller.astro";
+import Eyebrow from "../components/ui/Eyebrow.astro";
+import Button from "../components/ui/Button.astro";
+import { site, companyProfile, milestones, openBranches } from "../data/site";
+
+const panels = [
+	{
+		eyebrow: "Ασγούρου",
+		title: "7ο χιλ. Ρόδου – Λίνδου",
+		text: "Το δεύτερο κέντρο της εταιρείας, σε λειτουργία από τον Σεπτέμβριο του 2009. Από το 2011 ελέγχει και δίκυκλα.",
+		image: "/assets/img/rodos/kteo-asgourou.jpg",
+		alt: "Το ΙΚΤΕΟ Autovision στα Ασγούρου",
+	},
+	{
+		eyebrow: "Τσαϊρι",
+		title: "1ο χιλ. Τσαϊρι – Αεροδρομίου",
+		text: "Το πρώτο ΚΤΕΟ της εταιρείας, σε λειτουργία από τον Οκτώβριο του 2005. Από το 2012 ελέγχει και βαρέα οχήματα.",
+		image: "/assets/img/rodos/kteo-exterior.jpg",
+		alt: "Το ΙΚΤΕΟ Autovision στο Τσαϊρι",
+	},
+	{
+		eyebrow: "Αφάντου",
+		title: "Σύντομα κοντά σας",
+		text: "Νέο σημείο τεχνικού ελέγχου ΙΚΤΕΟ Autovision στην περιοχή Αφάντου.",
+		image: "/assets/img/rodos/kteo-signage.jpg",
+		alt: "Νέο ΙΚΤΕΟ Autovision",
+	},
+];
+---
+
+<Base
+	title="Εταιρεία — ΙΚΤΕΟ ΔΩΔΕΚΑΝΗΣΟΥ Α.Ε. | Autovision Ρόδου"
+	description="Η ΙΚΤΕΟ ΔΩΔΕΚΑΝΗΣΟΥ Α.Ε. ιδρύθηκε το 2002 και λειτουργεί δύο ιδιωτικά ΚΤΕΟ στη Ρόδο, ως μέλος του πανευρωπαϊκού δικτύου AUTOVISION."
+	namespace="about"
+	pageLabel="Εταιρεία"
+	ogImage="/assets/img/rodos/kteo-exterior.jpg"
+>
+	<InnerHero
+		title="ΙΚΤΕΟ <br />ΔΩΔΕΚΑΝΗΣΟΥ Α.Ε."
+		lead="Στον τεχνικό έλεγχο οχημάτων στη Ρόδο από το 2002, ως μέλος του πανευρωπαϊκού δικτύου AUTOVISION."
+		narrowLead={false}
+	/>
+
+	<!-- Network note, full-bleed -->
+	<section data-theme-section="light" class="section_about-kompozit">
+		<div class="container">
+			<div class="about-kompozit_wraper">
+				<div class="kompozit-disclaimer-wrap">
+					<div class="heading_h6 is-inverse">*</div>
+					<div class="heading_h6 is-inverse">Δίκτυο AUTOVISION.</div>
+					<div class="text_size-small is-inverse">
+						Μέλος του πανευρωπαϊκού δικτύου AUTOVISION Contrôle Technique Automobile, της
+						μεγαλύτερης εταιρείας ιδιωτικών ΚΤΕΟ στη Γαλλία.
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- The story -->
+	<section data-theme-section="light" class="section_story">
+		<div class="container">
+			<div class="padding">
+				<div class="heading_container">
+					<Eyebrow text="το προφίλ μας" />
+					<h2 class="heading_h2" data-anim="text-fill">
+						Στην Ελλάδα, ο τεχνικός έλεγχος οχημάτων από ιδιωτικά ΚΤΕΟ θεσμοθετήθηκε τον
+						Νοέμβριο του 2001 με τον νόμο 2963. Η {site.legalName} ιδρύθηκε το 2002, με σκοπό να
+						προάγει τα θέματα που άπτονται της οδικής ασφάλειας στην Ελλάδα — και ειδικότερα
+						μέσω του τεχνικού ελέγχου των οχημάτων.
+					</h2>
+				</div>
+			</div>
+			<div class="padding is-none is-border-btn-none">
+				{/* The operator's own profile text, carried across unchanged. */}
+				<div class="prose">
+					{companyProfile.map((paragraph) => <p class="text_size-medium">{paragraph}</p>)}
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<Scroller panels={panels} />
+
+	<!-- What the network stands for -->
+	<section data-theme-section="light" class="section_story">
+		<div class="container">
+			<div class="padding">
+				<div class="heading_container is-width-full">
+					<Eyebrow text="το δίκτυο" />
+					<h2 class="heading_h2" data-anim="text-fill">
+						Αδιάβλητοι έλεγχοι βασισμένοι σε υψηλά ποιοτικά πρότυπα, άψογα εκπαιδευμένο
+						προσωπικό, υποδειγματική εξυπηρέτηση, πολιτισμένο περιβάλλον και σεβασμός στην
+						ασφάλεια και στον χρόνο του πολίτη.
+					</h2>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Timeline -->
+	<section data-theme-section="dark" class="section_task-list">
+		<div class="container">
+			<div class="padding">
+				<div class="heading_container">
+					<Eyebrow text="η πορεία μας" />
+					<h2 class="heading_h2">Από το 2002 μέχρι σήμερα</h2>
+				</div>
+			</div>
+			<div class="padding is-none is-border-btn-none">
+				<ul role="list" class="feature-list is-list-unstyled">
+					{
+						milestones.map((item) => (
+							<li class="feature-list_item has-description is-above">
+								<div class="feature-list_left">
+									<div class="annotation_container">
+										<div class="annotation_dot" />
+										<div class="annotation_text">{item.year}</div>
+									</div>
+									<h3 class="heading_h5">{item.title}</h3>
+								</div>
+								<div class="feature-list_right">
+									<p class="feature-list_description text_size-medium">{item.text}</p>
+								</div>
+							</li>
+						))
+					}
+				</ul>
+			</div>
+		</div>
+	</section>
+
+	<!-- Today -->
+	<section data-theme-section="light" class="section_service-cards">
+		<div class="container">
+			<div class="padding">
+				<div class="heading_container">
+					<Eyebrow text="σήμερα" />
+					<h2 class="heading_h2">Όλες οι κατηγορίες οχημάτων</h2>
+					<p class="text_size-medium">
+						Με τις δύο μονάδες μας πλέον αδειοδοτημένες για δίκυκλα και για βαρέα οχήματα, η
+						εταιρεία παρέχει τεχνικό έλεγχο σε όλες τις κατηγορίες.
+					</p>
+					<Button label="Κλείστε ραντεβού" href="/online-rantevou/" />
+				</div>
+			</div>
+			<div class="padding is-none">
+				<div class="content-grid is-cols-2">
+					{
+						openBranches.map((branch) => (
+							<div class="grid-col">
+								<div class="card_wrap">
+									<div class="card_info">
+										<h3 class="heading_h5">{branch.name}</h3>
+										<p class="text_size-small">
+											{branch.address}
+											{branch.postcode ? `, Τ.Κ. ${branch.postcode}` : ""} — {branch.note}
+										</p>
+										<p class="text_size-small">{branch.speciality}</p>
+									</div>
+								</div>
+							</div>
+						))
+					}
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<Cta />
+</Base>

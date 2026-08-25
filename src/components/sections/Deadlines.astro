@@ -1,0 +1,117 @@
+---
+/**
+ * The statutory deadlines, as Orisa's "about section 2" (services-3.html).
+ *
+ * The markup inside .orisa-embed is Orisa's own, element for element and class
+ * for class — Bootstrap grid classes included. Only the copy and the images are
+ * ours. Its styles come from assets/css/vendors/orisa-process-scroll.css, which
+ * is lifted straight out of Orisa's built CSS, and its animation from
+ * assets/js/components/deadline-stack.js, which is Orisa's timeline verbatim.
+ *
+ * .orisa-embed exists because Orisa is Bootstrap-based and claims generic class
+ * names — .container, .row, .item, .wrapper, .h5 — that this project's own
+ * template already uses for other things. The wrapper keeps the two apart.
+ *
+ * The heading above and the button below stay in this site's own components and
+ * containers; only the card list is Orisa's.
+ */
+import Eyebrow from "../ui/Eyebrow.astro";
+import Button from "../ui/Button.astro";
+import { deadlines } from "../../data/site";
+---
+
+<section data-theme-section="light" class="section_deadlines">
+	<div class="container">
+		<div class="padding">
+			<div class="heading_container">
+				<Eyebrow text="προθεσμίες" />
+				<h2 class="heading_h2">Πότε περνάει ΚΤΕΟ το όχημά σας</h2>
+				<p class="text_size-medium">
+					Οι προθεσμίες μετρούν από την ημερομηνία έκδοσης της πρώτης άδειας κυκλοφορίας, και
+					έπειτα από κάθε προηγούμενο έλεγχο.
+				</p>
+			</div>
+		</div>
+	</div>
+
+	{/* Wrapped in the template's own container and padding, not left full-bleed.
+	    Those two elements are where the section's vertical rules live
+	    (.padding carries 1px borders left and right) and where its width comes
+	    from, so putting the Orisa block inside them makes the band read as one
+	    continuous section with the heading above rather than a panel dropped
+	    into it. `is-none` drops the padding's own vertical space and
+	    `is-border-btn-none` its bottom rule, exactly as the heading block does. */}
+	<div class="container">
+		<div class="padding is-none is-border-btn-none">
+			<div class="orisa-embed">
+				<div class="sec-2-about p-relative">
+					<div class="container p-relative z-1">
+						<div class="row">
+							<div class="col-12">
+								<div class="scroll-section process-scroll">
+									<div class="wrapper">
+										{
+											deadlines.map((item, i) => (
+												<div class="item">
+													<div class="process-card">
+														<div class="row g-xxl-5 align-items-center">
+															<div class="col-xxl-4 col-lg-5 order-lg-1 order-2">
+																<div class="process-card__img-wrap">
+																	<img class="img-cover" src={item.photo} alt={item.title} />
+																</div>
+															</div>
+															<div class="col-xxl-8 col-lg-7 order-lg-2 order-1 mb-lg-0 mb-4">
+																<div class="process-card__content">
+																	<div class="process-card__header flex-xxl-row flex-column align-items-start">
+																		<h4 class="h5 process-card__title">
+																			{String(i + 1).padStart(2, "0")}. {item.title}
+																		</h4>
+																		<div class="process-card__meta d-flex align-items-md-center flex-md-row flex-column gap-2">
+																			<span class="process-card__meta-text">
+																				{item.every}{" "}
+																				<span class="process-card__meta-label">
+																					πρώτος έλεγχος στα {item.first}
+																				</span>
+																			</span>
+																			<span class="process-card__icon rounded-circle">
+																				<svg
+																					xmlns="http://www.w3.org/2000/svg"
+																					width="18"
+																					height="18"
+																					viewBox="0 0 18 18"
+																					fill="none"
+																				>
+																					<path
+																						d="M9 0C13.9706 0 18 4.02944 18 9C18 13.9706 13.9706 18 9 18C4.02944 18 0 13.9706 0 9C0 4.02944 4.02944 0 9 0ZM8 5V8H5V10H8V13H10V10H13V8H10V5H8Z"
+																						fill="currentColor"
+																					/>
+																				</svg>
+																			</span>
+																		</div>
+																	</div>
+																	<p class="process-card__desc text-truncate-3 mb-0">{item.text}</p>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											))
+										}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="padding">
+			<div class="btn-big_container">
+				<Button label="Υπολογίστε την προθεσμία σας" href="/online-calculator/" big />
+			</div>
+		</div>
+	</div>
+</section>

@@ -1,0 +1,150 @@
+---
+/**
+ * The navigation bar and the mobile slide-down panel.
+ *
+ * Both render from `mainNav` in src/data/navigation.ts. In the source template
+ * these were two hand-maintained lists in every one of 23 files; here they are
+ * two loops over one array, so they cannot fall out of step.
+ *
+ * The dropdowns open on :hover and :focus-within in CSS alone — no JS is needed
+ * to show them, which is what makes them work from the keyboard. The only
+ * scripted part is closing one after you click through it (initNavSubmenu in
+ * assets/js/components/nav.js): Barba swaps <main> without a reload, so the
+ * pointer is still inside the wrapper and the clicked link still holds focus,
+ * and the panel would otherwise hang open over the page you just reached.
+ */
+import { mainNav, navCta } from "../data/navigation";
+import { site } from "../data/site";
+
+interface Props {
+	theme?: "hero" | "light" | "dark";
+}
+const { theme = "light" } = Astro.props;
+---
+
+<nav data-theme-nav={theme} class="nav">
+	{/* Utility bar, as on the old site: both lines and a map link, reachable
+	    from every page. It keeps its own dark fill in all three nav themes so it
+	    stays legible over the hero video. Its height is folded into
+	    --layout-nav-height (see site.css) -- that token is what every other
+	    component measures the bar by, so nothing else has to know about it. */}
+	<div class="nav_topbar">
+		<div class="container nav_topbar-inner">
+			<div class="nav_topbar-group">
+				{
+					site.phones.map((phone) => (
+						<a href={phone.href} class="nav_topbar-link">
+							{phone.label}
+						</a>
+					))
+				}
+			</div>
+			<a
+				href={site.mapsSearchUrl}
+				target="_blank"
+				rel="noopener noreferrer"
+				class="nav_topbar-link nav_topbar-map">Βρείτε μας στον χάρτη</a
+			>
+		</div>
+	</div>
+
+	<div data-nav-bar-height="" class="container nav-container">
+		<div class="nav_wrap">
+			<div class="nav_items-wrap">
+				<a
+					href="/"
+					class="nav_logo-container is-inline-block"
+					aria-label={`${site.name} — Αρχική`}
+					><img
+						src="/assets/img/rodos/logo-autovision.jpg"
+						width="562"
+						height="162"
+						alt="AUTOVISION — Τεχνικός έλεγχος οχημάτων"
+						class="nav-logo nav_logo-img"
+					/></a
+				>
+				{
+					mainNav.map((item, i) => {
+						/* The first item carries the divider border, as in the original bar. */
+						const cls = `nav_item${i === 0 ? " is-border" : ""} is-inline-block`;
+						return item.children ? (
+							<div class="nav_item-wrap">
+								<a href={item.href} class={cls}>
+									<div class="nav_item-text">{item.label}</div>
+									<span class="nav_caret" aria-hidden="true" />
+								</a>
+								<div class="nav_sub">
+									{item.children.map((child) => (
+										<a href={child.href} class="nav_sub-item">
+											{child.label}
+										</a>
+									))}
+								</div>
+							</div>
+						) : (
+							<a href={item.href} class={cls}>
+								<div class="nav_item-text">{item.label}</div>
+							</a>
+						);
+					})
+				}
+			</div>
+
+			<div class="nav_actions">
+				<a href={navCta.href} class="nav_contact is-inline-block">
+					<div class="nav_item-text">{navCta.label}</div>
+				</a>
+			</div>
+
+			<button type="button" class="nav_menu-toggle" data-menu-toggle aria-label="Μενού" aria-expanded="false">
+				<span class="nav_menu-toggle-label nav_item-text">Μενού</span>
+				<span class="nav_menu-toggle-x" aria-hidden="true"
+					><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+						<path
+							d="M5.52628 21L3 18.4863L9.49616 11.9776L3 5.51372L5.52628 3L12.0224 9.49077L18.4737 3L21 5.51372L14.5038 11.9776L21 18.4863L18.4737 21L12.0224 14.5092L5.52628 21Z"
+							fill="currentColor"></path></svg
+					></span
+				>
+			</button>
+		</div>
+	</div>
+
+	{/* Progressive blur under the bar, shown only in the `hero` theme where the
+	    bar itself is transparent. Two layers; see nav.css for why. */}
+	<div class="nav_blur" aria-hidden="true">
+		<div class="nav_blur_layer is--1"></div>
+		<div class="nav_blur_layer is--2"></div>
+	</div>
+
+	{/* Mobile menu (480px and below). One flat list — there is no room to nest a
+	    real submenu at this width — so children are marked .is-sub and carried
+	    by an indent instead of by structure. */}
+	<div class="nav_menu" data-menu-panel aria-hidden="true">
+		<div class="nav_menu-inner">
+			<a href="/" class="nav_menu-item"
+				><span class="nav_menu-item-text heading_h5">Αρχική</span></a
+			>
+			{
+				mainNav.map((item) => (
+					<>
+						<a href={item.href} class="nav_menu-item">
+							<span class="nav_menu-item-text heading_h5">{item.label}</span>
+						</a>
+						{item.children?.map((child) => (
+							<a href={child.href} class="nav_menu-item is-sub">
+								<span class="nav_menu-item-text heading_h5">{child.label}</span>
+							</a>
+						))}
+					</>
+				))
+			}
+			{/* The bar's action button is display:none below the mobile
+			    breakpoint, so without this the site's primary action — booking —
+			    would be unreachable from the menu on a phone. */}
+			<a href={navCta.href} class="nav_menu-item is-cta">
+				<span class="nav_menu-item-text heading_h5">Online ραντεβού</span>
+			</a>
+		</div>
+	</div>
+	<div class="nav_menu-scrim" data-menu-scrim aria-hidden="true"></div>
+</nav>

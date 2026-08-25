@@ -1,0 +1,260 @@
+/* typography.css */
+
+/* ---- structure ---- */
+.heading_display-small {
+	font-family:
+		Roboto,
+		Arial,
+		sans-serif;
+	font-size: var(--type-display-sm-size);
+	line-height: var(--type-display-sm-lh);
+	font-weight: 400;
+}
+
+.heading_h1 {
+	color: var(--mapped-text-headings);
+	font-family:
+		Roboto,
+		Arial,
+		sans-serif;
+	font-size: var(--type-h1-size);
+	line-height: var(--type-h1-lh);
+	letter-spacing: -0.03em;
+	font-weight: 400;
+}
+
+.heading_h2 {
+	font-family: var(--brand-font-family);
+	color: var(--mapped-text-headings);
+	font-size: var(--type-h2-size);
+	line-height: var(--type-h2-lh);
+	font-weight: var(--brand-weight-regular);
+	letter-spacing: -0.02em;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.heading_h3 {
+	color: var(--mapped-text-headings);
+	font-family:
+		Roboto,
+		Arial,
+		sans-serif;
+	font-size: var(--type-h3-size);
+	line-height: var(--type-h3-lh);
+	font-weight: 400;
+}
+
+.heading_h4 {
+	color: var(--mapped-text-headings);
+	font-family:
+		Roboto,
+		Arial,
+		sans-serif;
+	font-size: var(--type-h4-size);
+	line-height: var(--type-h4-lh);
+	font-weight: 400;
+}
+
+.heading_h5 {
+	color: var(--mapped-text-headings);
+	font-family:
+		Roboto,
+		Arial,
+		sans-serif;
+	font-size: var(--type-h5-size);
+	line-height: var(--type-h5-lh);
+	margin-top: 0;
+	margin-bottom: 0;
+	font-weight: 400;
+}
+
+.heading_h6 {
+	font-family: var(--brand-font-family);
+	color: var(--mapped-text-headings);
+	font-size: var(--type-h6-size);
+	line-height: var(--type-h6-lh);
+	font-weight: var(--brand-weight-regular);
+}
+
+.heading_h6.is-inverse {
+	color: var(--mapped-text-headings-inverse);
+}
+
+.text_size-large {
+	color: var(--mapped-text-body);
+	font-family:
+		Roboto,
+		Arial,
+		sans-serif;
+	font-size: var(--type-paragraph-lg-size);
+	line-height: var(--type-paragraph-lg-lh);
+	font-weight: 400;
+}
+
+.text_size-medium {
+	color: var(--mapped-text-body);
+	font-family:
+		Roboto,
+		Arial,
+		sans-serif;
+	font-size: var(--type-paragraph-md-size);
+	line-height: var(--type-paragraph-md-lh);
+	letter-spacing: 0.01em;
+	font-weight: 400;
+}
+
+.text_size-medium.is-white {
+	color: var(--mapped-text-headings);
+}
+
+.text_size-small {
+	font-family: var(--brand-font-family);
+	color: var(--mapped-text-body);
+	font-size: var(--type-paragraph-sm-size);
+	line-height: var(--type-paragraph-sm-lh);
+	margin-bottom: 0;
+	font-weight: 400;
+}
+
+.text_size-small.is-color-light {
+	color: var(--mapped-text-body-light);
+}
+
+.text_size-small.is-inverse {
+	color: var(--mapped-text-headings-inverse);
+}
+
+.text_size-xsmall {
+	color: var(--mapped-text-body-light);
+	font-family:
+		Roboto,
+		Arial,
+		sans-serif;
+	font-size: var(--type-paragraph-xsm-size);
+	line-height: var(--type-paragraph-xsm-lh);
+	font-weight: 400;
+}
+
+.text_size-xsmall.is-inverse {
+	color: var(--mapped-text-headings-inverse);
+}
+
+.text_eyebrow {
+	font-family: var(--brand-font-family);
+	color: var(--mapped-text-body);
+	font-size: var(--type-eyebrow-size);
+	line-height: var(--type-eyebrow-lh);
+	font-weight: var(--brand-weight-medium);
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+}
+
+.heading_container {
+	width: 100%;
+	max-width: 60em;
+	padding-right: var(--mapped-padding-sm);
+	padding-left: var(--mapped-padding-sm);
+	grid-column-gap: var(--mapped-padding-sm);
+	grid-row-gap: var(--mapped-padding-sm);
+	flex-flow: column;
+	display: flex;
+}
+
+.heading_container.is-width-full {
+	max-width: none;
+}
+
+.ede {
+	grid-column-gap: var(--brand-scale-200);
+	grid-row-gap: var(--brand-scale-200);
+	justify-content: flex-start;
+	align-items: center;
+	height: 1.2em;
+	display: flex;
+}
+
+.ede.is-right {
+	transform: rotate(180deg);
+}
+
+.eyebrow_bracket {
+	width: 0.3em;
+	display: flex;
+}
+
+.eyebrow_bracket svg {
+	width: 100%;
+	height: 100%;
+	display: block;
+}
+
+.eyebrow_bracket.is-right {
+	transform: rotate(180deg);
+}
+
+.text_size-medium-m {
+	color: var(--mapped-text-body);
+	font-family:
+		Roboto,
+		Arial,
+		sans-serif;
+	font-size: var(--type-paragraph-md-size);
+	line-height: var(--type-paragraph-md-lh);
+	letter-spacing: 0.01em;
+	font-weight: 500;
+}
+
+.text_size-medium-m.is-white {
+	color: var(--mapped-text-headings);
+}
+
+/* ---- overrides ---- */
+/* ────────────────────────────────────────────────────────────────────────
+ * Heading case and tracking
+ *
+ *   - h1/h2/h3 + display-large/small → uppercase, letter-spacing -0.035em
+ *   - h4/h5                          → uppercase, letter-spacing -0.02em
+ *   - h6                             → uppercase, letter-spacing 0
+ * ──────────────────────────────────────────────────────────────────────── */
+h1,
+h2,
+h3,
+.heading_h1,
+.heading_h2,
+.heading_h3,
+.heading_display-large,
+.heading_display-small {
+	text-transform: uppercase;
+	letter-spacing: -0.035em;
+}
+
+h4,
+h5,
+.heading_h4,
+.heading_h5 {
+	text-transform: uppercase;
+	letter-spacing: -0.02em;
+}
+
+h6,
+.heading_h6 {
+	text-transform: uppercase;
+	letter-spacing: 0;
+}
+
+/* ---- shared, was per-route ----
+   Lifted out of the per-route stylesheets, where these were copied into
+   seven and nine files respectively. */
+p.is-narrow {
+	max-width: 80%;
+}
+.highlight-marker-line {
+	padding-bottom: 0.12em !important;
+	margin-bottom: -0.12em !important;
+}
+@media screen and (max-width: 991px) {
+	.inner-hero_heading-container p.is-narrow {
+		max-width: 100%;
+	}
+}
