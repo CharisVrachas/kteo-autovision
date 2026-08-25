@@ -13,6 +13,9 @@ function initPageAnimations() {
 	initScrollCardShapes();
 	initDeadlineStack();
 	initOrisaPortfolio();
+	initOrisaVCards();
+	initOrisaJourney();
+	initOrisaScrollZoom();
 	initGlobalParallax();
 	initHeroScrollDarken();
 	initScrollTextFill();

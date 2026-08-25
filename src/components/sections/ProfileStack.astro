@@ -1,0 +1,118 @@
+---
+/**
+ * The company profile, as Orisa's "Services details section 3"
+ * (services-details.html): a pinned title on the left, and a stack of cards on
+ * the right that slide up over one another as you scroll.
+ *
+ * The markup inside .orisa-vcards is Orisa's own, class for class — Bootstrap
+ * grid included. Only the copy is ours. Styles come from
+ * assets/css/vendors/orisa-vcards.css, lifted out of Orisa's built CSS and
+ * scoped; the pin and the stacking timeline from
+ * assets/js/components/orisa-vcards.js, which is its main.js §32 unchanged.
+ *
+ * The scope class exists for the usual reason: Orisa is Bootstrap-based and
+ * claims .container, .row, .item, .wrapper, .h5 — all of which this project's
+ * own template already uses for something else.
+ *
+ * `.section-fix` is what gets pinned, `.section-title-pin` is the marker the
+ * JS looks for to know the left column is the title (empty in Orisa too), and
+ * the cards are the `.item`s inside `.scroll-section.vertical-section`.
+ */
+import Eyebrow from "../ui/Eyebrow.astro";
+import { companyProfile } from "../../data/site";
+
+/** Orisa's own four card icons from this section, plus its fifth from
+    "Home 3 Section 4" — there are five paragraphs and four icons there. */
+const icons = [
+	"M12 24C18.6274 24 24 18.6274 24 12C24 18.6259 29.37 23.9975 35.9953 24C29.37 24.0025 24 29.3742 24 36C24 29.3726 18.6274 24 12 24C5.37258 24 8.1423e-07 29.3726 5.24536e-07 36L0 48L12 48C18.6274 48 24 42.6274 24 36C24 42.6274 29.3726 48 36 48L48 48L48 36C48 29.3742 42.63 24.0025 36.0047 24C42.63 23.9975 48 18.6259 48 12L48 9.34594e-06L36 9.87048e-06C29.3726 6.34548e-06 24 5.37259 24 12C24 5.37259 18.6274 6.81516e-06 12 7.10486e-06L4.19629e-06 3.8147e-06L2.62268e-06 12C1.7536e-06 18.6274 5.37258 24 12 24Z",
+	"M21.5836 1.47087C22.5977 -0.490291 25.4023 -0.490291 26.4163 1.47087L32.8735 13.9595C33.1322 14.4599 33.54 14.8677 34.0406 15.1264L46.529 21.5836C48.4903 22.5977 48.4903 25.4023 46.529 26.4163L34.0406 32.8735C33.54 33.1322 33.1322 33.54 32.8735 34.0406L26.4163 46.529C25.4023 48.4903 22.5977 48.4903 21.5836 46.529L15.1264 34.0406C14.8677 33.54 14.4599 33.1322 13.9595 32.8735L1.47087 26.4163C-0.490291 25.4023 -0.490291 22.5977 1.47087 21.5836L13.9595 15.1264C14.4599 14.8677 14.8677 14.4599 15.1264 13.9595L21.5836 1.47087Z",
+	"M48 7.2C48 11.1764 44.7764 14.4 40.8 14.4C36.8235 14.4 33.6 11.1764 33.6 7.2C33.6 3.22355 36.8235 0 40.8 0C44.7764 0 48 3.22355 48 7.2ZM48 40.8C48 44.7764 44.7764 48 40.8 48C36.8235 48 33.6 44.7764 33.6 40.8C33.6 36.8235 36.8235 33.6 40.8 33.6C44.7764 33.6 48 36.8235 48 40.8ZM36.24 24C36.24 30.76 30.76 36.24 24 36.24C17.24 36.24 11.76 30.76 11.76 24C11.76 17.24 17.24 11.76 24 11.76C30.76 11.76 36.24 17.24 36.24 24ZM14.4 7.2C14.4 11.1764 11.1764 14.4 7.2 14.4C3.22355 14.4 0 11.1764 0 7.2C0 3.22355 3.22355 0 7.2 0C11.1764 0 14.4 3.22355 14.4 7.2ZM14.4 40.8C14.4 44.7764 11.1764 48 7.2 48C3.22355 48 0 44.7764 0 40.8C0 36.8235 3.22355 33.6 7.2 33.6C11.1764 33.6 14.4 36.8235 14.4 40.8Z",
+	"M0 0H16V16H0V0ZM31.9999 16H16V31.9999H0V48H16V31.9999H31.9999V48H48V31.9999H31.9999V16ZM31.9999 16H48V0H31.9999V16Z",
+	"M24 5.96611L16 0V16H0L5.96611 24L6.99382e-07 31.9999H16V16L31.9999 16V0L24 5.96611ZM42.0338 24L48 16L31.9999 16V31.9999H16V48L24 42.0338L31.9999 48V31.9999H48L42.0338 24Z",
+	"M32 16H40L48 24L40 32H32V40L24 48L16 40V32H8L0 24L8 16H16V8L24 0L32 8V16ZM24 12L12 24L24 36L36 24L24 12Z",
+];
+---
+
+<section data-theme-section="light" class="section_story section_profile-stack">
+	<div class="container">
+		<div class="padding is-none is-border-btn-none">
+			<div class="orisa-vcards">
+				<div class="sec-3-services-details">
+					<div class="container section-fix">
+						<div class="row">
+							{/* Orisa's `h-100` is dropped from this column. It resolves to
+							    height: 100% !important, which stretches the column to the full
+							    height of the card stack next to it and leaves the text pinned to
+							    the top of the screen. Without it the column is its own height and
+							    the row's align-items: center puts it in the middle. */}
+							<div class="col-lg-5">
+								{/* .heading_container, as the other sections use -- it carries the
+								    shared measure and padding. This one cannot move out of the
+								    Orisa scope the way the journey's did, because it IS the pinned
+								    column, so site.css resets the colour and line height it would
+								    otherwise inherit from Orisa's lifted base rules. */}
+								<div class="heading_container is-width-full">
+								<Eyebrow text="το προφίλ μας" />
+								{/* Short, like Orisa's own: an h3 and one line under it. The long
+								    opening paragraph that used to sit here said the same thing as
+								    the first card, at greater length, and filled the column. */}
+								<h2 class="heading_h2">Από το 2002 στη Ρόδο</h2>
+								<p class="text_size-medium">
+Η ιστορία της εταιρείας σε πέντε σταθμούς — από την ίδρυσή της μέχρι τον τεχνικό
+έλεγχο όλων των κατηγοριών οχημάτων.
+								</p>
+								</div>
+
+								{/* Empty in Orisa too: the JS looks for it to confirm the left
+								    column is the pinned title, and pins .section-fix around it. */}
+								<div class="section-title-pin"></div>
+							</div>
+							<div class="col-xxl-6 col-lg-7 offset-xxl-1 p-relative">
+								<div class="scroll-section vertical-section section scroll-active-item">
+									<div class="wrapper">
+										<div role="list" class="list">
+											{
+												companyProfile.map((entry, i) => (
+													<div class="item">
+														<div class="container bg-neutral-0 rounded-4 border-100 p-relative">
+															<div class="rectangular bg-neutral-0 border-100" />
+															<div class="row align-items-center py-3">
+																<div class="col-12 h-100">
+																	<div class="d-flex flex-column p-md-5 p-3 justify-content-between h-100">
+																		<div class="icon pb-20">
+																			<svg
+																				xmlns="http://www.w3.org/2000/svg"
+																				width="48"
+																				height="48"
+																				viewBox="0 0 48 48"
+																				fill="none"
+																				aria-hidden="true"
+																			>
+																				<path
+																					fill-rule="evenodd"
+																					clip-rule="evenodd"
+																					d={icons[i % icons.length]}
+																					fill="currentColor"
+																				/>
+																			</svg>
+																		</div>
+																		<span class="h5 mb-4">{entry.title}</span>
+																		<p class="mb-0 fz-font-lg">{entry.text}</p>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												))
+											}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

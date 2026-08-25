@@ -1,0 +1,35 @@
+---
+/**
+ * A photograph that opens out from a small tile to full width as you scroll
+ * past it — Orisa's "Home 2 Section 11" (index-2.html).
+ *
+ * The markup inside .orisa-scroll-zoom is Orisa's own; styles come from
+ * assets/css/vendors/orisa-scroll-zoom.css and the pinned scrub from
+ * assets/js/components/orisa-scroll-zoom.js (its main.js §24).
+ *
+ * Orisa's block is a video showreel and carries a Play button over the image.
+ * There is no video here, so it is left out and the ported JS treats it as
+ * optional.
+ */
+interface Props {
+	image: string;
+	alt: string;
+}
+const { image, alt } = Astro.props;
+---
+
+<div class="orisa-scroll-zoom">
+	<div class="container-2200">
+		<div
+			class="postbox-scroll-zoom mx-lg-3 mx-2 align-items-center justify-content-center"
+		>
+			<div class="postbox-item-wrap">
+				<div class="postbox-item">
+					<div class="postbox-thumb p-relative rounded-5">
+						<img class="postbox-scroll-zoom-img img-cover" src={image} alt={alt} />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

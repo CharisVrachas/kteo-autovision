@@ -1,0 +1,105 @@
+/* orisa-scroll-zoom.css -- lifted from the Orisa template, not rewritten.
+ *
+ * Source: Orisa v1.1.0, "Home 2 Section 11" of index-2.html --
+ * scss/layout/blog/_postbox.scss (the .postbox-scroll-zoom block and
+ * .postbox-thumb) plus .img-cover and .container-2200 from its common styles.
+ * Every declaration below is Orisa's own.
+ *
+ * Small enough to hand-carry: unlike the other Orisa ports this is five rules,
+ * so there is no extractor for it. It is still scoped -- .orisa-scroll-zoom --
+ * for the same reason as the rest: .container, .item and friends already mean
+ * something else in this project's own template.
+ *
+ * The geometry is the effect. .postbox-item-wrap is 200vh so there is room to
+ * scroll past; .postbox-item is exactly 100vh and is what gets pinned; the
+ * thumb is scrubbed from 20% to 100% of it by orisa-scroll-zoom.js.
+ */
+
+.orisa-scroll-zoom .container-2200 {
+	max-width: 2200px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.orisa-scroll-zoom .mx-2 {
+	margin-right: 0.5rem !important;
+	margin-left: 0.5rem !important;
+}
+
+@media (min-width: 992px) {
+	.orisa-scroll-zoom .mx-lg-3 {
+		margin-right: 1rem !important;
+		margin-left: 1rem !important;
+	}
+}
+
+.orisa-scroll-zoom .postbox-scroll-zoom .postbox-item-wrap {
+	width: 100%;
+	/* 200vh is Orisa's own, and it is load-bearing -- do not "reclaim" it.
+	   It is not one viewport of image plus one of blank: it RESERVES the pin
+	   distance in CSS, before any JavaScript runs. Both alternatives were tried
+	   and both broke the page:
+	     100vh  -- removed the reservation outright, and the section below
+	               scrolled up over the still-pinned photograph.
+	     auto   -- left the room to ScrollTrigger's own pin-spacer, which works
+	               only if this pin is measured BEFORE the two card stacks below
+	               it. app.js initialises them first, so they measured their own
+	               start positions 900px too high and pinned early, drawing a
+	               card straight over the photograph.
+	   A fixed height holds the space no matter what order the triggers refresh
+	   in, which is the whole point of writing it this way. */
+	height: 200vh;
+}
+
+.orisa-scroll-zoom .postbox-scroll-zoom .postbox-item {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100vh;
+}
+
+.orisa-scroll-zoom .postbox-thumb {
+	border-radius: 42px;
+	overflow: hidden;
+}
+
+.orisa-scroll-zoom .postbox-thumb img {
+	border-radius: 42px;
+}
+
+.orisa-scroll-zoom .img-cover {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.orisa-scroll-zoom .p-relative {
+	position: relative;
+}
+
+/* ---- this project's own ---- */
+
+/* Without a starting size the thumb is 0 x 0 until GSAP's first tick, so the
+   section renders empty on first paint and pops in. These are the same values
+   the timeline starts from. */
+.orisa-scroll-zoom .postbox-thumb {
+	width: 20%;
+	height: 20%;
+}
+
+/* prefers-reduced-motion: no pin, no scrub -- just the photograph at full size.
+   The JS bails out on the timeline; this undoes the 20% starting box it would
+   otherwise have grown from. */
+@media (prefers-reduced-motion: reduce) {
+	.orisa-scroll-zoom .postbox-scroll-zoom .postbox-item-wrap {
+		height: auto;
+	}
+	.orisa-scroll-zoom .postbox-scroll-zoom .postbox-item {
+		height: auto;
+	}
+	.orisa-scroll-zoom .postbox-thumb {
+		width: 100%;
+		height: auto;
+	}
+}

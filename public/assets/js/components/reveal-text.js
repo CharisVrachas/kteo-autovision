@@ -240,33 +240,62 @@ function initScrollTextFill() {
 	if (!has.ScrollTrigger) return;
 	if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 	document.querySelectorAll('[data-anim="text-fill"]').forEach((el) => {
+		if (el.__textFillInit) return;
 		const text = el.textContent.trim();
 		if (!text) return;
+		el.__textFillInit = true;
+
+		// Walk the child nodes rather than reading textContent and clearing the
+		// element: the inner-hero h1 carries a <br> that sets where the title
+		// breaks, and flattening to text would drop it and re-wrap the heading.
+		// Text nodes are split into words; anything else (the <br>) is moved
+		// across untouched.
+		const words = [];
+		const source = Array.from(el.childNodes);
 		el.textContent = "";
-		const words = text.split(/\s+/).map((word, i) => {
-			if (i > 0) el.appendChild(document.createTextNode(" "));
-			const span = document.createElement("span");
-			span.className = "text-fill-word";
-			span.textContent = word;
-			el.appendChild(span);
-			return span;
+		source.forEach((node) => {
+			if (node.nodeType !== 3) {
+				el.appendChild(node);
+				return;
+			}
+			const parts = node.textContent.split(/\s+/).filter(Boolean);
+			parts.forEach((word, i) => {
+				if (i > 0 || words.length) el.appendChild(document.createTextNode(" "));
+				const span = document.createElement("span");
+				span.className = "text-fill-word";
+				span.textContent = word;
+				el.appendChild(span);
+				words.push(span);
+			});
 		});
-		gsap.fromTo(
-			words,
-			{ opacity: 0.2 },
-			{
-				opacity: 1,
-				ease: "none",
-				duration: 1,
-				stagger: 0.4,
-				scrollTrigger: {
-					trigger: el,
-					start: "top 80%",
-					end: "bottom 60%",
-					scrub: true,
-				},
+		if (!words.length) return;
+
+		// gsap.set FIRST, then a plain .to -- not a staggered fromTo.
+		//
+		// A fromTo with a stagger does not put every target into its from state up
+		// front: each word only takes the 0.2 when its own slot in the stagger
+		// begins. So the paragraph rendered at full opacity, and each word
+		// SNAPPED down to 0.2 and faded back up as its turn came round. With
+		// forty-odd words that is a faint flicker travelling across the text, not
+		// a block of dim type filling in -- which is why the effect read as not
+		// running at all.
+		//
+		// Setting the whole set dim first is what makes it read: the words are
+		// all at 0.2 before the scrub starts, and light up one after another.
+		gsap.set(words, { opacity: 0.2 });
+		gsap.to(words, {
+			opacity: 1,
+			ease: "none",
+			duration: 1,
+			stagger: 0.4,
+			scrollTrigger: {
+				trigger: el,
+				start: start,
+				end: end,
+				scrub: true,
+				invalidateOnRefresh: true,
 			},
-		);
+		});
 	});
 }
 

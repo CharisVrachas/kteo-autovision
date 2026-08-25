@@ -946,3 +946,461 @@ textarea.cta-field.form-field {
 	padding-bottom: 5em;
 }
 
+
+/* ---------------------------------------------------------------------------
+   Branch cards that open in Maps (/company/)
+
+   The stretched-link pattern: the anchor sits on the heading, and its ::after
+   is blown up to cover the whole card. The card is not itself an <a>, so the
+   markup and the grid stay exactly as they were, and a screen reader announces
+   the centre’s name rather than the entire card as one link.
+   --------------------------------------------------------------------------- */
+.card_wrap.is-linked {
+	position: relative;
+	transition: background-color 0.25s ease-out;
+}
+
+.card_link {
+	color: inherit;
+	text-decoration: none;
+}
+
+.card_link::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+}
+
+/* The pointer only appears where the card is genuinely clickable. */
+.card_wrap.is-linked:hover {
+	background-color: var(--mapped-surface-light-150);
+	cursor: pointer;
+}
+
+.card_wrap.is-linked:hover .card_link,
+.card_link:focus-visible {
+	color: var(--mapped-text-action);
+}
+
+/* A visible cue that the card leads somewhere — aria-hidden, because the link
+   above already says so to a screen reader. */
+.card_link-cue {
+	display: inline-block;
+	margin-top: 0.5em;
+	color: var(--mapped-text-action);
+	opacity: 0;
+	transform: translateX(-0.35em);
+	transition:
+		opacity 0.25s ease-out,
+		transform 0.25s ease-out;
+}
+
+.card_wrap.is-linked:hover .card_link-cue,
+.card_link:focus-visible ~ .card_link-cue {
+	opacity: 1;
+	transform: translateX(0);
+}
+
+/* Touch devices never hover, so the cue would never show. */
+@media (hover: none) {
+	.card_link-cue {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+/* ---------------------------------------------------------------------------
+   The three Orisa sections on /company/
+
+   assets/css/vendors/orisa-vcards.css, orisa-journey.css and
+   orisa-scroll-zoom.css are Orisa's own CSS and are not edited. What follows is
+   about THIS page rather than about those sections, and is the same short list
+   of adjustments the deadline stack needed above.
+   --------------------------------------------------------------------------- */
+
+/* 1. One background per band. Orisa's base `body` rule comes across with the
+      rest and paints #FEFEFE on the scope element, which cuts a white panel out
+      of the section's own surface. Cleared, the section shows through. */
+.orisa-vcards,
+.orisa-journey,
+.orisa-scroll-zoom {
+	background-color: transparent;
+}
+
+/* 2. The typeface. Orisa's base rules are kept so its cards keep their own type
+      scale, but not its face: this site runs Roboto, from the original
+      kteo-rodos.gr, and a second family in one section reads as a mistake. */
+.orisa-vcards,
+.orisa-vcards p,
+.orisa-vcards span,
+.orisa-vcards li,
+.orisa-vcards h1,
+.orisa-vcards h2,
+.orisa-vcards h3,
+.orisa-vcards h4,
+.orisa-vcards h5,
+.orisa-vcards h6,
+.orisa-journey,
+.orisa-journey p,
+.orisa-journey span,
+.orisa-journey h1,
+.orisa-journey h2,
+.orisa-journey h3,
+.orisa-journey h4,
+.orisa-journey h5,
+.orisa-journey h6 {
+	font-family: var(--brand-font-family);
+}
+
+/* 3. This site's own headings, where they sit inside an Orisa scope.
+      `.orisa-vcards h2` is (0,1,1) and `.heading_h2` is (0,1,0), so Orisa's
+      element rule wins on specificity and the section heading came out at
+      Orisa's 70px display size instead of the page's. Restating the class
+      inside the scope puts it back at (0,2,0). The declarations are the ones
+      typography.css sets; only the selector changes. */
+.orisa-vcards .heading_h2,
+.orisa-journey .heading_h2 {
+	font-family: var(--brand-font-family);
+	color: var(--mapped-text-headings);
+	font-size: var(--type-h2-size);
+	line-height: var(--type-h2-lh);
+	font-weight: var(--brand-weight-regular);
+	letter-spacing: -0.02em;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+/* 4. Orisa pins these stacks at 'top top'. Its own pages have no fixed header
+      there; this one does, so the top of every card would sit behind the navbar
+      for the whole pinned scroll. Padding the pinned element clears it without
+      touching the start value -- the same fix the deadline stack takes. */
+.orisa-vcards .section-fix {
+	padding-top: var(--nav-clearance-px, var(--layout-nav-clearance));
+}
+
+/* 5. Below 992px the pin does not run (see orisa-vcards.js: the timeline is
+      inside a matchMedia for min-width 992px), so the cards must be an ordinary
+      column instead. Orisa's own layout rules would leave them stacked on top of
+      one another -- every item after the first is position: absolute at top 0 --
+      and each one a full viewport tall. */
+@media (max-width: 991px) {
+	/* `:not(:first-child)` is repeated here on purpose. Orisa parks the later
+	   cards with `.scroll-section .item:not(:first-child)`, and the argument to
+	   :not() counts towards specificity -- so that rule is one class-weight
+	   ABOVE a plain `.scroll-section .item` and wins no matter which file comes
+	   last. Matching its shape is what makes the column unstack. */
+	.orisa-vcards .scroll-section .item,
+	.orisa-vcards .scroll-section .item:first-child,
+	.orisa-vcards .scroll-section .item:not(:first-child) {
+		position: static;
+		min-height: 0;
+		height: auto;
+		margin-bottom: var(--mapped-padding-xs);
+	}
+
+	.orisa-vcards .scroll-section .item:last-child {
+		margin-bottom: 0;
+	}
+
+	.orisa-vcards .section-fix {
+		padding-top: 0;
+	}
+
+	/* The nav column is a plain list here, with nothing tracking it. Its
+	   pinning class does nothing below the breakpoint either. */
+	.orisa-vcards .navigation-sec4home3 {
+		margin-bottom: var(--mapped-padding-sm);
+	}
+}
+
+/* 6. The journey band. Its rows are Orisa's, written for its neutral-900
+      surface; this section is data-theme-section="dark", so the two agree
+      already -- these only point the borders and the muted text at this site's
+      own tokens rather than Orisa's greys, so the band matches the dark
+      sections elsewhere on the site. */
+.orisa-journey .block-journey .journey-list__item {
+	border-bottom-color: var(--mapped-border-default);
+}
+
+.orisa-journey .block-journey .journey-list__date,
+.orisa-journey .block-journey .journey-list__title {
+	color: var(--mapped-text-headings);
+}
+
+.orisa-journey .block-journey .journey-list__desc {
+	color: var(--mapped-text-body);
+}
+
+/* The photograph's caption plate is white text on the image itself, so it keeps
+   Orisa's own colours -- but the image needs a fixed ratio for the same reason
+   the deadline cards did: the source photographs are whatever shape they were
+   taken, and one portrait frame would run the column off the bottom. */
+.orisa-journey .alt-portfolio-thumb img {
+	width: 100%;
+	aspect-ratio: 3 / 4;
+	object-fit: cover;
+	display: block;
+}
+
+/* 7. The scroll-zoom photograph is pinned at 'top top' as well, so it too would
+      open out from behind the navbar. */
+.orisa-scroll-zoom .postbox-scroll-zoom .postbox-item {
+	padding-top: var(--nav-clearance-px, var(--layout-nav-clearance));
+	box-sizing: border-box;
+}
+
+/* 8. Line height in the cards. Orisa's base sets 1.2 on everything, which works
+      for its own cards: they hold a two-line blurb. These hold the operator's
+      profile — sixty-word paragraphs — and 20px type at 1.2 is a wall. 1.5 is
+      what this site's own .text_size-medium uses for body copy of that length. */
+.orisa-vcards .scroll-section .item p,
+.orisa-vcards .scroll-section .item li {
+	line-height: 1.5;
+}
+
+.orisa-vcards .scroll-section .item li + li {
+	margin-top: 0.35em;
+}
+
+/* 9. Vertical centring inside the pinned viewport, and one height for every
+      card in a stack.
+
+      Orisa's two columns both start at the top of the screen, which works
+      there because its card is nearly a full viewport tall and its left column
+      is a long list. Here the left column is a short title (or three nav rows)
+      and the card is around 500px, so both sat against the navbar with the
+      lower half of the screen empty. Centring the row puts each of them in the
+      middle of the pinned view.
+
+      The height is the other half of the same fix: see equaliseVCards in
+      orisa-vcards.js for why the cards have to match, and what it looked like
+      when they did not. --vcard-h is what that measures. */
+@media (min-width: 992px) {
+	.orisa-vcards .section-fix > .row {
+		align-items: center;
+		min-height: calc(100vh - var(--nav-clearance-px, var(--layout-nav-clearance)));
+	}
+
+	/* Orisa's items are min-height: 100vh, which is right on its pages: the
+	   pinned area IS the viewport there. Here .section-fix carries a top padding
+	   the height of the navbar, so a 100vh item makes the row that much TALLER
+	   than the space it is pinned in -- it hangs off the bottom of the screen,
+	   and centring against it puts everything low rather than in the middle.
+	   The usable height is the viewport less that clearance. */
+	.orisa-vcards .scroll-section .item {
+		display: flex;
+		align-items: center;
+		min-height: calc(100vh - var(--nav-clearance-px, var(--layout-nav-clearance)));
+	}
+
+	/* The first item needs saying separately, and at the same specificity.
+	   Orisa gives it `min-height: 100%; height: 100%` -- (0,4,0) via
+	   `:first-child` -- which resolves against a list of auto height and so
+	   collapses to the card's own height. Every other item was the full usable
+	   viewport, so the first card centred in a 533px box while the rest centred
+	   in a 748px one: 107px higher, and it stuck out above whichever card slid
+	   over it. It is also what sized the column, leaving the absolute items
+	   hanging 215px past the bottom of it. */
+	.orisa-vcards .scroll-section .item:first-child {
+		min-height: calc(100vh - var(--nav-clearance-px, var(--layout-nav-clearance)));
+		height: auto;
+	}
+
+	.orisa-vcards .scroll-section .item > .container {
+		width: 100%;
+		height: var(--vcard-h, auto);
+	}
+
+	/* With the box now taller than its text, the content would sit at the top of
+	   it. Orisa's own .align-items-center is on this row, so it only needs the
+	   height to pass through. */
+	.orisa-vcards .scroll-section .item > .container > .row {
+		height: 100%;
+	}
+}
+
+/* ---------------------------------------------------------------------------
+   One type scale across the Orisa sections
+
+   Each port arrived with its OWN type scale, and they disagreed. Counted
+   across the site the same role was being set five different ways:
+
+     card title   34px / 34px / 34px / 28px / 24px, at weights 400, 500 and 600
+     card body    20px / 16px / 16px / 15px / 14px, at weights 400 and 500
+     row title    24px / 24px, at 500 and 600
+     meta, date   16px / 14px
+
+   Nothing below changes a colour, a spacing or a layout -- only the size,
+   line height and weight, and each is pointed at the token this site's own
+   typography.css already uses for that role. Four roles, four tokens:
+
+     card title  → --type-h4-size        (32px)   .heading_h4
+     row title   → --type-h5-size        (24px)   .heading_h5
+     card body   → --type-paragraph-lg   (20px)   .text_size-large
+     meta/label  → --type-paragraph-md   (16px)   .text_size-medium
+
+   Weight is 400 throughout, as it is everywhere else on the site -- Orisa's
+   500s and 600s were the other half of why the sections read as unrelated.
+   --------------------------------------------------------------------------- */
+
+/* Two of Orisa's type utilities -- .fz-font-lg and .fz-font-md -- are declared
+   !important, and .process-scroll adds a class to the card selectors. So the
+   rules below carry !important where they have to outrank an !important, and
+   the deadline-card selectors are written at the vendor's own depth. Neither is
+   decoration: without them the weight stayed at Orisa's 600 and the portfolio
+   paragraph stayed at 24px while everything around it moved to 20px. */
+
+/* ---- card title ---- */
+.orisa-embed .process-scroll .process-card__title,
+.orisa-portfolio .alt-portfolio-title,
+.orisa-portfolio .alt-portfolio-title a,
+.orisa-vcards .scroll-section .item .h5,
+.orisa-vcards .scroll-section .item .fz-font-2xl {
+	font-size: var(--type-h4-size);
+	line-height: var(--type-h4-lh);
+	font-weight: var(--brand-weight-regular);
+}
+
+/* ---- row title: list rows and the compact cards ---- */
+.orisa-process .card__process-title,
+.orisa-process .card__process-num,
+.orisa-journey .block-journey .journey-list__title,
+.orisa-vcards .navigation-sec4home3 .item .content .h6 {
+	font-size: var(--type-h5-size);
+	line-height: var(--type-h5-lh);
+	font-weight: var(--brand-weight-regular);
+}
+
+/* ---- card body ---- */
+.orisa-embed .process-scroll .process-card__desc,
+.orisa-portfolio .mg-portfolio-dec,
+.orisa-process .card__process-desc,
+.orisa-journey .block-journey .journey-list__desc,
+.orisa-vcards .scroll-section .item p,
+.orisa-vcards .scroll-section .item li {
+	font-size: var(--type-paragraph-lg-size) !important;
+	line-height: 1.5;
+	font-weight: var(--brand-weight-regular);
+}
+
+/* ---- meta, labels, dates, numbers ---- */
+.orisa-embed .process-scroll .process-card__meta-text,
+.orisa-embed .process-scroll .process-card__meta-label,
+.orisa-journey .block-journey .journey-list__date,
+.orisa-vcards .navigation-sec4home3 .item .content .fz-font-md {
+	font-size: var(--type-paragraph-md-size) !important;
+	line-height: var(--type-paragraph-md-lh);
+	font-weight: var(--brand-weight-regular);
+}
+
+/* Card body steps back down on small screens.
+
+   20px is right where there is room. The deadline stack on the homepage is
+   PINNED, though, and whatever does not fit between the navbar and the bottom
+   of the screen is unreachable for the whole pinned range -- there is no
+   scrolling out of it. Holding 20px there put the tallest card at 597px against
+   a 443px usable height at 320x568; 16px brings it to 579.
+
+   That does NOT make 320x568 fit, and this rule is not claimed to fix it: with
+   Orisa's own original sizes the same card measured 616px, so the smallest
+   phones were already over before any of this. It is recorded in the open items
+   at the end of this file rather than papered over here.
+
+   This is not an exception to the scale above -- the heading tokens are fluid
+   and already step down on their own (32px becomes 25.6px at 375). The
+   paragraph tokens are fixed sizes, so the step has to be written out. Every
+   Orisa section takes it together, so they stay in agreement at every width. */
+@media (max-width: 991px) {
+	.orisa-embed .process-scroll .process-card__desc,
+	.orisa-portfolio .mg-portfolio-dec,
+	.orisa-process .card__process-desc,
+	.orisa-journey .block-journey .journey-list__desc,
+	.orisa-vcards .scroll-section .item p,
+	.orisa-vcards .scroll-section .item li {
+		font-size: var(--type-paragraph-md-size) !important;
+	}
+}
+
+/* ---------------------------------------------------------------------------
+   One vertical rhythm with the rest of the site
+
+   The homepage runs on .padding wrappers at --mapped-padding-md top and bottom,
+   which comes out at 64/64, and the space between two sections is two of them.
+   Measured across it, the blank band between neighbouring sections is 350-400px.
+
+   The Orisa blocks brought their own spacing instead -- the journey carries
+   pt-120 pb-120, and the two stacks sat in `is-none` wrappers with nothing at
+   all -- so the same boundaries on /company/ measured 517, 884, 1654 and 2243.
+   These put every one of them back on the site's own step.
+   --------------------------------------------------------------------------- */
+.section_profile-stack > .container > .padding,
+.section_branch-stack > .container > .padding.is-none,
+.section_journey > .container > .padding {
+	padding-top: var(--mapped-padding-md);
+	padding-bottom: var(--mapped-padding-md);
+}
+
+/* Orisa's own 120/120 comes off, or it would stack with the wrapper above and
+   the journey would be spaced almost three times the rest of the page. */
+.orisa-journey .block-journey {
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+/* The branch stack has a heading wrapper of its own above the cards, so the two
+   would add up to 128 between the heading and the first card -- the homepage
+   pattern is that the block wrapper contributes only at the far side. */
+.section_branch-stack > .container > .padding.is-none {
+	padding-top: 0;
+}
+
+.section_about-kompozit {
+	padding-bottom: var(--mapped-padding-md);
+}
+
+/* The profile stack's heading is the pinned column, so unlike the journey's it
+   cannot be lifted out of the Orisa scope. Inside it, Orisa's lifted `body`
+   rule sets colour and a 1.2 line height on everything, which put the eyebrow's
+   bracket at Orisa's neutral-900 instead of this site's text colour and left
+   the lead a couple of pixels tighter than the same paragraph elsewhere. These
+   restate the two the shared heading block would have given it. */
+.orisa-vcards .heading_container {
+	color: var(--mapped-text-body);
+}
+
+/* Orisa's own `p` rule is `.orisa-vcards p { font-size: 16px }` -- (0,1,1),
+   which outranks `.text_size-medium` (0,1,0), so this lead stayed at a flat
+   16px while the same paragraph elsewhere scaled with the page. */
+.orisa-vcards .heading_container .text_size-medium {
+	font-size: var(--type-paragraph-md-size);
+	line-height: var(--type-paragraph-md-lh);
+}
+
+/* ---------------------------------------------------------------------------
+   The Orisa scopes must not pin the font size
+
+   Every type token on this site is written in em -- --type-h2-size is `3em`,
+   --type-h4-size is `2em` -- and em resolves against the ELEMENT's own font
+   size, not against where the token was declared. The lifted Orisa `body` rule
+   sets `font-size: 16px` on each scope element, so every token used inside one
+   resolved against 16px while the same token outside resolved against the
+   page's fluid --size-font.
+
+   That is invisible at exactly 1440px wide, because --size-font is
+   clamp(992px, 100vw, 1920px) / 90 and 1440 / 90 = 16 -- the design width is
+   the one width where the two agree. At 1900 the page's base is 21.1px, so a
+   heading outside a scope came out at 63px and the identical heading inside one
+   stayed at 48px. Every measurement taken at 1440 said they matched.
+
+   Handing the scopes the page's own base makes the whole unified scale above
+   resolve identically inside and out, at every width.
+   --------------------------------------------------------------------------- */
+.orisa-embed,
+.orisa-portfolio,
+.orisa-process,
+.orisa-vcards,
+.orisa-journey,
+.orisa-scroll-zoom {
+	font-size: var(--size-font);
+}

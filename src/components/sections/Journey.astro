@@ -1,0 +1,122 @@
+---
+/**
+ * The company timeline, as Orisa's "About section 2" (about-1.html) — its
+ * "Our Journey" block: a dark band, a photograph on the left that scales down
+ * into place as you scroll, and a list of dated rows on the right that drift
+ * upward past one another.
+ *
+ * The markup inside .orisa-journey is Orisa's own, class for class. Styles come
+ * from assets/css/vendors/orisa-journey.css, lifted out of its built CSS and
+ * scoped; the row drift from assets/js/components/orisa-journey.js (its
+ * main.js §48, `.scroll-move-up`), and the photograph's scale from the
+ * `.scale-img-from-to` binding orisa-portfolio.js already does site-wide.
+ *
+ * Dropped from Orisa's version: `at-hover-item`, a WebGL displacement hover
+ * that needs a library this project does not carry, and the at-btn-group in the
+ * heading row — this site uses its own Button, further down the page.
+ *
+ * `changeless` is Orisa's own opt-out from its light/dark theme switching; the
+ * band is meant to stay dark. This section is marked data-theme-section="dark"
+ * so the template's own tokens agree with it.
+ */
+import Eyebrow from "../ui/Eyebrow.astro";
+import { milestones } from "../../data/site";
+
+interface Props {
+	image: string;
+	alt: string;
+	/** The pill over the photograph — Orisa's "Since 2012". */
+	badge: string;
+	imageTitle: string;
+	imageText: string;
+}
+const { image, alt, badge, imageTitle, imageText } = Astro.props;
+
+const arrow =
+	"M0.21967 9.40717C-0.0732232 9.70006 -0.0732232 10.1749 0.21967 10.4678C0.512563 10.7607 0.987437 10.7607 1.28033 10.4678L0.21967 9.40717ZM10.6875 0.75C10.6875 0.335786 10.3517 2.97145e-09 9.9375 1.50485e-07L3.1875 -2.70983e-07C2.77329 -2.70983e-07 2.4375 0.335786 2.4375 0.75C2.4375 1.16421 2.77329 1.5 3.1875 1.5H9.1875V7.5C9.1875 7.91421 9.52329 8.25 9.9375 8.25C10.3517 8.25 10.6875 7.91421 10.6875 7.5L10.6875 0.75ZM0.75 9.9375L1.28033 10.4678L10.4678 1.28033L9.9375 0.75L9.40717 0.21967L0.21967 9.40717L0.75 9.9375Z";
+---
+
+<section data-theme-section="dark" class="section_journey">
+	{/* The heading sits OUTSIDE .orisa-journey, in this site's own
+	    container/padding/heading_container, exactly as every other section
+	    heading does. Inside the scope it inherited Orisa's neutral-900 from the
+	    lifted `body` rule, which put the eyebrow's brackets at #1D1D1D on a dark
+	    band -- present, but invisible -- and it had no .heading_container, so it
+	    took neither the shared measure nor the shared padding. */}
+	<div class="container">
+		<div class="padding">
+			<div class="heading_container">
+				<Eyebrow text="η πορεία μας" />
+				<h2 class="heading_h2">Από το 2002 μέχρι σήμερα</h2>
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="padding is-none is-border-btn-none">
+			<div class="orisa-journey">
+				<div class="sec-2-about block-journey pt-120 pb-120 changeless">
+					<div class="container">
+						<div class="row g-4">
+							<div class="col-lg-4">
+								<div class="alt-portfolio-item mb-30">
+									<div class="alt-portfolio-thumb mb-15 p-relative fix d-block">
+										<img
+											class="w-100 scale-img-from-to"
+											data-value-1="1.5"
+											data-value-2="1"
+											src={image}
+											alt={alt}
+											loading="lazy"
+										/>
+										<div class="alt-portfolio-btn">
+											<div class="content">
+												<span
+													class="bg-transparent text-uppercase border px-3 py-1 rounded-pill text-white fz-font-label"
+													>{badge}</span
+												>
+												<h3 class="fw-400 fz-font-3xl text-white mb-0 mt-20">{imageTitle}</h3>
+												<p class="text-white fz-font-md mb-0 mt-10 text-truncate-2 des">
+													{imageText}
+												</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-7 ms-auto pt-80">
+								<ul class="journey-list">
+									{
+										milestones.map((item) => (
+											<li class="journey-list__item scroll-move-up">
+												<span class="journey-list__date">{item.year}</span>
+												<div class="journey-list__body">
+													<h3 class="h6 journey-list__title neutral-0">{item.title}</h3>
+													<p class="journey-list__desc">{item.text}</p>
+												</div>
+												{/* Orisa's row-end control is a link to a detail page. There is
+												    no per-milestone page here, so it is a plain mark rather than
+												    an anchor that goes nowhere. */}
+												<span class="journey-list__link" aria-hidden="true">
+													<svg
+														width="11"
+														height="11"
+														viewBox="0 0 11 11"
+														fill="none"
+														xmlns="http://www.w3.org/2000/svg"
+													>
+														<path d={arrow} fill="currentColor" />
+													</svg>
+												</span>
+											</li>
+										))
+									}
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

@@ -1,0 +1,158 @@
+---
+/**
+ * The three centres, as Orisa's "Home 3 Section 4" (index-3.html): a pinned
+ * numbered list on the left that tracks the scroll, and a stack of cards on the
+ * right that slide up over one another.
+ *
+ * The markup inside .orisa-vcards is Orisa's own, class for class. It shares
+ * both the stylesheet (assets/css/vendors/orisa-vcards.css) and the timeline
+ * (assets/js/components/orisa-vcards.js, its main.js §32) with ProfileStack —
+ * the two sections use the same mechanism in Orisa as well, so they are one
+ * port here rather than two.
+ *
+ * `.navigation-active-item` is the hook the timeline uses to mark the nav row
+ * matching the card on screen; `.navigation-sec4home3` is what styles it.
+ *
+ * Dropped from Orisa's version: the "What we do" pill and the at-btn-group
+ * above the grid (this site has its own heading block and Button), and the
+ * decorative SVG stack under the nav, which sat in the middle of empty space
+ * once the list was three rows instead of five.
+ */
+import Eyebrow from "../ui/Eyebrow.astro";
+
+export type Panel = {
+	eyebrow: string;
+	title: string;
+	text: string;
+	image: string;
+	alt: string;
+	points?: string[];
+};
+
+interface Props {
+	panels: Panel[];
+}
+const { panels } = Astro.props;
+
+/** Orisa's own card icons from this section, in its order. */
+const icons = [
+	"M12 24C18.6274 24 24 18.6274 24 12C24 18.6259 29.37 23.9975 35.9953 24C29.37 24.0025 24 29.3742 24 36C24 29.3726 18.6274 24 12 24C5.37258 24 8.1423e-07 29.3726 5.24536e-07 36L0 48L12 48C18.6274 48 24 42.6274 24 36C24 42.6274 29.3726 48 36 48L48 48L48 36C48 29.3742 42.63 24.0025 36.0047 24C42.63 23.9975 48 18.6259 48 12L48 9.34594e-06L36 9.87048e-06C29.3726 6.34548e-06 24 5.37259 24 12C24 5.37259 18.6274 6.81516e-06 12 7.10486e-06L4.19629e-06 3.8147e-06L2.62268e-06 12C1.7536e-06 18.6274 5.37258 24 12 24Z",
+	"M48 7.2C48 11.1764 44.7764 14.4 40.8 14.4C36.8235 14.4 33.6 11.1764 33.6 7.2C33.6 3.22355 36.8235 0 40.8 0C44.7764 0 48 3.22355 48 7.2ZM48 40.8C48 44.7764 44.7764 48 40.8 48C36.8235 48 33.6 44.7764 33.6 40.8C33.6 36.8235 36.8235 33.6 40.8 33.6C44.7764 33.6 48 36.8235 48 40.8ZM36.24 24C36.24 30.76 30.76 36.24 24 36.24C17.24 36.24 11.76 30.76 11.76 24C11.76 17.24 17.24 11.76 24 11.76C30.76 11.76 36.24 17.24 36.24 24ZM14.4 7.2C14.4 11.1764 11.1764 14.4 7.2 14.4C3.22355 14.4 0 11.1764 0 7.2C0 3.22355 3.22355 0 7.2 0C11.1764 0 14.4 3.22355 14.4 7.2ZM14.4 40.8C14.4 44.7764 11.1764 48 7.2 48C3.22355 48 0 44.7764 0 40.8C0 36.8235 3.22355 33.6 7.2 33.6C11.1764 33.6 14.4 36.8235 14.4 40.8Z",
+	"M21.5836 1.47087C22.5977 -0.490291 25.4023 -0.490291 26.4163 1.47087L32.8735 13.9595C33.1322 14.4599 33.54 14.8677 34.0406 15.1264L46.529 21.5836C48.4903 22.5977 48.4903 25.4023 46.529 26.4163L34.0406 32.8735C33.54 33.1322 33.1322 33.54 32.8735 34.0406L26.4163 46.529C25.4023 48.4903 22.5977 48.4903 21.5836 46.529L15.1264 34.0406C14.8677 33.54 14.4599 33.1322 13.9595 32.8735L1.47087 26.4163C-0.490291 25.4023 -0.490291 22.5977 1.47087 21.5836L13.9595 15.1264C14.4599 14.8677 14.8677 14.4599 15.1264 13.9595L21.5836 1.47087Z",
+];
+
+const arrow =
+	"M12.1716 8.77806L8.55964e-06 8.77806L1.47897e-06 6.77807L12.1716 6.77807L6.80761 1.41412L8.22183 -9.53337e-05L16 7.77806L8.22181 15.5562L6.80759 14.142L12.1716 8.77806Z";
+---
+
+<section data-theme-section="light" class="section_branch-stack">
+	<div class="container">
+		<div class="padding">
+			<div class="heading_container">
+				<Eyebrow text="τα κέντρα μας" />
+				<h2 class="heading_h2">Πού θα μας βρείτε</h2>
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="padding is-none is-border-btn-none">
+			<div class="orisa-vcards">
+				<div class="sec-4-home-3">
+					<div class="container section-fix">
+						<div class="row g-4">
+							{/* Orisa's `h-100` is dropped from both of these -- it is
+							    height: 100% !important, which stretches the list to the full
+							    height of the card stack and leaves it stuck at the top of the
+							    screen. Without it the row's align-items: center centres it. */}
+							<div class="col-xxl-3 col-lg-4">
+								<ul
+									class="list-unstyled navigation-sec4home3 navigation-active-item section-title-pin"
+								>
+									{
+										panels.map((panel, i) => (
+											<li>
+												<div class="item">
+													<div class="content d-flex align-items-center">
+														<span class="fz-font-md neutral-500">
+															[{String(i + 1).padStart(2, "0")}]
+														</span>
+														<h3 class="h6 mb-0">{panel.eyebrow}</h3>
+														<svg
+															xmlns="http://www.w3.org/2000/svg"
+															width="16"
+															height="16"
+															viewBox="0 0 16 16"
+															fill="none"
+															aria-hidden="true"
+														>
+															<path d={arrow} fill="currentColor" />
+														</svg>
+													</div>
+												</div>
+											</li>
+										))
+									}
+								</ul>
+							</div>
+							<div class="col-lg-8 offset-xxl-1 p-relative">
+								<div class="scroll-section vertical-section section">
+									<div class="wrapper">
+										<div role="list" class="list">
+											{
+												panels.map((panel, i) => (
+													<div class="item">
+														<div class="container bg-neutral-50 rounded-4">
+															<div class="row align-items-center py-3">
+																<div class="col-lg-6 col-md-7 col-12 h-100">
+																	<div class="d-flex flex-column p-xxl-5 p-4 justify-content-between h-100">
+																		<div class="icon pb-20">
+																			<svg
+																				xmlns="http://www.w3.org/2000/svg"
+																				width="48"
+																				height="48"
+																				viewBox="0 0 48 48"
+																				fill="none"
+																				aria-hidden="true"
+																			>
+																				<path
+																					fill-rule="evenodd"
+																					clip-rule="evenodd"
+																					d={icons[i % icons.length]}
+																					fill="currentColor"
+																				/>
+																			</svg>
+																		</div>
+																		<span class="fz-font-2xl fw-400 mb-4">{panel.title}</span>
+																		{panel.points ? (
+																			<ul class="ps-3 neutral-950 mb-3">
+																				{panel.points.map((point) => (
+																					<li>{point}</li>
+																				))}
+																			</ul>
+																		) : (
+																			<p class="mb-3 fz-font-lg">{panel.text}</p>
+																		)}
+																	</div>
+																</div>
+																<div class="col-xxl-5 col-lg-6 col-md-5 offset-xxl-1 d-none d-md-block">
+																	<div class="rounded-3 overflow-hidden">
+																		<img class="img-cover" src={panel.image} alt={panel.alt} />
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												))
+											}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

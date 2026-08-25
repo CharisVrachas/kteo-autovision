@@ -285,6 +285,175 @@ Two of the section’s behaviours are deliberately left behind, and
 - **§18** pins Orisa’s own `.portfolio-text` heading and flies it across the
   section. This page keeps its own heading, so there is nothing to pin.
 
+### The /company/ page, as four more Orisa sections
+
+`/company/` takes four blocks from Orisa, transferred the same way as the two
+above. Two of them share one mechanism, so they share one port:
+
+| File | What it is |
+| --- | --- |
+| `public/assets/css/vendors/orisa-vcards.css` | Orisa’s rules for its stacking-card scroller, scoped to `.orisa-vcards` |
+| `public/assets/js/components/orisa-vcards.js` | Orisa’s §32 `section-fix` timeline |
+| `src/components/sections/ProfileStack.astro` | “Services details section 3” (`services-details.html`) — the company profile |
+| `src/components/sections/BranchStack.astro` | “Home 3 Section 4” (`index-3.html`) — the three centres |
+| `public/assets/css/vendors/orisa-journey.css` | “About section 2” (`about-1.html`), scoped to `.orisa-journey` |
+| `public/assets/js/components/orisa-journey.js` | Orisa’s §48 `scroll-move-up` |
+| `src/components/sections/Journey.astro` | the 2002–today timeline |
+| `public/assets/css/vendors/orisa-scroll-zoom.css` | “Home 2 Section 11” (`index-2.html`), scoped to `.orisa-scroll-zoom` |
+| `public/assets/js/components/orisa-scroll-zoom.js` | Orisa’s §24 `postbox-scroll-zoom` |
+| `src/components/sections/ScrollZoomImage.astro` | the photograph that opens out on scroll |
+
+Regenerate the first two stylesheets with `scratchpad/rodos/extract_orisa_vcards.py`
+and `extract_orisa_journey.py`. The scroll-zoom one is five rules and is
+hand-carried, with its sources named in the file.
+
+**`.section-fix` and `.section-title-pin` have no CSS at all** — both are pure
+JS hooks. Looking for their rules in Orisa’s built CSS turns up nothing, which
+reads at first like a failed extraction.
+
+Three things needed adapting, and `site.css` says which is which:
+
+- **`:not()` counts towards specificity.** Orisa parks every card after the
+  first with `.scroll-section .item:not(:first-child) { position: absolute }`,
+  which is one class-weight above a plain `.scroll-section .item`. Below 992px
+  the pin does not run (the timeline sits inside a `matchMedia`), so the cards
+  have to become an ordinary column — and an override written without the
+  `:not()` loses regardless of file order. Every card sat on top of every other
+  at 375, 768 and 991 until the selector matched shape.
+- **Orisa’s element rules outrank this site’s heading classes.**
+  `.orisa-vcards h2` is (0,1,1); `.heading_h2` is (0,1,0). A section heading
+  placed inside the scope came out at Orisa’s 70px display size. `site.css`
+  restates the class inside the scope to put it back.
+- **Line height.** Orisa’s cards hold a two-line blurb, so its base 1.2 is
+  fine there. These hold the operator’s profile — sixty-word paragraphs — and
+  20px type at 1.2 is a wall. The card paragraphs are relaxed to 1.5.
+
+### The pinned stacks: three things that had to be adapted
+
+Beyond the scoping traps above, the two card stacks needed these. All three are
+about the difference between Orisa’s pages and this one, and all three read as
+“the section is broken” rather than as anything specific.
+
+- **One height for every card in a stack.** Orisa’s cards each hold an icon,
+  one line and a short blurb, so they come out the same height by accident and
+  the incoming card always covers the one it slides over. Ours hold the
+  operator’s paragraphs, 350px to 585px — and a short card sliding over a tall
+  one leaves the bottom of the tall one sticking out for the whole transition.
+  `equaliseVCards` in `orisa-vcards.js` measures the tallest and publishes it as
+  `--vcard-h`. It reads `offsetHeight`, not `getBoundingClientRect`: the
+  timeline scales the cards, a bounding box reports the SCALED height, and the
+  value would ratchet down on every refresh.
+- **The first item is a different box.** Orisa gives it
+  `min-height: 100%; height: 100%` — (0,4,0) through `:first-child` — which
+  resolves against a list of auto height and collapses to the card’s own height.
+  Every other item was the full usable viewport, so the first card centred in a
+  533px box while the rest centred in a 748px one: 107px higher, poking out
+  above whichever card slid over it. It also sized the column, leaving the
+  absolutely positioned items hanging 215px past the bottom of it.
+- **`--layout-nav-clearance` cannot be trusted inside an Orisa scope.** It is
+  written in em, and the lifted `body` rule pins `font-size: 16px` on the scope
+  element — so the same token resolved to 152px there while the navbar and the
+  logo panel below it actually reached 201px. Everything padded by it cleared
+  the header by 49px too little and the eyebrow sat behind the logo.
+  `publishNavClearance` measures it on a probe under `document.body`, where the
+  em resolves against the page’s own font size, and republishes it as
+  `--nav-clearance-px`, a length no scope can reinterpret. `site.css` reads
+  `var(--nav-clearance-px, var(--layout-nav-clearance))`.
+
+Orisa starts both columns at the top of the screen, which suits its own
+proportions. Here the left column is a short title or three nav rows and the
+card is around 500px, so both sat against the navbar with the lower half of the
+screen empty; `site.css` centres the row instead, and Orisa’s `h-100` is
+dropped from the left columns because `height: 100% !important` would stretch
+them to the stack’s height and defeat it.
+
+### One vertical rhythm
+
+The homepage runs on `.padding` wrappers at `--mapped-padding-md` — 64/64 — and
+the band between two sections is two of them, measuring 350–400px throughout.
+The Orisa blocks brought their own spacing instead: the journey carries
+`pt-120 pb-120`, and the two stacks sat in `is-none` wrappers with nothing at
+all. The same boundaries on `/company/` measured 517, 884, 1654 and 2243.
+
+`site.css` puts them back on the site’s step.
+
+**Do not "reclaim" the 200vh on `.postbox-item-wrap`.** It looks like one
+viewport for the pinned image and a second of blank, and it is not: it RESERVES
+the pin distance in CSS, before any JavaScript runs. Both alternatives were
+tried here and both broke the page — `100vh` removed the reservation outright
+and the section below scrolled up over the still-pinned photograph; `auto` left
+the room to ScrollTrigger’s own pin-spacer, which only works if this pin is
+measured before the two card stacks under it, and `app.js` initialises those
+first, so they took their start positions 900px too high and pinned early,
+drawing a card straight over the photograph. A fixed height holds the space
+whatever order the triggers refresh in.
+
+Measuring “gaps” by the distance between content boxes is misleading on this
+page: a pinned section’s spacer inflates the document distance while the
+content stays fixed and visible on screen. The check that means something is to
+step the scroll and ask how much of the viewport carries content at each stop.
+By that measure `/company/` now has **no** stretch where the screen is empty.
+
+### One type scale across the Orisa sections
+
+Each port arrived with its own type scale and they disagreed — counted across
+the site, the same role was set five different ways:
+
+| role | before | now |
+| --- | --- | --- |
+| card title | 34 / 34 / 34 / 28 / 24px, weights 400–600 | `--type-h4-size`, weight 400 |
+| row title | 24px at 500 and 600 | `--type-h5-size`, weight 400 |
+| card body | 20 / 16 / 16 / 15 / 14px, weights 400–500 | `--type-paragraph-lg-size`, weight 400 |
+| meta, date, label | 16 / 14px | `--type-paragraph-md-size`, weight 400 |
+
+**The scopes must not pin the font size, and 1440 hides it.** Every type token
+here is written in em — `--type-h2-size` is `3em` — and em resolves against the
+ELEMENT’s own font size, not against where the token was declared. The lifted
+Orisa `body` rule sets `font-size: 16px` on each scope element, so a token used
+inside one resolved against 16px while the same token outside resolved against
+the page’s fluid `--size-font`.
+
+That is invisible at exactly 1440px wide: `--size-font` is
+`clamp(992px, 100vw, 1920px) / 90`, and 1440 / 90 = 16. The design width is the
+one width where the two agree, so every measurement taken there reported a
+match. At 1900 the page’s base is 21.1px, a heading outside a scope came out at
+63px, and the identical heading inside one stayed at 48px. `site.css` hands the
+scopes `var(--size-font)`, after which the whole scale resolves identically
+inside and out — checked at 375, 1100, 1440, 1600 and 1900.
+
+**When checking anything sized in em, measure at a width other than 1440.**
+
+Two of Orisa’s type utilities — `.fz-font-lg` and `.fz-font-md` — are declared
+`!important`, and `.process-scroll` adds a class to the deadline-card
+selectors, so those rules in `site.css` carry `!important` and are written at
+the vendor’s own depth. Without it the weight stayed at Orisa’s 600 and the
+portfolio paragraph stayed at 24px while everything around it moved to 20px.
+
+Card body steps down to `--type-paragraph-md-size` below 992px. The heading
+tokens are fluid and step down on their own; the paragraph tokens are fixed, so
+it has to be written out.
+
+**Open, pre-existing:** the pinned deadline cards do not fit a 320×568 screen.
+Usable height there is 443px and the tallest card is 579px, so the bottom of it
+is unreachable while the section is pinned. This predates the type work — with
+Orisa’s original sizes the same card measured 616px — and the unification made
+it smaller, not worse. It still needs a fix of its own.
+
+### The word-by-word fill (currently unused)
+
+`data-anim="text-fill"` (`initScrollTextFill`, `components/reveal-text.js`)
+splits a block into words and lights them up one at a time on a scrub. Nothing
+carries the attribute any more — every page uses the shared heading treatment
+instead — but one bug in it is worth keeping written down, because it looked
+like the effect simply did not run:
+
+**A staggered `fromTo` does not put every target into its from state up front.**
+Each word only took the 0.2 when its own slot in the stagger began, so the text
+rendered at full opacity and every word SNAPPED down and faded back up as its
+turn arrived. Across forty-odd words that is a faint flicker travelling through
+the paragraph, not a block of dim type filling in. The fix is
+`gsap.set(words, { opacity: 0.2 })` first, then a plain `.to`.
+
 ### The technical line drawing
 
 `public/assets/img/shapes/process-car.svg` is a hidden-line projection of
