@@ -1,0 +1,35 @@
+# Netlify build settings.
+#
+# The site is fully static, so this is the whole configuration: build it and
+# serve the folder. No adapter, no functions, nothing at runtime.
+#
+# Astro is configured with trailingSlash: "always" and build.format: "directory",
+# so every route is its own index.html and Netlify serves it without a redirect.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# The contact and reminder forms POST to /api/contact, which does not exist yet.
+# When it does, it goes in netlify/functions/ and this redirect points at it:
+#
+# [[redirects]]
+#   from = "/api/contact"
+#   to = "/.netlify/functions/contact"
+#   status = 200
+
+# Long-lived caching for the fingerprinted build output. Everything under
+# /assets/ is hand-managed rather than content-hashed, so it is deliberately NOT
+# given an immutable cache — a CSS edit has to reach people who already visited.
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=3600, must-revalidate"
