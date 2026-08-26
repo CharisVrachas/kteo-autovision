@@ -13,6 +13,7 @@ import Select from "../components/ui/Select.astro";
 import Button from "../components/ui/Button.astro";
 import Consent from "../components/ui/Consent.astro";
 import FormFeedback from "../components/ui/FormFeedback.astro";
+import SectionEnd from "../components/ui/SectionEnd.astro";
 import { vehicleTypes } from "../data/site";
 ---
 
@@ -29,9 +30,9 @@ import { vehicleTypes } from "../data/site";
 		lead="Συμπληρώστε τη φόρμα για να λάβετε μέσω e-mail ή τηλεφώνου έγκαιρη υπενθύμιση για την καταληκτική ημερομηνία του τεχνικού ελέγχου (ΚΤΕΟ)."
 	/>
 
-	<section data-theme-section="dark" class="section_cta">
+	<section data-theme-section="dark" class="section_cta is-border-btm">
 		<div class="container">
-			<div class="padding is-none">
+			<div class="padding">
 				<div class="is-form">
 					<form class="cta-form tool_form" data-form-source="reminder" method="post">
 						<fieldset class="tool_fieldset">
@@ -43,7 +44,12 @@ import { vehicleTypes } from "../data/site";
 								required
 							/>
 							<Select name="vehicle" label="Είδος οχήματος" options={vehicleTypes} required />
-							<Field name="previousDate" label="Ημερομηνία προηγούμενου ελέγχου" type="date" full />
+							<Field
+									name="previousDate"
+									label="Ημερομηνία προηγούμενου ελέγχου"
+									type="date"
+									noFuture
+								/>
 						</fieldset>
 
 						<fieldset class="tool_fieldset">
@@ -72,4 +78,6 @@ import { vehicleTypes } from "../data/site";
 			</div>
 		</div>
 	</section>
+
+	<SectionEnd />
 </Base>

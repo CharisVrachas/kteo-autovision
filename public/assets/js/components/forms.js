@@ -1,6 +1,15 @@
 /* forms.js -- contact form submit + validation feedback */
 "use strict";
 
+// The visible label for a field, for the payload: the tool forms wrap each
+// control in a <label> whose first <span> is the caption.
+function fieldLabel(field) {
+	const wrapper = field.closest("label");
+	if (!wrapper) return "";
+	const span = wrapper.querySelector("span");
+	return span ? span.textContent.trim() : "";
+}
+
 function initForms() {
 	// Every form on the site posts JSON here and shows success or failure in
 	// place -- no mailto, no page reload.
@@ -16,6 +25,22 @@ function initForms() {
 	// does not fire the form's submit event by itself -- it is intercepted
 	// below and dispatched manually.
 	const ENDPOINT = "/api/contact";
+
+	// A date that cannot be in the future gets today as its max. Applied across
+	// the document rather than per wired form, because the calculator's form is
+	// deliberately outside this handler -- it answers locally -- and its two
+	// date fields need the same bound. Set here rather than in the markup: a
+	// build-time date goes stale the day after the site is deployed.
+	const today = new Date();
+	const todayISO =
+		today.getFullYear() +
+		"-" +
+		String(today.getMonth() + 1).padStart(2, "0") +
+		"-" +
+		String(today.getDate()).padStart(2, "0");
+	document.querySelectorAll('input[type="date"][data-no-future]').forEach((field) => {
+		field.max = todayISO;
+	});
 	const forms = document.querySelectorAll(
 		".cta-form, .contacts_form, #wf-form-Email-subscribe-form",
 	);
@@ -111,13 +136,15 @@ function initForms() {
 			// in, so the handler can drop anything that arrives with it set.
 			const honeypot = form.querySelector('input[name="website"]');
 			const fields = {};
-			form.querySelectorAll("input, textarea").forEach((field) => {
+			form.querySelectorAll("input, textarea, select").forEach((field) => {
 				if (field.type === "submit" || field.type === "hidden") return;
 				if (field.type === "checkbox") return; // consent is recorded separately below
 				if (field.name === "website") return; // skip honeypot from payload
-				// Keyed by placeholder so the handler receives readable labels
-				// rather than input names.
-				const label = field.placeholder || field.name || "Field";
+				// Readable labels rather than input names. The template's own forms
+				// label their fields with a placeholder; the tool forms use a visible
+				// <span> inside the wrapping <label> instead, so that is checked too
+				// before falling back to the name.
+				const label = field.placeholder || fieldLabel(field) || field.name || "Field";
 				const value = (field.value || "").trim();
 				if (value) fields[label] = value;
 			});

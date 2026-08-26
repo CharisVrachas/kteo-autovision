@@ -7,8 +7,27 @@
    are the only rules here — written to match .form-field exactly rather than
    to invent a second input style. */
 
+/* Centred in the band. The form is capped at 52em and the section runs the full
+   container width, so left-aligned it sat against one edge with a third of the
+   screen empty beside it. The FIELDS stay left-aligned inside it -- labels and
+   inputs read down a common left edge; only the block is centred. */
 .tool_form {
-	max-width: 44em;
+	max-width: 52em;
+	margin-inline: auto;
+}
+
+/* The reminder form carries .cta-form as well, for the field styling -- and
+   .cta-form is `display: grid; grid-template-columns: 1fr 1fr`. That turned the
+   two <fieldset>s into the two columns of a grid: each one squeezed to half
+   width with its own two-column grid inside it, and the shorter of the two
+   stretched to match the taller, which is where the large empty block under
+   "Στοιχεία ελέγχου" came from.
+   The fieldsets are meant to stack -- .tool_fieldset has a bottom margin for
+   exactly that -- and each lays out its own fields two across. */
+.tool_form.cta-form {
+	grid-template-columns: 1fr;
+	grid-template-rows: auto;
+	grid-auto-flow: row;
 }
 
 .tool_fieldset {

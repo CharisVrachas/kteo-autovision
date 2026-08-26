@@ -1,0 +1,27 @@
+---
+/**
+ * The angled band that closes a section against the footer.
+ *
+ * It is the shape the design ends every dark band with: a full-width block the
+ * height of `--mapped-padding-*`, cut to a trapezium by the clip-path in
+ * cta.css, so the section tapers into the footer instead of stopping dead
+ * against it. Without it a form's submit button sits flush on the footer's top
+ * edge and the whole band reads as cut off.
+ *
+ * Only the CTA sections carried it, inline, so it closed the homepage and
+ * /company/ and nothing else. Here it is once, for any page that ends on a
+ * band above the footer.
+ *
+ * `light` picks the light variant (privacy.css) for a section that is not dark.
+ */
+interface Props {
+	light?: boolean;
+}
+const { light = false } = Astro.props;
+---
+
+<div data-theme-section={light ? "light" : "dark"} class={`cta-btm${light ? " is-light" : ""}`}>
+	<div class="container">
+		<div class="padding"></div>
+	</div>
+</div>

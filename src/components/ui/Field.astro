@@ -3,7 +3,14 @@
  * A labelled text input for the tool forms. Reuses .cta-field / .form-field
  * from the component set — the only thing added is the visible <span> label,
  * which the design's own forms do without because they rely on placeholders.
+ *
+ * Constraints come from data/fieldRules.ts, the same table
+ * PlaceholderField.astro reads, so a field validates identically whether it is
+ * labelled by a <span> here or by a placeholder there. A page can still
+ * override any of them per field.
  */
+import { rulesFor } from "../../data/fieldRules";
+
 interface Props {
 	name: string;
 	label: string;
@@ -11,8 +18,33 @@ interface Props {
 	type?: "text" | "email" | "tel" | "date" | "number";
 	full?: boolean;
 	required?: boolean;
+	/** Overrides for the per-type defaults below. */
+	autocomplete?: string;
+	minlength?: number;
+	maxlength?: number;
+	pattern?: string;
+	title?: string;
+	inputmode?: string;
+	/** Reject dates in the future. forms.js fills in `max` with today. */
+	noFuture?: boolean;
 }
-const { name, label, type = "text", full = false, required = false } = Astro.props;
+const {
+	name,
+	label,
+	type = "text",
+	full = false,
+	required = false,
+	autocomplete,
+	minlength,
+	maxlength,
+	pattern,
+	title,
+	inputmode,
+	noFuture = false,
+} = Astro.props;
+
+const attrs = rulesFor(name, type);
+const finalPattern = pattern ?? attrs.pattern;
 ---
 
 <label class={`tool_field${full ? " tool_field-full" : ""}`}>
@@ -22,7 +54,13 @@ const { name, label, type = "text", full = false, required = false } = Astro.pro
 		type={type}
 		name={name}
 		id={name}
-		maxlength="256"
 		required={required}
+		autocomplete={autocomplete ?? attrs.autocomplete}
+		minlength={minlength ?? attrs.minlength}
+		maxlength={maxlength ?? attrs.maxlength}
+		inputmode={inputmode ?? attrs.inputmode}
+		pattern={finalPattern}
+		title={title ?? attrs.title}
+		data-no-future={type === "date" && noFuture ? "" : undefined}
 	/>
 </label>

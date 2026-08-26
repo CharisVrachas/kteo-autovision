@@ -454,6 +454,52 @@ turn arrived. Across forty-odd words that is a faint flicker travelling through
 the paragraph, not a block of dim type filling in. The fix is
 `gsap.set(words, { opacity: 0.2 })` first, then a plain `.to`.
 
+### Form validation
+
+Every form validates from one table, `src/data/fieldRules.ts`. Before that each
+form carried its constraints inline and they had drifted: the homepage had a
+phone pattern and a two-character minimum on names, `/contact-us/` had neither
+and did not even require a name, and the tool forms built from `Field.astro`
+had nothing but `required`.
+
+Two components read the table — `Field.astro` (visible `<span>` label, used by
+the tool forms) and `PlaceholderField.astro` (placeholder label, used by the
+homepage CTA and the contact page) — so the two presentations cannot diverge in
+what they accept.
+
+Four things the browser does not give you for free:
+
+- **`type="email"` accepts `a@b`.** The spec deliberately allows a domain with
+  no dot. `EMAIL_PATTERN` requires a dot and a two-letter tail.
+- **`minlength` only fires on a value a person typed.** The `tooShort`
+  constraint depends on the element’s dirty-value flag, so a single character
+  arriving any other way passes. `NAME_PATTERN` requires two non-space
+  characters whatever set the value — which also rejects a field holding only
+  spaces, something `minlength` counts as long enough.
+- **`required` on a `<select>` is decorative** when the first option is
+  preselected, which is the browser default. `Select.astro` puts an empty,
+  disabled placeholder option in front of a required select.
+- **A date bound written at build time goes stale.** `forms.js` fills `max` on
+  any `input[type="date"][data-no-future]` with today, document-wide rather
+  than per wired form — the calculator’s form is deliberately outside the
+  submit handler and still needs the bound.
+
+**The `pattern` trap, twice over.** `pattern` compiles with the regex `v` flag,
+where an unescaped `-` inside a character class is a syntax error — and an
+invalid pattern is not reported, it is silently IGNORED, so the field then
+accepts anything at all. On top of that, a plain `"\-"` string literal in
+frontmatter is just `-` by the time it reaches the attribute, which lands you
+back in the first trap with nothing to see. The patterns use `String.raw`, and
+the check that means anything is `grep -o 'pattern="[^"]*"' dist/index.html`,
+not reading the source.
+
+`.tool_form` also carries `.cta-form`, for the field styling — and `.cta-form`
+is `display: grid; grid-template-columns: 1fr 1fr`. That turned the reminder
+form’s two `<fieldset>`s into the two columns of a grid: each squeezed to half
+width with its own two-column grid inside, the shorter stretched to match the
+taller, and the submit running off the bottom of the band into the footer.
+`tools.css` puts `.tool_form.cta-form` back to a single column.
+
 ### The technical line drawing
 
 `public/assets/img/shapes/process-car.svg` is a hidden-line projection of

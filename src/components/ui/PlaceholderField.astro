@@ -1,0 +1,35 @@
+---
+/**
+ * An input labelled by its placeholder — the shape the template's own forms
+ * use (the homepage CTA, the contact page). Its constraints come from
+ * data/fieldRules.ts, the same table Field.astro reads, so the two
+ * presentations cannot drift apart in what they actually accept.
+ */
+import { rulesFor } from "../../data/fieldRules";
+
+interface Props {
+	name: string;
+	placeholder: string;
+	type?: "text" | "email" | "tel" | "date" | "number";
+	id?: string;
+	full?: boolean;
+	required?: boolean;
+}
+const { name, placeholder, type = "text", id, full = false, required = false } = Astro.props;
+const r = rulesFor(name, type);
+---
+
+<input
+	class={`cta-field form-field${full ? " cta-field_full" : ""}`}
+	type={type}
+	name={name}
+	id={id ?? name}
+	placeholder={placeholder}
+	required={required}
+	autocomplete={r.autocomplete}
+	minlength={r.minlength}
+	maxlength={r.maxlength}
+	inputmode={r.inputmode}
+	pattern={r.pattern}
+	title={r.title}
+/>

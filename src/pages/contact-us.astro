@@ -8,6 +8,8 @@
  */
 import Base from "../layouts/Base.astro";
 import Button from "../components/ui/Button.astro";
+import PlaceholderField from "../components/ui/PlaceholderField.astro";
+import SectionEnd from "../components/ui/SectionEnd.astro";
 import FormFeedback from "../components/ui/FormFeedback.astro";
 import { site, branches, openingHours } from "../data/site";
 ---
@@ -81,10 +83,10 @@ import { site, branches, openingHours } from "../data/site";
 								method="post"
 								class="cta-form contacts_form"
 							>
-								<input class="cta-field form-field" maxlength="256" name="firstName" placeholder="Όνομα" type="text" id="c-firstName" />
-								<input class="cta-field form-field" maxlength="256" name="lastName" placeholder="Επώνυμο" type="text" id="c-lastName" />
-								<input class="cta-field form-field" maxlength="256" name="email" placeholder="Email" type="email" id="c-email" required />
-								<input class="cta-field form-field" maxlength="256" name="phone" placeholder="Τηλέφωνο" type="tel" id="c-phone" required />
+								<PlaceholderField name="firstName" placeholder="Όνομα" id="c-firstName" required />
+								<PlaceholderField name="lastName" placeholder="Επώνυμο" id="c-lastName" required />
+								<PlaceholderField name="email" placeholder="Email" type="email" id="c-email" required />
+								<PlaceholderField name="phone" placeholder="Τηλέφωνο" type="tel" id="c-phone" required />
 								<textarea
 									placeholder="Μήνυμα — τύπος οχήματος, προτιμώμενο ΙΚΤΕΟ, ημερομηνία"
 									maxlength="5000"
@@ -146,4 +148,6 @@ import { site, branches, openingHours } from "../data/site";
 			</div>
 		</div>
 	</section>
+
+	<SectionEnd />
 </Base>

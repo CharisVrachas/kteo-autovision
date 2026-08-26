@@ -10,6 +10,8 @@
  */
 import Eyebrow from "../ui/Eyebrow.astro";
 import Button from "../ui/Button.astro";
+import PlaceholderField from "../ui/PlaceholderField.astro";
+import SectionEnd from "../ui/SectionEnd.astro";
 import { site, primaryPhone } from "../../data/site";
 ---
 
@@ -47,31 +49,13 @@ import { site, primaryPhone } from "../../data/site";
 							method="post"
 							class="cta-form"
 						>
-							<input class="cta-field form-field" maxlength="256" minlength="2" name="firstName" placeholder="Όνομα" type="text" id="firstName" autocomplete="given-name" required />
-							<input class="cta-field form-field" maxlength="256" minlength="2" name="lastName" placeholder="Επώνυμο" type="text" id="lastName" autocomplete="family-name" required />
-							<input class="cta-field form-field" maxlength="256" name="email" placeholder="Email" type="email" id="email" autocomplete="email" required />
-							{/* Greek numbers are ten digits; the pattern tolerates +30, spaces and
-							    dashes so a pasted number is not rejected for its formatting.
-							    Deliberately free of backslashes and parentheses: the browser
-							    compiles pattern with the regex `v` flag, where an unescaped -
-							    (or a parenthesis) inside a character class is a syntax error —
-							    and an invalid pattern is not reported, it is silently IGNORED,
-							    so the field accepted anything at all, Greek text included. The
-							    backslash is doubled because this is an Astro expression; written
-							    as a plain attribute the compiler eats it. */}
-							<input
-								class="cta-field form-field"
-								maxlength="256"
-								name="phone"
-								placeholder="Τηλέφωνο"
-								type="tel"
-								id="phone"
-								autocomplete="tel"
-								inputmode="tel"
-								pattern={"[0-9+][0-9 +\\-]{9,19}"}
-								title="Δέκα ψηφία, π.χ. 2241003333 ή +30 2241003333"
-								required
-							/>
+							{/* Constraints come from data/fieldRules.ts, shared with the tool
+							    forms so the same field validates the same way everywhere. The
+							    phone pattern and its `v`-flag hazard are documented there. */}
+							<PlaceholderField name="firstName" placeholder="Όνομα" required />
+							<PlaceholderField name="lastName" placeholder="Επώνυμο" required />
+							<PlaceholderField name="email" placeholder="Email" type="email" required />
+							<PlaceholderField name="phone" placeholder="Τηλέφωνο" type="tel" required />
 							<textarea
 								placeholder="Μήνυμα — τύπος οχήματος, προτιμώμενο ΙΚΤΕΟ, ημερομηνία"
 								maxlength="5000"
@@ -111,8 +95,4 @@ import { site, primaryPhone } from "../../data/site";
 	</div>
 </section>
 
-<div data-theme-section="dark" class="cta-btm">
-	<div class="container">
-		<div class="padding"></div>
-	</div>
-</div>
+<SectionEnd />

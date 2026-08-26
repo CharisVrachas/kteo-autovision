@@ -53,14 +53,14 @@ const vehicleKinds = [
 					μετράει το τελευταίο.
 				</p>
 			</div>
-			<div class="padding is-none">
+			<div class="padding">
 				<div class="is-form">
 					<form class="tool_form" data-kteo-calc novalidate>
 						<fieldset class="tool_fieldset">
 							<legend class="tool_legend text_size-small">Στοιχεία οχήματος</legend>
 							<Select name="kind" label="Είδος οχήματος" options={vehicleKinds} full />
-							<Field name="first" label="Ημερομηνία 1ης άδειας" type="date" />
-							<Field name="last" label="Ημερομηνία τελευταίου ελέγχου" type="date" />
+							<Field name="first" label="Ημερομηνία 1ης άδειας" type="date" noFuture />
+							<Field name="last" label="Ημερομηνία τελευταίου ελέγχου" type="date" noFuture />
 						</fieldset>
 						<Button label="Υπολογισμός" submit />
 					</form>
