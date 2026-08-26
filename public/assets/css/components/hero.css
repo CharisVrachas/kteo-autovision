@@ -115,3 +115,42 @@
 	background-size: cover;
 	background-position: center;
 }
+
+/* ---------------------------------------------------------------------------
+   The hero's scroll cue
+
+   Same chevrons and label as the car stage further down the page: those classes
+   (.scroll-hint__chev, .scroll-hint__text) live in pages/home-extra.css and
+   carry no positioning of their own, so both cues share one set of rules rather
+   than one being a copy that drifts. Only the wrapper differs — the stage's
+   #scroll-hint is fixed to the viewport, this one is anchored to the foot of
+   the hero.
+
+   z-index 3 puts it above the scrim (2) alongside the heading, and it never
+   takes a click: the whole thing is decorative and the section behind it
+   scrolls normally.
+   --------------------------------------------------------------------------- */
+.hero_scroll-cue {
+	position: absolute;
+	left: 50%;
+	bottom: 7em;
+	transform: translateX(-50%);
+	width: 24px;
+	height: 24px;
+	z-index: 3;
+	pointer-events: none;
+}
+
+/* The label hangs below the chevrons; the stage sets that offset on its own
+   fixed wrapper, so it is restated here against this one. */
+.hero_scroll-cue .scroll-hint__text {
+	top: 5.5em;
+}
+
+/* On a phone the hero is shorter and the label was landing 7px off the bottom
+   edge of the section. */
+@media screen and (max-width: 767px) {
+	.hero_scroll-cue {
+		bottom: 6em;
+	}
+}

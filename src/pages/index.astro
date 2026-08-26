@@ -91,6 +91,17 @@ const pillars = [
 			</video>
 		</div>
 		<div class="darken"></div>
+		{/* The same cue the car stage uses further down. Its chevron and label
+		    classes are independent of position, so this is the component's own
+		    markup rather than a second one that merely looks similar — only the
+		    wrapper differs: that one is fixed to the viewport, this one sits at
+		    the foot of the hero. */}
+		<div class="hero_scroll-cue" aria-hidden="true">
+			<div class="scroll-hint__chev"></div>
+			<div class="scroll-hint__chev"></div>
+			<div class="scroll-hint__chev"></div>
+			<span class="scroll-hint__text">scroll</span>
+		</div>
 		<div class="hero_scroll-darken"></div>
 	</section>
 

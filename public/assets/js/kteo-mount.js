@@ -42,7 +42,7 @@ const ARROW_OFFSET = 9;
    home-extra.css mirrors it with scaleX(-1) for #back-cta so it points the other
    way. Putting an arrow in the label too, as an earlier pass did, gets you two:
    the drawn one and a stray character beside it. */
-const UI = { skip: "Παράλειψη", back: "Από την αρχή", scroll: "scroll" };
+const UI = { skip: "Παράλειψη", back: "Από την αρχή", scroll: "Κύλιση" };
 
 let handle = null;
 let mounting = false;
