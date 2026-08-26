@@ -37,41 +37,39 @@
 	inset: -10% 0% 0%;
 }
 
-/* Readability scrim over the hero video — directional, not a flat wash.
+/* Readability scrim over the hero video — light, and directional only where it
+ * has to be.
  *
- * The footage is a bright white studio, and the hero was drawn for light text
- * on dark video, so white-on-white. A uniform scrim dark enough to fix that
- * would grey out the whole clip, including the logo in the middle, which is the
- * part worth seeing. Two gradients instead:
+ * This was built heavy for a previous clip: a bright white studio, where white
+ * text needed a lot of help. The footage now is dark throughout (measured
+ * luminance behind the heading runs 0.001–0.10 across the 38s), which is what
+ * the hero was designed for in the first place. Carrying the heavy version over
+ * would have crushed the footage to near-black for the sake of a problem it
+ * does not have.
  *
- *   1. a strip down from the top, behind the navbar;
- *   2. a wedge in from the left, behind the heading, the paragraph and the
- *      button, fading out before the centre.
- *
- * The wedge clears well before the right-hand side, so the middle of the frame
- * stays at full brightness. The top strip has to carry the navbar on its own
- * out there — measured across the clip, the booking link at the far right was
- * the one item still short of 4.5:1, which is what set its opacity. It is gone
- * by 32% of the height, well above the logo. The angle is 100deg rather than a flat 90 so the wedge
- * leans with the room's perspective instead of cutting a vertical band.
+ * What is left is a gentle overall wash, a little more weight at the very top
+ * so the navbar holds, and a soft wedge from the left. The wedge is not
+ * decoration: the clip has bright frames — headlights, body panels — that pass
+ * behind the paragraph, and with the wash alone that measured 2.2:1 at its
+ * worst. It clears by 60% of the width, so the middle and right of the frame
+ * keep the footage. Verified across nine frames spanning the clip: nothing
+ * below 4.5:1 for body text or 3:1 for the heading.
  */
 .darken {
 	z-index: 2;
-	background-color: transparent;
+	background-color: rgba(0, 0, 0, 0.18);
 	background-image:
 		linear-gradient(
 			to bottom,
-			rgba(0, 0, 0, 0.68) 0%,
-			rgba(0, 0, 0, 0.46) 11%,
-			rgba(0, 0, 0, 0.16) 22%,
-			rgba(0, 0, 0, 0) 32%
+			rgba(0, 0, 0, 0.34) 0%,
+			rgba(0, 0, 0, 0.16) 12%,
+			rgba(0, 0, 0, 0) 26%
 		),
 		linear-gradient(
 			100deg,
-			rgba(0, 0, 0, 0.62) 0%,
-			rgba(0, 0, 0, 0.46) 26%,
-			rgba(0, 0, 0, 0.16) 48%,
-			rgba(0, 0, 0, 0) 64%
+			rgba(0, 0, 0, 0.6) 0%,
+			rgba(0, 0, 0, 0.42) 32%,
+			rgba(0, 0, 0, 0) 62%
 		);
 	width: 100%;
 	height: 100%;
@@ -79,25 +77,11 @@
 	inset: 0%;
 }
 
-/* Narrow screens: the copy runs nearly the full width, so the wedge has nowhere
-   to fade to and it becomes a single top-to-bottom gradient.
-   It does NOT thin out through the middle. The first version did, on the
-   assumption that the copy sits low in the frame; it is vertically centred, so
-   the heading landed in the quiet band and measured 2.0:1. The middle is held
-   at roughly the same weight as the desktop wedge instead. The logo is dimmer
-   here than on desktop, which is the trade: at 375 wide it sits behind the copy
-   either way, and legibility wins. */
+/* Narrow screens: the copy runs nearly the full width and sits over the middle
+   of the frame, so a touch more through the body of it. */
 @media screen and (max-width: 767px) {
 	.darken {
-		background-image:
-			linear-gradient(
-				to bottom,
-				rgba(0, 0, 0, 0.68) 0%,
-				rgba(0, 0, 0, 0.5) 10%,
-				rgba(0, 0, 0, 0.44) 26%,
-				rgba(0, 0, 0, 0.46) 62%,
-				rgba(0, 0, 0, 0.58) 100%
-			);
+		background-color: rgba(0, 0, 0, 0.28);
 	}
 }
 
@@ -130,7 +114,4 @@
 	background-image: url("/assets/img/rodos/kteo-exterior.jpg");
 	background-size: cover;
 	background-position: center;
-	/* Takes the glare off the white studio so the scrim above does not have to
-	   work as hard. Light enough that the logo keeps its colour. */
-	filter: brightness(0.78);
 }
