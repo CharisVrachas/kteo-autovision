@@ -165,3 +165,17 @@ button.button {
 	flex: none;
 	margin: 0;
 }
+
+/* The line under the big booking button, centred with it. The button sits in a
+   .btn-big_container, which centres itself; this paragraph did not, so it hung
+   off to the left under a centred control. */
+.booking_callout {
+	text-align: center;
+	margin-top: var(--mapped-padding-sm);
+}
+
+/* The two centre cards close the page. In `is-none` they had no bottom padding
+   at all and ended hard on the footer's top edge. */
+.booking_branches {
+	padding-bottom: var(--mapped-padding-md);
+}

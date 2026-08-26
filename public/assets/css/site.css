@@ -831,7 +831,12 @@ textarea.cta-field.form-field::placeholder {
 
 /* A link inside running copy — the phone number in the CTA paragraph. Left
    unstyled it took the browser default: blue and underlined. */
-.inline-link {
+/* Both names get the same treatment. .map-link is the "Οδηγίες →" link beside
+   an address; it used to carry no styling at all, which meant the browser's own
+   navy-and-underline on three pages. Naming it here rather than adding a second
+   class per link is what keeps the next one from drifting. */
+.inline-link,
+.map-link {
 	/* The Autovision red from the mark, not the action blue: on the CTA's
 	   near-black panel the blue sat too close to the body copy to draw the eye,
 	   and this is the one number on the page worth pulling out. */
@@ -843,7 +848,9 @@ textarea.cta-field.form-field::placeholder {
 }
 
 .inline-link:hover,
-.inline-link:focus-visible {
+.inline-link:focus-visible,
+.map-link:hover,
+.map-link:focus-visible {
 	color: var(--brand-red-600);
 }
 
@@ -1081,10 +1088,17 @@ textarea.cta-field.form-field {
 
 /* 5. Below 992px the pin does not run (see orisa-vcards.js: the timeline is
       inside a matchMedia for min-width 992px), so the cards must be an ordinary
-      column instead. Orisa's own layout rules would leave them stacked on top of
+      column instead.
+
+      The bound is 991.98px, not 991px, and that matters: a viewport can report
+      a fractional width, and at 991.x NEITHER `max-width: 991px` nor the JS's
+      `min-width: 992px` matched. The cards kept the desktop layout -- every one
+      absolutely positioned at the same top -- with nothing pinning or moving
+      them, so all five sat on top of each other. .98 closes the gap, which is
+      why Bootstrap writes its own breakpoints that way. Orisa's own layout rules would leave them stacked on top of
       one another -- every item after the first is position: absolute at top 0 --
       and each one a full viewport tall. */
-@media (max-width: 991px) {
+@media (max-width: 991.98px) {
 	/* `:not(:first-child)` is repeated here on purpose. Orisa parks the later
 	   cards with `.scroll-section .item:not(:first-child)`, and the argument to
 	   :not() counts towards specificity -- so that rule is one class-weight
@@ -1311,7 +1325,7 @@ textarea.cta-field.form-field {
    and already step down on their own (32px becomes 25.6px at 375). The
    paragraph tokens are fixed sizes, so the step has to be written out. Every
    Orisa section takes it together, so they stay in agreement at every width. */
-@media (max-width: 991px) {
+@media (max-width: 991.98px) {
 	.orisa-embed .process-scroll .process-card__desc,
 	.orisa-portfolio .mg-portfolio-dec,
 	.orisa-process .card__process-desc,
@@ -1336,9 +1350,22 @@ textarea.cta-field.form-field {
    --------------------------------------------------------------------------- */
 .section_profile-stack > .container > .padding,
 .section_branch-stack > .container > .padding.is-none,
+.section_deadline-cards > .container > .padding.is-none,
 .section_journey > .container > .padding {
 	padding-top: var(--mapped-padding-md);
 	padding-bottom: var(--mapped-padding-md);
+}
+
+/* ...except at the top of a PINNED stack, where it is paid for twice. Those
+   sections already carry the navbar clearance inside, on .section-fix, and once
+   the section pins that inner padding is what positions the content -- the
+   outer padding then contributes nothing visible, only a taller gap on the way
+   in and extra document height. The bottom padding stays: it is the only thing
+   separating the stack from whatever follows. */
+.section_profile-stack > .container > .padding,
+.section_branch-stack > .container > .padding.is-none,
+.section_deadline-cards > .container > .padding.is-none {
+	padding-top: 0;
 }
 
 /* Orisa's own 120/120 comes off, or it would stack with the wrapper above and
@@ -1403,4 +1430,132 @@ textarea.cta-field.form-field {
 .orisa-journey,
 .orisa-scroll-zoom {
 	font-size: var(--size-font);
+}
+
+/* The numbered badge on the deadline cards fills with an accent while its card
+   is the one on screen, and Orisa's accent is its own orange. Repointing the
+   token rather than overriding the rule means the badge -- and anything else in
+   the scope that reaches for it -- follows this site's palette instead.
+
+   The fill is a CSS transition, which does not advance in a hidden browser
+   pane: read synchronously there it reports the colour it is transitioning
+   FROM, for as long as you care to wait. To check it, disable transitions for
+   the read (`* { transition: none !important }`) rather than concluding the
+   rule does not apply. */
+.orisa-vcards {
+	--at-theme-primary: var(--mapped-surface-action);
+}
+
+/* The interval line ("κάθε 2 χρόνια"), which the old site's list showed above
+   the category name. Orisa's card has no equivalent, so this is the site's own
+   small text, set apart from the title the way the eyebrows are. */
+.section_deadline-cards .deadline-card_every {
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: var(--mapped-text-action);
+	margin-bottom: 0.35em;
+}
+
+
+/* Tighten the stacking cards a notch.
+
+   Orisa pads them 48px all round and lays the icon, title and text out with
+   justify-content: space-between. That is fine at its own card height; here the
+   cards are equalised to the tallest of the set, so the slack lands in those
+   gaps and the card reads emptier the shorter its text is. Trimming the padding
+   and the title's own margin takes the height off the TALLEST card, which is
+   what --vcard-h is measured from -- so every card in the stack comes down
+   together and the proportions stay identical. */
+.orisa-vcards .scroll-section .item .d-flex.flex-column {
+	padding: var(--vcard-pad, 2.25rem) !important;
+}
+
+.orisa-vcards .scroll-section .item .h5,
+.orisa-vcards .scroll-section .item .fz-font-2xl {
+	margin-bottom: 1rem !important;
+}
+
+.orisa-vcards .scroll-section .item .icon,
+.orisa-vcards .scroll-section .item .block-number {
+	padding-bottom: 0.75rem !important;
+	margin-bottom: 0 !important;
+}
+
+@media (max-width: 767px) {
+	.orisa-vcards .scroll-section .item .d-flex.flex-column {
+		padding: 1.25rem !important;
+	}
+}
+
+/* ---------------------------------------------------------------------------
+   The booking page's four steps
+
+   Orisa's journey row is a three-column grid — date | body | mark — with the
+   date reserving 180px, so the titles and the text started ~290px in from the
+   section's left edge while the date sat alone out to the left. Its own layout
+   for narrow screens already stacks the date above the body, which is what puts
+   everything on one left edge; that is used at every width here.
+
+   Scoped to .booking_steps: the timeline on /company/ keeps Orisa's two-column
+   row, where the year beside the entry is the point of it.
+   --------------------------------------------------------------------------- */
+.booking_steps .block-journey .journey-list__item {
+	grid-template-columns: 1fr auto;
+	gap: 0.35em 1.5em;
+	padding-bottom: 1.15em;
+	padding-top: 1.15em;
+}
+
+.booking_steps .block-journey .journey-list__item .journey-list__date {
+	grid-column: 1;
+	grid-row: 1;
+}
+
+.booking_steps .block-journey .journey-list__item .journey-list__body {
+	grid-column: 1;
+	grid-row: 2;
+	max-width: 46em;
+}
+
+.booking_steps .block-journey .journey-list__item .journey-list__link {
+	grid-column: 2;
+	grid-row: 1 / span 2;
+	align-self: center;
+}
+
+/* The step number, set apart from the title the way the eyebrows are. */
+.booking_steps .block-journey .journey-list__date {
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: var(--mapped-text-action);
+}
+
+.booking_steps .block-journey .journey-list__desc {
+	margin-bottom: 0;
+}
+
+/* The rule beside the list, and the indent that clears it. Orisa draws it 3px
+   in its own near-black, which on this dark band is all but invisible — and the
+   fill IS the effect. Wider, in the site's action colour, over a faint track so
+   the part still to be drawn reads too. */
+.booking_steps .journey-list-wrap {
+	--steps-line-width: 5px;
+}
+
+.booking_steps .journey-list-wrap::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	width: var(--steps-line-width);
+	border-radius: var(--steps-line-width);
+	background: var(--mapped-border-default);
+}
+
+.booking_steps .block-journey .journey-list-line {
+	width: var(--steps-line-width);
+	border-radius: var(--steps-line-width);
+	background: var(--mapped-surface-action);
+	z-index: 1;
 }

@@ -439,6 +439,40 @@ is unreachable while the section is pinned. This predates the type work — with
 Orisa’s original sizes the same card measured 616px — and the unification made
 it smaller, not worse. It still needs a fix of its own.
 
+### The deadlines, as Orisa’s numbered card stack
+
+`/online-calculator/` shows the five statutory deadlines as Orisa’s
+“Home 3 Section 10” (index-3.html) — `DeadlineCards.astro`. Only the card
+column is Orisa’s; its own left column is a heading and a row of avatars, and
+this page puts its own heading there. It reuses the `orisa-vcards` stylesheet
+and timeline, so it is a component, not a fourth port.
+
+The badge fills with the accent while its card is on screen. Orisa’s accent is
+its orange, so `site.css` repoints `--at-theme-primary` at
+`--mapped-surface-action` rather than overriding the rule — the badge and
+anything else in the scope then follow this site’s palette.
+
+**Two measurement traps, both of which look exactly like a broken rule:**
+
+- **CSS transitions do not advance in a hidden browser pane.** The badge fill is
+  `transition: all 0.3s`. Read synchronously in an offscreen frame it reports
+  the colour it is transitioning FROM — for as long as you care to wait, since
+  the rendering loop is frozen. Half an hour went into a cascade that was never
+  wrong. To check a transitioned property, disable transitions for the read:
+  `* { transition: none !important }`.
+- **The same freeze stops the pin from initialising at all.** A section that
+  measures `pinned: false` in an offscreen iframe can be perfectly fine in the
+  real tab. Check pinning in a visible tab.
+
+**And one real bug it turned up: a one-pixel dead zone at the breakpoint.** The
+CSS fallback was `@media (max-width: 991px)` and the JS pin is
+`matchMedia("(min-width: 992px)")`. A viewport can report a fractional width,
+and at 991.x *neither* matched: the cards kept the desktop layout — all five
+absolutely positioned at the same top — with nothing pinning or moving them, so
+they sat on top of one another. The CSS bound is `991.98px` now, which is why
+Bootstrap writes its breakpoints that way. This affected the two stacks on
+`/company/` as well.
+
 ### The word-by-word fill (currently unused)
 
 `data-anim="text-fill"` (`initScrollTextFill`, `components/reveal-text.js`)

@@ -1,0 +1,39 @@
+---
+/**
+ * A centre, as a card that opens it in Maps.
+ *
+ * The whole card is the click target. The anchor wraps only the heading and is
+ * stretched over the card in CSS (`.card_link::after`, inset 0) rather than
+ * wrapping the markup itself: the layout is untouched, and the link's
+ * accessible name stays the centre's name instead of becoming the whole block
+ * of text read out at once. The hover cue replaces a separate "Οδηγίες →"
+ * link — with the card itself clickable, a second control inside it pointing at
+ * the same place is just another thing to hit.
+ *
+ * This is a component because it was written twice, once on /company/ and once
+ * on /online-rantevou/, and the two had already drifted: one was clickable with
+ * the cue, the other a plain box with a bare default-blue link under it.
+ */
+import type { Branch } from "../../data/site";
+
+interface Props {
+	branch: Branch;
+}
+const { branch } = Astro.props;
+---
+
+<div class="card_wrap is-linked">
+	<div class="card_info">
+		<h3 class="heading_h5">
+			<a href={branch.maps} target="_blank" rel="noopener noreferrer" class="card_link">
+				{branch.name}
+			</a>
+		</h3>
+		<p class="text_size-small">
+			{branch.address}
+			{branch.postcode ? `, Τ.Κ. ${branch.postcode}` : ""} — {branch.note}
+		</p>
+		<p class="text_size-small">{branch.speciality}</p>
+		<span class="card_link-cue text_size-small" aria-hidden="true">Δείτε το στον χάρτη →</span>
+	</div>
+</div>

@@ -488,3 +488,23 @@
 .page[data-no-footer="true"] .footer-wrap {
 	display: none;
 }
+
+/* The build credit in the bottom row. Every other link down here is a
+   .footer-link wrapping its own text element; this one is inline inside a
+   sentence, so it takes the colour from its neighbours and marks itself with an
+   underline rather than being a block on its own. */
+.footer-credit {
+	margin-top: 0.35em;
+}
+
+.footer-credit_link {
+	color: inherit;
+	text-decoration: underline;
+	text-underline-offset: 0.2em;
+	transition: color 0.2s ease-out;
+}
+
+.footer-credit_link:hover,
+.footer-credit_link:focus-visible {
+	color: var(--brand-red-500);
+}

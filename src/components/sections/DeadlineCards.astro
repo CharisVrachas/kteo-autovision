@@ -1,0 +1,90 @@
+---
+/**
+ * The statutory deadlines, as Orisa's "Home 3 Section 10" (index-3.html):
+ * a pinned heading on the left and a stack of numbered cards on the right that
+ * slide up over one another as you scroll.
+ *
+ * Only the card column is Orisa's — its own left column is a heading plus a row
+ * of avatars, and this page has its own heading to put there instead. The
+ * column's markup is Orisa's, class for class: the numbered badge
+ * (.block-number, which fills with the accent colour while its card is the one
+ * on screen), the title and the paragraph.
+ *
+ * It shares everything else with ProfileStack and BranchStack — the stylesheet
+ * (assets/css/vendors/orisa-vcards.css) and the pin-and-stack timeline
+ * (assets/js/components/orisa-vcards.js, Orisa's main.js §32). All three of its
+ * sections use the same mechanism in Orisa too.
+ */
+import Eyebrow from "../ui/Eyebrow.astro";
+import { deadlines } from "../../data/site";
+---
+
+<section data-theme-section="light" class="section_task-list section_deadline-cards">
+	<div class="container">
+		<div class="padding is-none is-border-btn-none">
+			<div class="orisa-vcards">
+				<div class="home-3-section-10">
+					<div class="container section-fix">
+						<div class="row">
+							<div class="col-lg-5">
+								<div class="heading_container is-width-full">
+									<Eyebrow text="προθεσμίες ΚΤΕΟ" />
+									<h2 class="heading_h2">Οι προθεσμίες ανά κατηγορία</h2>
+									<p class="text_size-medium">
+										Κάθε προθεσμία μετρά από την ημερομηνία έκδοσης της πρώτης άδειας
+										κυκλοφορίας, και έπειτα από κάθε προηγούμενο έλεγχο.
+									</p>
+								</div>
+								{/* Empty in Orisa too — the marker its §32 looks for to confirm
+								    this column is the pinned title. */}
+								<div class="section-title-pin"></div>
+							</div>
+
+							<div class="col-xxl-6 col-lg-7 ms-auto p-relative">
+								<div class="scroll-section vertical-section section scroll-active-item">
+									{/* Orisa puts a small label here, above the list, inside the
+									    wrapper. Dropped: the section already has a heading beside it
+									    saying the same thing, and sitting outside .list it floated
+									    above the pinned area on its own. */}
+									<div class="wrapper">
+										<div role="list" class="list">
+											{
+												deadlines.map((item, i) => (
+													<div class="item">
+														<div class="container bg-neutral-0 rounded-4 border-100 p-relative">
+															<div class="rectangular bg-neutral-0 border-100" />
+															<div class="row align-items-center py-3">
+																<div class="col-12 h-100">
+																	<div class="d-flex flex-column p-md-5 p-3 justify-content-between h-100">
+																		<div class="block-number icon-shape mb-20 size-50 bg-neutral-100 rounded-3">
+																			<span class="h6 number mb-0 fw-600 d-block">
+																				{String(i + 1).padStart(2, "0")}
+																			</span>
+																		</div>
+																		{/* The interval, which the old site's list showed
+																		    above the category name. Orisa's card has no
+																		    equivalent line, so this is the site's own small
+																		    text rather than one of its classes. */}
+																		<span class="deadline-card_every text_size-small">
+																			{item.every}
+																		</span>
+																		<h3 class="h5 mb-4">{item.title}</h3>
+																		<p class="mb-0 fz-font-xl">{item.text}</p>
+																	</div>
+																</div>
+															</div>
+														</div>
+													</div>
+												))
+											}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

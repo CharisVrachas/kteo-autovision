@@ -11,6 +11,8 @@ import Base from "../layouts/Base.astro";
 import InnerHero from "../components/sections/InnerHero.astro";
 import Button from "../components/ui/Button.astro";
 import Eyebrow from "../components/ui/Eyebrow.astro";
+import BranchLinkCard from "../components/ui/BranchLinkCard.astro";
+import BookingSteps from "../components/sections/BookingSteps.astro";
 import { site, openBranches, openingHours, primaryPhone } from "../data/site";
 
 const steps = [
@@ -37,6 +39,7 @@ const steps = [
 	title="Online ραντεβού — ΙΚΤΕΟ Autovision Ρόδου"
 	description="Κλείστε online το ραντεβού σας για τεχνικό έλεγχο στα ΙΚΤΕΟ Autovision σε Ασγούρου και Τσαϊρι, μέσω του συστήματος κρατήσεων της Autovision."
 	namespace="booking"
+	pageStyles={["tools"]}
 	pageLabel="Online ραντεβού"
 >
 	<InnerHero
@@ -59,7 +62,10 @@ const steps = [
 					class="booking_preview"
 				/>
 			</div>
-			<div class="padding">
+			{/* is-border-btn-none: this block's own bottom rule landed exactly where
+			    the first step begins, reading as a stray line above ΒΗΜΑ 01. The
+			    rules BETWEEN the steps are Orisa's and stay. */}
+			<div class="padding is-border-btn-none">
 				<div class="heading_container">
 					<Eyebrow text="πώς γίνεται" />
 					<h2 class="heading_h2">Τέσσερα βήματα</h2>
@@ -70,24 +76,7 @@ const steps = [
 				</div>
 			</div>
 			<div class="padding is-none is-border-btn-none">
-				<ul role="list" class="feature-list is-list-unstyled">
-					{
-						steps.map((step, i) => (
-							<li class="feature-list_item has-description is-above">
-								<div class="feature-list_left">
-									<div class="annotation_container">
-										<div class="annotation_dot" />
-										<div class="annotation_text">{String(i + 1).padStart(2, "0")}</div>
-									</div>
-									<h3 class="heading_h5">{step.title}</h3>
-								</div>
-								<div class="feature-list_right">
-									<p class="feature-list_description text_size-medium">{step.text}</p>
-								</div>
-							</li>
-						))
-					}
-				</ul>
+				<BookingSteps steps={steps} />
 			</div>
 			<div class="padding">
 				<div class="btn-big_container">
@@ -97,8 +86,8 @@ const steps = [
 						big
 					/>
 				</div>
-				<p class="text_size-small">
-					Ή καλέστε μας στο <a href={primaryPhone.href}>{primaryPhone.label}</a> —
+				<p class="text_size-small booking_callout">
+					Ή καλέστε μας στο <a href={primaryPhone.href} class="inline-link">{primaryPhone.label}</a> —
 					{openingHours[0].days} {openingHours[0].hours}, {openingHours[1].days}{" "}
 					{openingHours[1].hours}.
 				</p>
@@ -113,24 +102,12 @@ const steps = [
 					<h2 class="heading_h2">Πού θα έρθετε</h2>
 				</div>
 			</div>
-			<div class="padding is-none">
+			<div class="padding is-none is-border-btn-none booking_branches">
 				<div class="content-grid is-cols-2">
 					{
 						openBranches.map((branch) => (
 							<div class="grid-col">
-								<div class="card_wrap">
-									<div class="card_info">
-										<h3 class="heading_h5">{branch.name}</h3>
-										<p class="text_size-small">
-											{branch.address}
-											{branch.postcode ? `, Τ.Κ. ${branch.postcode}` : ""} — {branch.note}
-										</p>
-										<p class="text_size-small">{branch.speciality}</p>
-										<a href={branch.maps} target="_blank" rel="noopener noreferrer" class="map-link">
-											Οδηγίες →
-										</a>
-									</div>
-								</div>
+								<BranchLinkCard branch={branch} />
 							</div>
 						))
 					}

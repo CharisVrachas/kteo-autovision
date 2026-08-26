@@ -9,6 +9,7 @@ import Journey from "../components/sections/Journey.astro";
 import ScrollZoomImage from "../components/sections/ScrollZoomImage.astro";
 import Eyebrow from "../components/ui/Eyebrow.astro";
 import Button from "../components/ui/Button.astro";
+import BranchLinkCard from "../components/ui/BranchLinkCard.astro";
 import { openBranches } from "../data/site";
 
 const panels = [
@@ -107,34 +108,7 @@ const panels = [
 					{
 						openBranches.map((branch) => (
 							<div class="grid-col">
-								{/* The whole card opens the centre in Maps. The anchor wraps only the
-								    heading and is stretched over the card in CSS (.card_link::after,
-								    inset 0), rather than wrapping the markup itself: the click target
-								    is the full card, the layout is untouched, and the link's
-								    accessible name stays the centre's name instead of becoming the
-								    whole block of text read out at once. */}
-								<div class="card_wrap is-linked">
-									<div class="card_info">
-										<h3 class="heading_h5">
-											<a
-												href={branch.maps}
-												target="_blank"
-												rel="noopener noreferrer"
-												class="card_link"
-											>
-												{branch.name}
-											</a>
-										</h3>
-										<p class="text_size-small">
-											{branch.address}
-											{branch.postcode ? `, Τ.Κ. ${branch.postcode}` : ""} — {branch.note}
-										</p>
-										<p class="text_size-small">{branch.speciality}</p>
-										<span class="card_link-cue text_size-small" aria-hidden="true">
-											Δείτε το στον χάρτη →
-										</span>
-									</div>
-								</div>
+								<BranchLinkCard branch={branch} />
 							</div>
 						))
 					}

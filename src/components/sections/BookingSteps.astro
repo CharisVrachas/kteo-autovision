@@ -1,0 +1,66 @@
+---
+/**
+ * The four things the Autovision booking form asks for, as Orisa's
+ * "About section 1" journey list (about-3.html) — its
+ * `col-lg-8 ms-lg-auto block-journey`.
+ *
+ * Orisa's own version of this block sits on a light band and carries its
+ * `neutral-900` / `neutral-500` colour classes, and a `border-bottom-100` rule
+ * under every row. The rule is dropped here — four short steps do not need
+ * separating the way its long CV list does — and, like the colours, it is
+ * !important in the lifted CSS, so the class comes off rather than being
+ * overridden. This band is DARK — the same
+ * one the /company/ timeline uses — so those classes are left off: they are
+ * !important in the lifted CSS, and copied across verbatim they painted
+ * near-black text on the near-black section. Without them the rows take the
+ * dark-band colours site.css already gives every .journey-list.
+ *
+ * Everything else is Orisa's: the `.journey-list` markup and the
+ * `.journey-list-line` beside it, which orisa-journey.js draws downward on a
+ * scrub (its main.js §54). The wrapper's 80px left indent is what makes room
+ * for that line.
+ *
+ * Only the list is Orisa's. The heading above it stays this site's own, in its
+ * own container, as it was.
+ */
+import { site } from "../../data/site";
+
+interface Props {
+	steps: { title: string; text: string }[];
+}
+const { steps } = Astro.props;
+
+const arrow =
+	"M0.21967 9.40717C-0.0732232 9.70006 -0.0732232 10.1749 0.21967 10.4678C0.512563 10.7607 0.987437 10.7607 1.28033 10.4678L0.21967 9.40717ZM10.6875 0.75C10.6875 0.335786 10.3517 2.97145e-09 9.9375 1.50485e-07L3.1875 -2.70983e-07C2.77329 -2.70983e-07 2.4375 0.335786 2.4375 0.75C2.4375 1.16421 2.77329 1.5 3.1875 1.5H9.1875V7.5C9.1875 7.91421 9.52329 8.25 9.9375 8.25C10.3517 8.25 10.6875 7.91421 10.6875 7.5L10.6875 0.75ZM0.75 9.9375L1.28033 10.4678L10.4678 1.28033L9.9375 0.75L9.40717 0.21967L0.21967 9.40717L0.75 9.9375Z";
+---
+
+<div class="orisa-journey booking_steps">
+	<div class="block-journey">
+		<div class="journey-list-wrap">
+			<div class="journey-list-line" aria-hidden="true"></div>
+			<ul class="journey-list">
+				{
+					steps.map((step, i) => (
+						<li class="journey-list__item scroll-move-up">
+							<span class="journey-list__date">
+								Βήμα {String(i + 1).padStart(2, "0")}
+							</span>
+							<div class="journey-list__body">
+								<h3 class="h6 journey-list__title">{step.title}</h3>
+								<p class="journey-list__desc">{step.text}</p>
+							</div>
+							{/* Orisa's row-end control links to a detail page; there is none
+							    per step here, so it is a plain mark rather than an anchor
+							    that goes nowhere. */}
+							<span class="journey-list__link" aria-hidden="true">
+								<svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+									<path d={arrow} fill="currentColor" />
+								</svg>
+							</span>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</div>
+</div>

@@ -1,6 +1,7 @@
 /* orisa-journey.css -- lifted from the Orisa template, not rewritten.
  *
- * Source: Orisa v1.1.0, "About section 2" of about-1.html -- the journey timeline. The rules below
+ * Source: Orisa v1.1.0, "About section 2" of about-1.html and "About section 1" of
+ * about-3.html -- the journey timeline, dark and light. The rules below
  * are Orisa's own, copied out of its built CSS (main.css, bootstrap.min.css,
  * spacing.css) with their declarations untouched.
  *
@@ -125,6 +126,7 @@
 	.orisa-journey .col-lg-3 {flex:0 0 auto;width:25%}
 	.orisa-journey .col-lg-4 {flex:0 0 auto;width:33.33333333%}
 	.orisa-journey .col-lg-7 {flex:0 0 auto;width:58.33333333%}
+	.orisa-journey .col-lg-8 {flex:0 0 auto;width:66.66666667%}
 }
 .orisa-journey .navbar>.container,
 .orisa-journey .navbar>.container-fluid,
@@ -152,6 +154,9 @@
 .orisa-journey .rounded-pill {border-radius:var(--bs-border-radius-pill)!important}
 @media (min-width:768px) {
 	.orisa-journey .justify-content-md-end {justify-content:flex-end!important}
+}
+@media (min-width:992px) {
+	.orisa-journey .ms-lg-auto {margin-left:auto!important}
 }
 .orisa-journey .mt-10 {
     margin-top: 10px
@@ -196,6 +201,9 @@
 .orisa-journey .at-image-hover:hover .content {
   opacity: 1;
   transform: translateY(0);
+}
+.orisa-journey .border-bottom-100 {
+  border-bottom: 1px solid var(--at-neutral-100) !important;
 }
 .orisa-journey .navigation-sec4home3 .item .content span {
   flex: 0 0 60px;
@@ -357,6 +365,12 @@
 }
 .orisa-journey .neutral-0 {
   color: var(--at-neutral-0) !important;
+}
+.orisa-journey .neutral-500 {
+  color: var(--at-neutral-500) !important;
+}
+.orisa-journey .neutral-900 {
+  color: var(--at-neutral-900) !important;
 }
 .orisa-journey .bg-neutral-700 {
   background-color: var(--at-neutral-700) !important;

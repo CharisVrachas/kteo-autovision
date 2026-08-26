@@ -66,10 +66,28 @@ const pillars = [
 				</div>
 			</div>
 		</div>
+		{/* The operator's own footage, replacing the template's stock clip.
+		    One source: there is no webm alongside it — every browser that runs
+		    this site plays h.264 mp4, and a second encode is only worth adding
+		    with a tool to make it.
+
+		    The poster is a photograph of the Tsairi centre rather than a frame
+		    of the clip: there is no ffmpeg on this machine to pull one, and it
+		    matters more than it looks — when a browser blocks autoplay (iOS in
+		    low-power mode does) the poster is ALL that shows. A still of the
+		    centre is a better fallback than black. Swap it for a real frame
+		    whenever there is a tool to cut one. */}
 		<div data-parallax="target" class="hero_bg-video bg-video">
-			<video autoplay loop muted playsinline preload="metadata" class="hero_video">
-				<source src="/assets/video/main-framerate.webm" type="video/webm" />
-				<source src="/assets/video/main-framerate.mp4" type="video/mp4" />
+			<video
+				autoplay
+				loop
+				muted
+				playsinline
+				preload="metadata"
+				poster="/assets/img/rodos/kteo-exterior.jpg"
+				class="hero_video"
+			>
+				<source src="/assets/video/autovision-hero.mp4" type="video/mp4" />
 			</video>
 		</div>
 		<div class="darken"></div>

@@ -16,6 +16,28 @@
 function initOrisaJourney() {
 	if (typeof gsap === "undefined" || typeof ScrollTrigger === "undefined") return;
 
+	// Orisa's §54: the vertical rule beside the list, drawn downward as the
+	// block comes past. querySelectorAll rather than its querySelector, so a
+	// page with more than one of these still gets both.
+	document.querySelectorAll(".orisa-journey .journey-list-wrap").forEach((wrap) => {
+		if (wrap.__orisaLineInit) return;
+		const line = wrap.querySelector(".journey-list-line");
+		if (!line) return;
+		wrap.__orisaLineInit = true;
+		gsap.set(line, { height: 0 });
+		gsap.to(line, {
+			height: "100%",
+			ease: "none",
+			scrollTrigger: {
+				trigger: wrap,
+				start: "top 80%",
+				end: "bottom 60%",
+				scrub: 1.2,
+				invalidateOnRefresh: true,
+			},
+		});
+	});
+
 	document.querySelectorAll(".orisa-journey .scroll-move-up").forEach((el) => {
 		if (!el || el.__orisaMoveUpInit) return;
 		el.__orisaMoveUpInit = true;

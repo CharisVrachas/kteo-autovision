@@ -105,3 +105,10 @@
 		max-width: 90%;
 	}
 }
+
+/* The lead beside the page title. It is a .heading_h5 for its size, and
+   typography.css uppercases every h4/h5 — right for a heading, wrong for a
+   sentence of running text, which is what this is. */
+.contacts_lead {
+	text-transform: none;
+}

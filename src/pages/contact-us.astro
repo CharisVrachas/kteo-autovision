@@ -2,9 +2,9 @@
 /**
  * /contact-us/ — contact form, the two centres, and opening hours.
  *
- * `noFooter` hides the footer here: the page is a full-height contact panel and
- * the footer would repeat the same addresses immediately below it. The markup
- * still ships, because Barba needs the same shell on both sides of a transition.
+ * The footer shows here as it does everywhere else. It was hidden at first
+ * because it repeats the two addresses right below the ones on the page; the
+ * duplication is the price of the page ending the way every other page does.
  */
 import Base from "../layouts/Base.astro";
 import Button from "../components/ui/Button.astro";
@@ -21,7 +21,6 @@ import { site, branches, openingHours } from "../data/site";
 	pageLabel="Επικοινωνία"
 	pageStyles={["contacts"]}
 	navTheme="dark"
-	noFooter
 >
 	<section data-theme-section="dark" class="section_contacts">
 		<div class="container">

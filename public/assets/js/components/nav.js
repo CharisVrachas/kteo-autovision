@@ -109,7 +109,16 @@ function initNavContactScroll() {
 	//     after pin-spacing is recalculated.
 	//  2) an onComplete correction pass — if the layout shifted mid-animation and
 	//     the final position missed the target, close the gap over 0.4s.
-	const links = document.querySelectorAll(".nav_contact");
+	// Only fragment links. The bar's action button used to be a "get in touch"
+	// control, and this scrolled it to the CTA section; it now points at
+	// /online-rantevou/, and the handler was still swallowing the click and
+	// scrolling to the contact form at the bottom of whatever page you were on
+	// instead of navigating. A link with a real destination navigates; only an
+	// on-page target (href="#...") gets the smooth scroll.
+	const links = [...document.querySelectorAll(".nav_contact")].filter((a) => {
+		const href = a.getAttribute("href") || "";
+		return href === "" || href.charAt(0) === "#";
+	});
 	if (!links.length) return;
 	const startScroll = () => {
 		const cta = document.querySelector(".section_cta");

@@ -1,6 +1,6 @@
 /* orisa-vcards.css -- lifted from the Orisa template, not rewritten.
  *
- * Source: Orisa v1.1.0, "Home 3 Section 4" of index-3.html and "Services details
+ * Source: Orisa v1.1.0, "Home 3 Section 4" and "Home 3 Section 10" of index-3.html, and "Services details
  * section 3" of services-details.html -- the two share one mechanism. The rules below
  * are Orisa's own, copied out of its built CSS (main.css, bootstrap.min.css,
  * spacing.css) with their declarations untouched.
@@ -19,8 +19,10 @@
 	--at-common-white: #ffffff;
 	--at-ff-body: 'DM Sans', sans-serif;
 	--at-fz-font-2xl: 28px;
+	--at-fz-font-label: 12px;
 	--at-fz-font-lg: 20px;
 	--at-fz-font-md: 16px;
+	--at-fz-font-xl: 22px;
 	--at-neutral-0: #FEFEFE;
 	--at-neutral-100: #DFDFDF;
 	--at-neutral-50: #F2F2F2;
@@ -244,6 +246,7 @@
 .orisa-vcards .mb-0 {margin-bottom:0!important}
 .orisa-vcards .mb-3 {margin-bottom:1rem!important}
 .orisa-vcards .mb-4 {margin-bottom:1.5rem!important}
+.orisa-vcards .ms-auto {margin-left:auto!important}
 .orisa-vcards .p-0 {padding:0!important}
 .orisa-vcards .p-3 {padding:1rem!important}
 .orisa-vcards .p-4 {padding:1.5rem!important}
@@ -270,8 +273,14 @@
 .orisa-vcards .mb-10 {
     margin-bottom: 10px
 }
+.orisa-vcards .mb-20 {
+    margin-bottom: 20px
+}
 .orisa-vcards .mb-40 {
     margin-bottom: 40px
+}
+.orisa-vcards .pt-50 {
+    padding-top: 50px
 }
 .orisa-vcards .pt-100 {
     padding-top: 100px
@@ -284,6 +293,12 @@
 }
 .orisa-vcards .pb-20 {
     padding-bottom: 20px
+}
+.orisa-vcards .pb-30 {
+    padding-bottom: 30px
+}
+.orisa-vcards .pb-100 {
+    padding-bottom: 100px
 }
 .orisa-vcards .pb-120 {
     padding-bottom: 120px
@@ -398,6 +413,23 @@
 }
 .orisa-vcards .navigation-sec4home3 .item.active svg {
   opacity: 1;
+}
+.orisa-vcards .icon-shape {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.orisa-vcards .size-30 {
+  width: 30px;
+  height: 30px;
+}
+.orisa-vcards .size-50 {
+  width: 50px;
+  height: 50px;
+}
+.orisa-vcards .size-56 {
+  width: 56px;
+  height: 56px;
 }
 .orisa-vcards {
   font-size: 16px;
@@ -532,11 +564,17 @@
 .orisa-vcards .fw-600 {
   font-weight: 600;
 }
+.orisa-vcards .fz-font-label {
+  font-size: var(--at-fz-font-label);
+}
 .orisa-vcards .fz-font-md {
   font-size: var(--at-fz-font-md);
 }
 .orisa-vcards .fz-font-lg {
   font-size: var(--at-fz-font-lg);
+}
+.orisa-vcards .fz-font-xl {
+  font-size: var(--at-fz-font-xl);
 }
 .orisa-vcards .fz-font-2xl {
   font-size: var(--at-fz-font-2xl);
@@ -547,6 +585,9 @@
 .orisa-vcards .neutral-500 {
   color: var(--at-neutral-500) !important;
 }
+.orisa-vcards .neutral-900 {
+  color: var(--at-neutral-900) !important;
+}
 .orisa-vcards .neutral-950 {
   color: var(--at-neutral-950) !important;
 }
@@ -555,6 +596,9 @@
 }
 .orisa-vcards .bg-neutral-50 {
   background-color: var(--at-neutral-50) !important;
+}
+.orisa-vcards .bg-neutral-100 {
+  background-color: var(--at-neutral-100) !important;
 }
 @media only screen and (min-width: 1200px) and (max-width: 1399px), only screen and (min-width: 992px) and (max-width: 1199px), only screen and (min-width: 768px) and (max-width: 991px), only screen and (min-width: 576px) and (max-width: 767px), (max-width: 574.98px) {
 	.orisa-vcards .pt-120 {
@@ -571,12 +615,23 @@
     padding-bottom: 80px;
   }
 }
+@media only screen and (min-width: 1200px) and (max-width: 1399px), only screen and (min-width: 992px) and (max-width: 1199px), only screen and (min-width: 768px) and (max-width: 991px), only screen and (min-width: 576px) and (max-width: 767px), (max-width: 574.98px) {
+	.orisa-vcards .pb-100 {
+    padding-bottom: 60px;
+  }
+}
 @media only screen and (min-width: 1200px) and (max-width: 1399px), only screen and (min-width: 992px) and (max-width: 1199px) {
+	.orisa-vcards .fz-font-label {
+    font-size: 12px !important;
+  }
 	.orisa-vcards .fz-font-md {
     font-size: 18px !important;
   }
 	.orisa-vcards .fz-font-lg {
     font-size: 20px !important;
+  }
+	.orisa-vcards .fz-font-xl {
+    font-size: 22px !important;
   }
 	.orisa-vcards .fz-font-2xl {
     font-size: 26px !important;
@@ -610,11 +665,17 @@
   }
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
+	.orisa-vcards .fz-font-label {
+    font-size: 12px !important;
+  }
 	.orisa-vcards .fz-font-md {
     font-size: 16px !important;
   }
 	.orisa-vcards .fz-font-lg {
     font-size: 18px !important;
+  }
+	.orisa-vcards .fz-font-xl {
+    font-size: 20px !important;
   }
 	.orisa-vcards .fz-font-2xl {
     font-size: 24px !important;
@@ -648,11 +709,17 @@
   }
 }
 @media (max-width: 574.98px) {
+	.orisa-vcards .fz-font-label {
+    font-size: 12px !important;
+  }
 	.orisa-vcards .fz-font-md {
     font-size: 14px !important;
   }
 	.orisa-vcards .fz-font-lg {
     font-size: 16px !important;
+  }
+	.orisa-vcards .fz-font-xl {
+    font-size: 18px !important;
   }
 	.orisa-vcards .fz-font-2xl {
     font-size: 22px !important;
@@ -741,6 +808,16 @@
     backdrop-filter: blur(3px);
   }
 }
+.orisa-vcards .at-service-item .number {
+  color: var(--at-neutral-500);
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: -1.8px;
+  opacity: 0.3;
+  transition: all 0.5s;
+}
 .orisa-vcards .at-service-item .content .title {
   color: var(--at-neutral-900);
   font-weight: 600;
@@ -766,6 +843,10 @@
   transition: all 0.5s;
   max-width: 370px;
   margin-bottom: 0;
+}
+.orisa-vcards .at-service-item:hover .number {
+  color: var(--at-theme-primary);
+  opacity: 1;
 }
 @media only screen and (min-width: 1200px) and (max-width: 1399px), only screen and (min-width: 992px) and (max-width: 1199px), only screen and (min-width: 768px) and (max-width: 991px), only screen and (min-width: 576px) and (max-width: 767px), (max-width: 574.98px) {
 	.orisa-vcards .alt-portfolio-btn .h2 {
