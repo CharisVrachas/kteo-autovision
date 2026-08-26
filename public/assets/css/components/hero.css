@@ -37,13 +37,68 @@
 	inset: -10% 0% 0%;
 }
 
+/* Readability scrim over the hero video — directional, not a flat wash.
+ *
+ * The footage is a bright white studio, and the hero was drawn for light text
+ * on dark video, so white-on-white. A uniform scrim dark enough to fix that
+ * would grey out the whole clip, including the logo in the middle, which is the
+ * part worth seeing. Two gradients instead:
+ *
+ *   1. a strip down from the top, behind the navbar;
+ *   2. a wedge in from the left, behind the heading, the paragraph and the
+ *      button, fading out before the centre.
+ *
+ * The wedge clears well before the right-hand side, so the middle of the frame
+ * stays at full brightness. The top strip has to carry the navbar on its own
+ * out there — measured across the clip, the booking link at the far right was
+ * the one item still short of 4.5:1, which is what set its opacity. It is gone
+ * by 32% of the height, well above the logo. The angle is 100deg rather than a flat 90 so the wedge
+ * leans with the room's perspective instead of cutting a vertical band.
+ */
 .darken {
 	z-index: 2;
-	background-color: rgba(0, 0, 0, 0.2); /* readability scrim over the hero video */
+	background-color: transparent;
+	background-image:
+		linear-gradient(
+			to bottom,
+			rgba(0, 0, 0, 0.68) 0%,
+			rgba(0, 0, 0, 0.46) 11%,
+			rgba(0, 0, 0, 0.16) 22%,
+			rgba(0, 0, 0, 0) 32%
+		),
+		linear-gradient(
+			100deg,
+			rgba(0, 0, 0, 0.62) 0%,
+			rgba(0, 0, 0, 0.46) 26%,
+			rgba(0, 0, 0, 0.16) 48%,
+			rgba(0, 0, 0, 0) 64%
+		);
 	width: 100%;
 	height: 100%;
 	position: absolute;
 	inset: 0%;
+}
+
+/* Narrow screens: the copy runs nearly the full width, so the wedge has nowhere
+   to fade to and it becomes a single top-to-bottom gradient.
+   It does NOT thin out through the middle. The first version did, on the
+   assumption that the copy sits low in the frame; it is vertically centred, so
+   the heading landed in the quiet band and measured 2.0:1. The middle is held
+   at roughly the same weight as the desktop wedge instead. The logo is dimmer
+   here than on desktop, which is the trade: at 375 wide it sits behind the copy
+   either way, and legibility wins. */
+@media screen and (max-width: 767px) {
+	.darken {
+		background-image:
+			linear-gradient(
+				to bottom,
+				rgba(0, 0, 0, 0.68) 0%,
+				rgba(0, 0, 0, 0.5) 10%,
+				rgba(0, 0, 0, 0.44) 26%,
+				rgba(0, 0, 0, 0.46) 62%,
+				rgba(0, 0, 0, 0.58) 100%
+			);
+	}
 }
 
 .hero_para-wrap {
@@ -69,7 +124,13 @@
 
 /* Poster frame shown while the hero video buffers. */
 .hero_video {
-	background-image: url("/assets/video/main-framerate-poster.jpg");
+	/* Shown before the first frame decodes, and it must match the <video>'s own
+	   poster — this still pointed at the template's stock clip after the footage
+	   was replaced. */
+	background-image: url("/assets/img/rodos/kteo-exterior.jpg");
 	background-size: cover;
 	background-position: center;
+	/* Takes the glare off the white studio so the scrim above does not have to
+	   work as hard. Light enough that the logo keeps its colour. */
+	filter: brightness(0.78);
 }
