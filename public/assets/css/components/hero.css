@@ -108,10 +108,9 @@
 
 /* Poster frame shown while the hero video buffers. */
 .hero_video {
-	/* Shown before the first frame decodes, and it must match the <video>'s own
-	   poster — this still pointed at the template's stock clip after the footage
-	   was replaced. */
-	background-image: url("/assets/img/rodos/kteo-exterior.jpg");
+	/* Shown before the first frame decodes, and it matches the <video>'s own
+	   poster. */
+	background-image: url("/assets/video/autovision-home-poster.jpg");
 	background-size: cover;
 	background-position: center;
 }
@@ -152,5 +151,38 @@
 @media screen and (max-width: 767px) {
 	.hero_scroll-cue {
 		bottom: 6em;
+	}
+}
+
+/* ---------------------------------------------------------------------------
+   The hero's booking button
+
+   With the copy gone the section has one control left. It sits on the centre
+   line, directly above the scroll cue, so the two read as one stack: button,
+   chevrons, label. Left-aligned it had nothing to anchor to once the heading
+   and paragraph went.
+
+   `bottom` clears the chevrons (which start at 7em and animate downward) plus a
+   gap, so the button never sits on top of them. The wrapper's vertical padding
+   is zeroed first — without that, `bottom` positions the .padding box rather
+   than the button inside it.
+   --------------------------------------------------------------------------- */
+.section_hero .hero_actions {
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	bottom: calc(9.5em + 24px);
+	z-index: 3;
+	width: auto;
+}
+
+.section_hero .hero_actions .padding {
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+@media screen and (max-width: 767px) {
+	.section_hero .hero_actions {
+		bottom: calc(8em + 24px);
 	}
 }

@@ -1559,3 +1559,41 @@ textarea.cta-field.form-field {
 	background: var(--mapped-surface-action);
 	z-index: 1;
 }
+
+/* ---------------------------------------------------------------------------
+   The "Πού θα μας βρείτε" grid on the homepage
+   --------------------------------------------------------------------------- */
+
+/* A step down the scale: the section title was 60px and the card titles 32px,
+   which read as shouting next to the rest of the page. */
+/* !important: the element also carries Orisa's .fz-ds-1 utility, which is
+   itself !important, so a plain declaration lost and the title stayed at 60px. */
+.orisa-portfolio .alt-portfolio-main-title {
+	font-size: var(--type-h2-size) !important;
+	line-height: var(--type-h2-lh);
+}
+
+.orisa-portfolio .alt-portfolio-title,
+.orisa-portfolio .alt-portfolio-title a,
+.orisa-portfolio .alt-portfolio-btn .content h4 {
+	font-size: var(--type-h5-size) !important;
+	line-height: var(--type-h5-lh);
+}
+
+/* The centre names in the Autovision red from the mark, not the body colour. */
+.orisa-portfolio .alt-portfolio-title,
+.orisa-portfolio .alt-portfolio-title a {
+	color: var(--brand-red-500);
+}
+
+.orisa-portfolio .alt-portfolio-title a:hover,
+.orisa-portfolio .alt-portfolio-title a:focus-visible {
+	color: var(--brand-red-600);
+}
+
+/* Greek ordinals inside an uppercased heading. "7ο χιλ." became "7Ο", which
+   reads as seventy; the ending keeps its lowercase letter while the rest of the
+   line is still uppercased. See the `ordinal` helper in BranchCard.astro. */
+.is-ordinal {
+	text-transform: lowercase;
+}

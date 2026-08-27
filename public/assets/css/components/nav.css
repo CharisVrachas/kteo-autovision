@@ -773,3 +773,16 @@
 	--mapped-border-default: var(--alias-grey-700);
 	--mapped-surface-default: var(--alias-grey-800);
 }
+
+/* The two brand marks share one grid cell, so the panel is sized by the wider
+   of them and neither shifts as logo-cycle.js cross-fades between them.
+   Absolute positioning would have collapsed the container's width instead. */
+.nav_logo-stack {
+	display: grid;
+	align-items: center;
+}
+
+.nav_logo-stack > .nav_logo-img {
+	grid-area: 1 / 1;
+	justify-self: center;
+}

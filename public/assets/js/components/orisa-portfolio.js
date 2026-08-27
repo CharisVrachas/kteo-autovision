@@ -70,13 +70,36 @@ function initOrisaPortfolio() {
 						markers: false,
 						pinSpacing: false,
 						scrub: 1,
+						// The distances below are read back from this trigger, so they
+						// have to be recomputed whenever it re-measures.
+						invalidateOnRefresh: true,
 					},
 				});
 
-				const areaRect = portfolioArea.getBoundingClientRect();
-				const textRect = portfolioText.getBoundingClientRect();
-				const endX = areaRect.width - textRect.width - 50;
-				const endY = areaRect.height - textRect.height - 50;
+				/* How far the heading may travel: the length of the pin itself.
+				 *
+				 * Orisa sizes the drop from the SECTION's height, which works when the
+				 * grid below is six items deep — the section is then far taller than
+				 * the pin and the heading lands well before it releases. This grid has
+				 * two items. The section came out 1180px tall against a 520px pin, so
+				 * the heading was asked to fall 964px in 520px of scroll: it was still
+				 * moving when the pin let go, and the whole effect read as broken.
+				 *
+				 * Clamping to the pin's own length means the heading arrives exactly as
+				 * the section releases, whatever the grid holds. Function-based values,
+				 * so they re-evaluate on every refresh alongside the trigger.
+				 */
+				const travel = () => {
+					const st = portfolioline.scrollTrigger;
+					return st ? Math.max(0, st.end - st.start) : 0;
+				};
+				const endX = () =>
+					portfolioArea.getBoundingClientRect().width - portfolioText.getBoundingClientRect().width - 50;
+				const endY = () =>
+					Math.min(
+						portfolioArea.getBoundingClientRect().height - portfolioText.getBoundingClientRect().height - 50,
+						travel(),
+					);
 
 				portfolioline.fromTo(portfolioText, { x: 0, y: 0, scale: 1 }, { x: endX, y: endY, scale: 1, duration: 1, ease: "none" });
 

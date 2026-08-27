@@ -12,10 +12,13 @@
  * optional.
  */
 interface Props {
+	/** A still, or the poster for `video` when one is given. */
 	image: string;
 	alt: string;
+	/** Optional: play a clip instead of the still. */
+	video?: string;
 }
-const { image, alt } = Astro.props;
+const { image, alt, video } = Astro.props;
 ---
 
 <div class="orisa-scroll-zoom">
@@ -25,8 +28,27 @@ const { image, alt } = Astro.props;
 		>
 			<div class="postbox-item-wrap">
 				<div class="postbox-item">
+					{/* Either fills the thumb the same way — .img-cover is width and
+					    height 100% with object-fit: cover — so the scrub that opens the
+					    thumb from 20% to full width is untouched by the choice. */}
 					<div class="postbox-thumb p-relative rounded-5">
-						<img class="postbox-scroll-zoom-img img-cover" src={image} alt={alt} />
+						{
+							video ? (
+								<video
+									class="postbox-scroll-zoom-img img-cover"
+									src={video}
+									poster={image}
+									autoplay
+									loop
+									muted
+									playsinline
+									preload="metadata"
+									aria-label={alt}
+								/>
+							) : (
+								<img class="postbox-scroll-zoom-img img-cover" src={image} alt={alt} />
+							)
+						}
 					</div>
 				</div>
 			</div>

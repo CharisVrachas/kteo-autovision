@@ -103,7 +103,7 @@ function initPreloader() {
 	var dotsCardRight = pre.querySelector('[data-preloader-card-dots="right"]');
 	var progressEl = pre.querySelector(".preloader__progress");
 	var logoEl = pre.querySelector("[data-preloader-logo]");
-	var logoImg = logoEl && logoEl.querySelector("img");
+	var logoMarks = logoEl ? logoEl.querySelectorAll("img") : null;
 	var nav = document.querySelector(".nav");
 	var navItems = nav
 		? nav.querySelectorAll(".nav_logo-container, .nav_item, .nav_contact, .nav_menu-toggle")
@@ -449,16 +449,40 @@ function initPreloader() {
 	    file, which runs outside initPreloader entirely — the two meet only
 	    through window.__preloaderLogoBreathe. */
 	function stopLogo() {
+		// Tells the cycle below not to start ANOTHER swap: a delayedCall already
+		// waiting would otherwise fire after the curtain had begun to move. The
+		// first swap has necessarily finished by now — startReveal() gates on it.
+		window.__preloaderLogoDone = true;
+		if (window.__preloaderLogoTimer) {
+			window.__preloaderLogoTimer.kill();
+			window.__preloaderLogoTimer = null;
+		}
 		if (window.__preloaderLogoBreathe) {
 			window.__preloaderLogoBreathe.kill();
 			window.__preloaderLogoBreathe = null;
 		}
-		if (logoImg) gsap.to(logoImg, { scale: 1, duration: 0.4, ease: ez(CFG.LOGO_EASE) });
+		// Every mark, not just the first: after a swap the one on screen is the
+		// second, and settling the wrong one left the visible mark mid-breath.
+		if (logoMarks && logoMarks.length) {
+			gsap.to(logoMarks, { scale: 1, duration: 0.4, ease: ez(CFG.LOGO_EASE) });
+		}
 	}
 
 	// ── Reveal sequence ──
 	function startReveal() {
 		if (revealStarted) return;
+		// One logo swap always completes before the curtain moves. The loading
+		// screen is only up for a couple of seconds, so without this the reveal
+		// beat the first swap every time and the marks never changed at all.
+		//
+		// __preloaderLogoSwapDone defaults to TRUE and is only cleared when the
+		// cycle actually starts (two marks, motion allowed, gsap present). A
+		// preloader that waits for something which will never happen would hide
+		// the whole site, so every failure path has to fall through here.
+		if (window.__preloaderLogoSwapDone === false) {
+			window.__preloaderLogoAfterSwap = startReveal;
+			return;
+		}
 		revealStarted = true;
 		stopIllu(); // stop the illustration cycle + clear its timers
 		stopLogo(); // settle the mark before the curtain moves
@@ -647,11 +671,72 @@ function initPreloader() {
 	if (typeof window === "undefined" || typeof gsap === "undefined") return;
 	if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 	var panel = document.querySelector("[data-preloader-logo]");
-	var mark = panel && panel.querySelector("img");
-	if (!panel || !mark) return;
+	var marks = panel ? panel.querySelectorAll("img") : null;
+	if (!panel || !marks || !marks.length) return;
+	var mark = marks[0];
 
 	var ease = typeof CustomEase !== "undefined" && gsap.parseEase("smoothOut") ? "smoothOut" : "power3.out";
 	gsap.set(mark, { scale: 1.18, xPercent: -6 });
+
+	/* The two marks alternate while the screen is up. HOLD is how long each one
+	   stays; SWAP matches the opening wipe, so a change reads as the same
+	   gesture rather than a second, unrelated effect. */
+	var HOLD = 2;
+	var SWAP = 0.7;
+	var current = 0;
+
+	// From here on the reveal waits for a swap. Set only once the cycle is
+	// certain to run — every early return above leaves it alone, so a preloader
+	// with one mark, or with motion turned down, still lifts on time.
+	if (marks.length > 1) window.__preloaderLogoSwapDone = false;
+
+	function breathe(el) {
+		window.__preloaderLogoBreathe = gsap.to(el, {
+			scale: 1.035,
+			duration: 1.8,
+			ease: "sine.inOut",
+			yoyo: true,
+			repeat: -1,
+		});
+	}
+
+	function queueSwap() {
+		if (marks.length < 2 || window.__preloaderLogoDone) return;
+		window.__preloaderLogoTimer = gsap.delayedCall(HOLD, function () {
+			// The reveal may have begun while this was waiting.
+			if (window.__preloaderLogoDone) return;
+			if (window.__preloaderLogoBreathe) {
+				window.__preloaderLogoBreathe.kill();
+				window.__preloaderLogoBreathe = null;
+			}
+			var from = marks[current];
+			current = (current + 1) % marks.length;
+			var to = marks[current];
+
+			var swap = gsap.timeline({
+				onComplete: function () {
+					window.__preloaderLogoSwap = null;
+					window.__preloaderLogoSwapDone = true;
+					// startReveal() parks itself here when the page finishes loading
+					// mid-swap, so the curtain waits for the mark to land.
+					var waiting = window.__preloaderLogoAfterSwap;
+					if (waiting) {
+						window.__preloaderLogoAfterSwap = null;
+						waiting();
+						return;
+					}
+					breathe(to);
+					queueSwap();
+				},
+			});
+			// The incoming mark arrives exactly the way the first one did: offset
+			// and scaled up, easing back as the outgoing one fades.
+			swap.set(to, { opacity: 0, scale: 1.18, xPercent: -6 });
+			swap.to(from, { opacity: 0, duration: SWAP, ease: ease }, 0);
+			swap.to(to, { opacity: 1, scale: 1, xPercent: 0, duration: SWAP, ease: ease }, 0);
+			window.__preloaderLogoSwap = swap;
+		});
+	}
 
 	var tl = gsap.timeline();
 	tl.to(panel, { clipPath: "inset(0 0% 0 0)", duration: 0.7, ease: ease });
@@ -659,12 +744,7 @@ function initPreloader() {
 	tl.add(function () {
 		// Kept on window so startReveal()'s stopLogo() can land it before the
 		// curtain lifts, without the two sharing a scope.
-		window.__preloaderLogoBreathe = gsap.to(mark, {
-			scale: 1.035,
-			duration: 1.8,
-			ease: "sine.inOut",
-			yoyo: true,
-			repeat: -1,
-		});
+		breathe(mark);
+		queueSwap();
 	});
 })();

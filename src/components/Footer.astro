@@ -20,11 +20,20 @@ const year = new Date().getFullYear();
 			<div class="footer-grid">
 				<div class="content-grid is-border-btm is-cols-3">
 					<div class="footer-col grid-col">
-						<a href="/" class="is-inline-block">
+						{/* Both marks, side by side. Unlike the navbar and the loading
+						    screen — where they share a cell and cross-fade — there is room
+						    here to show them together. */}
+						<a href="/" class="is-inline-block footer-logos">
 							<img
-								src="/assets/img/rodos/logo-autovision.jpg"
+								src="/assets/img/rodos/logo-autovision-alt.jpg"
 								loading="lazy"
 								alt="AUTOVISION — Τεχνικός έλεγχος οχημάτων"
+								class="footer-logo"
+							/>
+							<img
+								src="/assets/img/rodos/logo-kteo-rodos.jpg"
+								loading="lazy"
+								alt="ΙΚΤΕΟ Ρόδου"
 								class="footer-logo"
 							/>
 						</a>

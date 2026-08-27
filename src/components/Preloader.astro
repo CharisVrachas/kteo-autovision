@@ -1,6 +1,6 @@
 ---
 /**
- * Entry-page preloader: the mark, a percentage, and two shape cards that animate
+ * Entry-page preloader: the marks, a percentage, and two shape cards that animate
  * while the first page loads. Driven by initPreloader in
  * assets/js/components/preloader.js, which reads the data-preloader-* hooks.
  *
@@ -18,12 +18,24 @@ const serviceShapes = [1, 2, 3, 4];
 				    on a white panel here exactly as it does in the navbar, rather than
 				    showing a white rectangle against the blue cell. */}
 				<div class="preloader__logo" data-preloader-logo>
-					<img
-						src="/assets/img/rodos/logo-autovision.jpg"
-						loading="eager"
-						alt="AUTOVISION"
-						class="preloader__logo-img"
-					/>
+					{/* Both marks share one grid cell (preloader.css), so the white
+					    panel is sized by the wider of them and nothing shifts as
+					    preloader.js cross-fades between them. */}
+					<div class="preloader__logo-stack">
+						<img
+							src="/assets/img/rodos/logo-autovision-alt.jpg"
+							loading="eager"
+							alt="AUTOVISION"
+							class="preloader__logo-img"
+						/>
+						<img
+							src="/assets/img/rodos/logo-kteo-rodos.jpg"
+							loading="eager"
+							alt=""
+							aria-hidden="true"
+							class="preloader__logo-img"
+						/>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -60,7 +72,7 @@ const serviceShapes = [1, 2, 3, 4];
 					<div class="annotation_container">
 						<div class="annotation_dot"></div>
 						<div class="annotation_text">
-							ΤΡΙΑ ΙΚΤΕΟ ΣΤΗΝ ΥΠΗΡΕΣΙΑ ΣΑΣ<span data-preloader-card-dots="right">...</span>
+							ΔΥΟ ΙΚΤΕΟ ΣΤΗΝ ΥΠΗΡΕΣΙΑ ΣΑΣ<span data-preloader-card-dots="right">...</span>
 						</div>
 					</div>
 				</div>

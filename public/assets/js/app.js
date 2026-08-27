@@ -25,6 +25,7 @@ function initPageAnimations() {
 	// /assets/js/kteo-mount.js as an ES module and needs nothing from this chain.
 	initFooterParallax();
 	initForms();
+	initLogoCycle();
 	initNavContactScroll();
 	initMobileMenu();
 	initNavSubmenu();

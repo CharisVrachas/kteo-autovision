@@ -55,13 +55,22 @@ const { theme = "light" } = Astro.props;
 					href="/"
 					class="nav_logo-container is-inline-block"
 					aria-label={`${site.name} — Αρχική`}
-					><img
-						src="/assets/img/rodos/logo-autovision.jpg"
-						width="562"
-						height="162"
-						alt="AUTOVISION — Τεχνικός έλεγχος οχημάτων"
-						class="nav-logo nav_logo-img"
-					/></a
+					><span class="nav_logo-stack" data-logo-cycle
+						><img
+							src="/assets/img/rodos/logo-autovision-alt.jpg"
+							width="690"
+							height="203"
+							alt="AUTOVISION — Τεχνικός έλεγχος οχημάτων"
+							class="nav-logo nav_logo-img"
+						/><img
+							src="/assets/img/rodos/logo-kteo-rodos.jpg"
+							width="738"
+							height="217"
+							alt=""
+							aria-hidden="true"
+							class="nav-logo nav_logo-img"
+						/></span
+					></a
 				>
 				{
 					mainNav.map((item, i) => {

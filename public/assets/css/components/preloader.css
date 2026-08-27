@@ -200,3 +200,17 @@
 		display: none;
 	}
 }
+
+/* The two marks occupy one grid cell, so the white panel takes the width of the
+   wider of them and neither moves as they cross-fade. The from-state above
+   (opacity 0, offset and scaled up) applies to both: the incoming mark arrives
+   the same way the first one did. */
+.preloader__logo-stack {
+	display: grid;
+	align-items: center;
+}
+
+.preloader__logo-stack > .preloader__logo-img {
+	grid-area: 1 / 1;
+	justify-self: center;
+}

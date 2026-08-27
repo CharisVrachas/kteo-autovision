@@ -16,6 +16,13 @@ interface Props {
 }
 const { branch, variant = "", captionFirst = true } = Astro.props;
 
+/* The overlay heading is an <h4>, and typography.css uppercases every h4/h5.
+   That turns the Greek ordinal in "7ο χιλ." into "7Ο", which reads as seventy.
+   CSS cannot reach part of a text node, so the ending is wrapped and excused
+   from the transform by .is-ordinal in site.css. */
+const ordinal = (text: string) =>
+	text.replace(/(\d+)(ος|ου|ης|ο|η)/g, '$1<span class="is-ordinal">$2</span>');
+
 const href = branch.upcoming ? "/contact-us/" : branch.maps;
 const external = !branch.upcoming;
 const linkAttrs = external ? { target: "_blank", rel: "noopener noreferrer" } : {};
@@ -56,7 +63,7 @@ const linkAttrs = external ? { target: "_blank", rel: "noopener noreferrer" } : 
 				<span class="bg-transparent text-uppercase border px-3 py-1 rounded-pill text-white fz-font-label">
 					{branch.upcoming ? "σύντομα" : branch.speciality}
 				</span>
-				<h4 class="h2 fw-400 fz-font-3xl text-white mb-0 mt-20">{branch.address}</h4>
+				<h4 class="h2 fw-400 fz-font-3xl text-white mb-0 mt-20" set:html={ordinal(branch.address)} />
 				<p class="text-white fz-font-md mb-0 mt-10 text-truncate-2 des">{branch.note}</p>
 			</div>
 		</div>

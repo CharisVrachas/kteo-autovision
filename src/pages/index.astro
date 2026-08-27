@@ -52,16 +52,12 @@ const pillars = [
 		data-parallax-scrub="2"
 		class="section_hero"
 	>
-		<div class="container">
+		{/* The hero carries no copy now — the footage speaks and the only thing
+		    asked of the visitor is the booking button, which sits at the foot of
+		    the section on the same line as the scroll cue. */}
+		<div class="container hero_actions">
 			<div class="padding is-border-none">
 				<div class="hero_heading_container">
-					<h1 class="heading_h2">Το ΚΤΕΟ όπως ακριβώς το θέλεις. Και όσο ασφαλές το θέλεις</h1>
-					<div class="hero_para-wrap">
-						<p class="text_size-medium is-white">
-							Κλείσε ραντεβού online, <span class="is-accent-2">εύκολα και γρήγορα</span>, μέσω του συστήματος booking της
-							Autovision. Δύο σημεία τεχνικού ελέγχου στη Ρόδο — Ασγούρου και Τσαϊρι.
-						</p>
-					</div>
 					<Button label="Κλείσε ραντεβού" href="/online-rantevou/" />
 				</div>
 			</div>
@@ -71,12 +67,9 @@ const pillars = [
 		    this site plays h.264 mp4, and a second encode is only worth adding
 		    with a tool to make it.
 
-		    The poster is a photograph of the Tsairi centre rather than a frame
-		    of the clip: there is no ffmpeg on this machine to pull one, and it
-		    matters more than it looks — when a browser blocks autoplay (iOS in
-		    low-power mode does) the poster is ALL that shows. A still of the
-		    centre is a better fallback than black. Swap it for a real frame
-		    whenever there is a tool to cut one. */}
+		    The poster is a frame of the clip itself, cut at 2.5s. It matters
+		    more than it looks: when a browser blocks autoplay — iOS in
+		    low-power mode does — the poster is ALL that shows. */}
 		<div data-parallax="target" class="hero_bg-video bg-video">
 			<video
 				autoplay
@@ -84,7 +77,7 @@ const pillars = [
 				muted
 				playsinline
 				preload="metadata"
-				poster="/assets/img/rodos/kteo-exterior.jpg"
+				poster="/assets/video/autovision-home-poster.jpg"
 				class="hero_video"
 			>
 				<source src="/assets/video/autovision-home.mp4" type="video/mp4" />
@@ -155,7 +148,7 @@ const pillars = [
 			<div class="padding">
 				<div class="heading_container">
 					<Eyebrow text="σε αριθμούς" />
-					<h2 class="heading_h2">Η παρουσία μας <br />στο νησί</h2>
+					<h2 class="heading_h2">Η παρουσία μας <br />στη Ρόδο</h2>
 				</div>
 			</div>
 			<div class="padding is-none">
@@ -239,9 +232,12 @@ const pillars = [
 		</div>
 	</section>
 
-	<!-- Reminder, then the week's hours as Orisa's process cards -->
+	<!-- The week's hours as Orisa's process cards, then the reminder -->
 	<section data-theme-section="light" class="section_process-steps">
 		<div class="container">
+			<div class="padding is-none is-border-btn-none">
+				<OpeningHours />
+			</div>
 			<div class="padding">
 				<div class="heading_container">
 					<Eyebrow text="ωράριο" />
@@ -252,9 +248,6 @@ const pillars = [
 					</p>
 					<Button label="Υπενθύμιση ΚΤΕΟ" href="/kteo-reminder/" />
 				</div>
-			</div>
-			<div class="padding is-none is-border-btn-none">
-				<OpeningHours />
 			</div>
 		</div>
 	</section>

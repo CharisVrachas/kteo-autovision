@@ -17,9 +17,9 @@
  *     row 4   item 5  + item 6
  *     row 5   the closing text and button
  *
- * There are three centres, so rows 2 and 3 are used and the fourth item's slot
- * keeps the decorative shapes Orisa puts there. The diagonal still reads:
- * 454 → 834 → 74.
+ * Two centres are shown -- Afantou is not open yet and is left to the pages
+ * that say so in words -- so row 2 alone carries them. The diagonal still
+ * reads across it: 454 → 834.
  *
  * Orisa's own `bg-neutral-50 rounded-5 mx-lg-3 mx-2` is dropped from the area:
  * it draws a rounded panel inset from the page, which read as a separate card
@@ -34,7 +34,7 @@ import BranchCard from "./BranchCard.astro";
 import Button from "../ui/Button.astro";
 import { branches } from "../../data/site";
 
-const [asgourou, tsairi, afantou] = branches;
+const [asgourou, tsairi] = branches;
 
 
 ---
@@ -50,20 +50,6 @@ const [asgourou, tsairi, afantou] = branches;
 						<div class="alt-portfolio-main-title-wrap portfolio-text">
 							<h2 class="h1 alt-portfolio-main-title fz-ds-1 fw-500">
 								Πού
-								<svg
-									class="d-none d-lg-inline-flex"
-									xmlns="http://www.w3.org/2000/svg"
-									width="122"
-									height="122"
-									viewBox="0 0 122 122"
-									fill="none"
-								>
-									<path
-										fill-rule="evenodd"
-										clip-rule="evenodd"
-										d="M65.3572 0H56.6428V50.4809L20.9475 14.7855L14.7855 20.9475L50.4809 56.6428H0V65.3572H50.4809L14.7855 101.053L20.9475 107.214L56.6428 71.5188V122H65.3572V71.5188L101.053 107.214L107.214 101.053L71.5188 65.3572H122V56.6428H71.5188L107.214 20.9474L101.053 14.7855L65.3572 50.4809V0Z"
-										fill="currentColor"></path>
-								</svg>
 								θα μας
 								<br /> βρείτε
 								<svg xmlns="http://www.w3.org/2000/svg" width="104" height="104" viewBox="0 0 104 104" fill="none">
@@ -93,15 +79,6 @@ const [asgourou, tsairi, afantou] = branches;
 					    untouched, so the diagonal is unchanged. */}
 					<div class="col-xxl-3 col-xl-4 offset-xxl-9 offset-xl-8 col-lg-4 col-md-6">
 						<BranchCard branch={tsairi} variant=" alt-portfolio-item-2" captionFirst={false} />
-					</div>
-				</div>
-
-				{/* Row 3 — item 3, hard left. Orisa parks decorative shapes in this row's
-				    second slot; with three cards they sat alone in the middle of an
-				    empty half and read as a stray object, so the column is dropped. */}
-				<div class="row justify-content-xl-start justify-content-center">
-					<div class="col-xxl-3 col-lg-4 col-md-6">
-						<BranchCard branch={afantou} variant=" alt-portfolio-item-3" />
 					</div>
 				</div>
 

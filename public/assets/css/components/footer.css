@@ -508,3 +508,27 @@
 .footer-credit_link:focus-visible {
 	color: var(--brand-red-500);
 }
+
+/* The two marks sit next to each other here rather than cross-fading: the
+   footer column is wide enough for both, and a swap in a static block at the
+   foot of the page would only be movement for its own sake. They wrap on a
+   narrow column instead of shrinking to nothing. */
+.footer-logos {
+	display: flex;
+	align-items: center;
+	flex-wrap: nowrap;
+	gap: 1.4em;
+	width: 100%;
+}
+
+/* Half the row each, rather than their natural width. At their own size the
+   pair needed 406px in a 372px column and wrapped onto two lines; sized off the
+   row they always sit together, on any column width. */
+.footer-logos > .footer-logo {
+	flex: 0 1 calc(50% - 0.7em);
+	width: calc(50% - 0.7em);
+	height: auto;
+	max-height: 3.4em;
+	object-fit: contain;
+	object-position: left center;
+}
