@@ -189,9 +189,11 @@ export const companyProfile = [
  * that. These MUST stay in step with KTEO_RULES in
  * public/assets/js/components/kteo-tools.js, which does the arithmetic.
  *
- * `photo` fills the card's media column on the homepage. These are photographs
- * of the centres, not of the vehicle class -- swap in per-category imagery here
- * when there is any.
+ * `art` fills the card's media column on the homepage: the fine-line drawing of
+ * the class itself, built by tools/make-vehicle-drawings.py. It replaced
+ * photographs of the CENTRES, which said nothing about the category they sat
+ * beside. Only Deadlines.astro reads it; DeadlineCards.astro on
+ * /online-calculator/ shows no image at all.
  */
 export const deadlines = [
 	{
@@ -199,35 +201,35 @@ export const deadlines = [
 		text: "Στα 4 χρόνια ακριβώς από την ημερομηνία έκδοσης της 1ης αδείας και έκτοτε κάθε 2 χρόνια.",
 		first: "4 χρόνια",
 		every: "κάθε 2 χρόνια",
-		photo: "/assets/img/rodos/kteo-asgourou.jpg",
+		art: "/assets/img/shapes/vehicle-car.svg",
 	},
 	{
 		title: "Δίκυκλο / Τρίκυκλο / Τετράκυκλο",
 		text: "Στα 4 χρόνια ακριβώς από την ημερομηνία έκδοσης της 1ης αδείας και έκτοτε κάθε 2 χρόνια.",
 		first: "4 χρόνια",
 		every: "κάθε 2 χρόνια",
-		photo: "/assets/img/rodos/kteo-tsairi-entrance.jpg",
+		art: "/assets/img/shapes/vehicle-moto.svg",
 	},
 	{
 		title: "Επιβατικό Δ.Χ. (ταξί)",
 		text: "Στον 1ο χρόνο από την ημερομηνία έκδοσης της 1ης αδείας και έκτοτε κάθε χρόνο.",
 		first: "1 χρόνο",
 		every: "κάθε χρόνο",
-		photo: "/assets/img/rodos/kteo-signage.jpg",
+		art: "/assets/img/shapes/vehicle-taxi.svg",
 	},
 	{
 		title: "Φορτηγό έως 3,5 τόνων",
 		text: "Στα 4 χρόνια ακριβώς από την ημερομηνία έκδοσης της 1ης αδείας και έκτοτε κάθε 2 χρόνια.",
 		first: "4 χρόνια",
 		every: "κάθε 2 χρόνια",
-		photo: "/assets/img/rodos/kteo-exterior.jpg",
+		art: "/assets/img/shapes/vehicle-van.svg",
 	},
 	{
 		title: "Φορτηγό άνω 3,5 τόνων",
 		text: "Στον 1ο χρόνο από την ημερομηνία έκδοσης της 1ης αδείας και έκτοτε κάθε χρόνο.",
 		first: "1 χρόνο",
 		every: "κάθε χρόνο",
-		photo: "/assets/img/rodos/kteo-asgourou.jpg",
+		art: "/assets/img/shapes/vehicle-lorry.svg",
 	},
 ];
 

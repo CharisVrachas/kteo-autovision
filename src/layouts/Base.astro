@@ -42,7 +42,13 @@ interface Props {
 	stage?: boolean;
 	/** Nav colour scheme at the top of the page: hero (transparent), light, dark. */
 	navTheme?: "hero" | "light" | "dark";
-	/** The preloader only makes sense on the entry page. */
+	/**
+	 * The loading screen. On by default: it belongs to a FULL page load, which
+	 * is every hard refresh and every direct URL, not just the homepage.
+	 * In-site navigation never sees it — Barba swaps <main> without reloading,
+	 * and the element has already been removed from the document by then.
+	 * Set false on a page that should open bare.
+	 */
 	preloader?: boolean;
 	/**
 	 * Hide the footer on this page. The markup still ships — Barba needs the
@@ -63,7 +69,7 @@ const {
 	pageScripts = [],
 	stage = false,
 	navTheme = "light",
-	preloader = false,
+	preloader = true,
 	noFooter = false,
 	ogImage = site.ogImage,
 } = Astro.props;

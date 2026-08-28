@@ -15,20 +15,56 @@ const pillars = [
 	{
 		title: "Όλες οι κατηγορίες",
 		text: "Επιβατικά, δίκυκλα, τρίκυκλα και τετράκυκλα, φορτηγά έως και άνω των 3,5 τόνων. Τα Ασγούρου ελέγχουν δίκυκλα από το 2011, το Τσαϊρι βαρέα οχήματα από το 2012.",
-		shape: "shape",
-		count: 5,
+		shape: "shape-vehicle",
+		count: 3,
+		/* Fine-line drawings, no shape tile behind them: see
+		   tools/make-vehicle-drawings.py. Order is the order the fan opens in,
+		   left to right. null on the other pillars means the plain repeated
+		   shape. */
+		icons: ["moto", "car", "van"],
+		map: null,
+		pins: null,
 	},
 	{
 		title: "Δίκτυο Autovision",
 		text: "Μέλος του πανευρωπαϊκού δικτύου AUTOVISION Contrôle Technique Automobile, της μεγαλύτερης εταιρείας ιδιωτικών ΚΤΕΟ στη Γαλλία. Αδιάβλητοι έλεγχοι, βασισμένοι σε υψηλά ποιοτικά πρότυπα.",
-		shape: "shape-engineering",
-		count: 4,
+		shape: "shape-map",
+		count: 0,
+		icons: null,
+		/* ratio and pinScale are read by card-shapes.js off the wrapper, so the
+		   marker positions below can be expressed as plain fractions of the map
+		   and still land in the right place at any size. */
+		map: { name: "europe", height: "8.7em", ratio: 1.32, pinScale: 0.22 },
+		/* Markers, west to east, in the order they drop. u/v are fractions of the
+		   map's own box. Every one was probed against the filled source map, so
+		   all three stand on land rather than in the sea -- 22, 40 and 15 pixels
+		   clear of the nearest coast. */
+		pins: [
+			[0.33, 0.7],
+			[0.46, 0.66],
+			[0.6, 0.87],
+		],
 	},
 	{
 		title: "Δύο σημεία στη Ρόδο",
 		text: "Στα Ασγούρου, στο 7ο χιλ. Ρόδου – Λίνδου, και στο Τσαϊρι, στον περιφερειακό προς το αεροδρόμιο. Σύντομα και τρίτο σημείο στα Αφάντου.",
-		shape: "shape-service",
-		count: 4,
+		shape: "shape-map",
+		count: 0,
+		icons: null,
+		/* 9.6em, not 11: both markers sit in the island's northern tip, and a
+		   marker stands ABOVE its point, so at full height they overhung the top of
+		   the card by six pixels. The map gives up that much so they fit. */
+		map: { name: "rhodes", height: "9.6em", ratio: 0.79, pinScale: 0.2 },
+		/* The two centres really sit 5px apart at this size: Ασγούρου is at
+		   36.3936N and Τσαϊρι at 36.3759N, barely two kilometres apart on a
+		   seventy-kilometre island, and drawn true they merge into one blob. So
+		   they are spread along the island's width while staying in the northern
+		   quarter, where both of them actually are. Both points were tested as
+		   inside the coastline with more than 14px to spare. */
+		pins: [
+			[0.68, 0.175],
+			[0.9, 0.11],
+		],
 	},
 ];
 ---
@@ -118,11 +154,40 @@ const pillars = [
 							<div class="grid-col">
 								<div class="card_wrap">
 									{/* The repeated shapes are the animation: card-shapes.js offsets
-									    each one, so the count is deliberate, not duplication. */}
-									<div class="card_illustration-wrap">
+									    each one, so the count is deliberate, not duplication. The map
+									    cards work the other way round -- one drawing plus markers
+									    placed on it, positioned from the data attributes below. */}
+									<div
+										class={`card_illustration-wrap${p.icons ? " is-vehicles" : ""}${p.map ? " is-map" : ""}`}
+										style={p.map ? `--map-h:${p.map.height};--pin-k:${p.map.pinScale}` : undefined}
+										data-map-ratio={p.map ? p.map.ratio : undefined}
+										data-pin-scale={p.map ? p.map.pinScale : undefined}
+									>
+										{p.map && (
+											<img
+												src={`/assets/img/shapes/map-${p.map.name}.svg`}
+												loading="lazy"
+												alt=""
+												class="shape-map"
+											/>
+										)}
+										{p.pins?.map(([u, v], i) => (
+											<img
+												src="/assets/img/shapes/map-pin.svg"
+												loading="lazy"
+												alt=""
+												class={`shape-pin is-${i + 1}`}
+												data-u={u}
+												data-v={v}
+											/>
+										))}
 										{Array.from({ length: p.count }, (_, i) => (
 											<img
-												src="/assets/img/shapes/shape.svg"
+												src={
+													p.icons
+														? `/assets/img/shapes/vehicle-${p.icons[i]}.svg`
+														: "/assets/img/shapes/shape.svg"
+												}
 												loading="lazy"
 												alt=""
 												class={`${p.shape} is-${i + 1}`}
@@ -158,7 +223,12 @@ const pillars = [
 							{row.map((stat, i) => (
 								<div class={`grid-col${rowIndex === 1 && i === 1 ? " is-mobile-first" : ""}`}>
 									<div class="card_content-big" data-odometer-group>
-										<div class="card_info-block-big">
+										{/* is-centered is what makes the digit share the column's centre
+									    line with the label. Without it the block shrinks to its longest
+									    line and the shorter children align to the block's left edge, so
+									    "1" under a short label sat 54px right of "3" under a long one --
+									    obvious once the columns stack on a phone. */}
+									<div class="card_info-block-big is-centered">
 											<Eyebrow text={stat.eyebrow} />
 											<div class="heading_display-large" data-odometer-element>
 												{stat.value}

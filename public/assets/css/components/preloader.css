@@ -37,14 +37,27 @@
 	overflow: hidden;
 	background-color: var(--mapped-surface-dark);
 }
-/* Top-left: the orange cell holding the logo and status. No chamfered corners. */
+/* Top-left: the cell holding the logo. No chamfered corners.
+   White, not the brand blue it used to be. The marks are blue-and-red artwork
+   drawn for a white ground: composited over #164194, 39% of the AUTOVISION mark
+   and 48% of the KTEO one fall below 1.5:1 against the cell and simply vanish.
+   That is why the logo used to sit on its own white plate -- and that plate is
+   the white rectangle the client asked to remove. Making the whole cell white
+   removes the rectangle without costing the mark a single pixel of contrast. */
 .preloader__orange {
-	background-color: var(--mapped-surface-action);
+	background-color: #fff;
 	color: var(--alias-grey-900);
 	/* padding-left identical to the cards — set through the CSS variable below */
 	padding: var(--mapped-padding-md) var(--mapped-padding-sm);
 	display: flex;
 	flex-direction: column;
+	/* The cell used to hold status lines under the mark, which is why its content
+	   sat top-left. The mark is all that is left, so it is centred in the cell on
+	   both axes -- justify-content is the vertical one here, the column being the
+	   main axis. The padding stays as a floor, so the mark can never touch an
+	   edge on a short window. */
+	justify-content: center;
+	align-items: center;
 	/* z=2 so that during the reveal squeeze the orange cell travels over the pattern */
 	z-index: 2;
 }
@@ -58,11 +71,11 @@
    animation. assets/js/components/preloader.js only animates the way OUT of it.
    ─────────────────────────────────────────────────────────────────────────── */
 .preloader__logo {
-	background-color: #fff;
-	padding: 0.9em 1.4em;
-	/* fit-content, not align-self: .preloader__head is a block, so the panel
-	   would otherwise stretch the full width of the cell and read as a band
-	   rather than a card. */
+	/* No background and no padding: the cell itself is white now, so a plate here
+	   would only draw the rectangle we are trying to get rid of. */
+	/* Still fit-content even though the cell now centres its content: without it
+	   this box spans its parent and the clip-path wipe below would spend its first
+	   frames sweeping empty space before it reached the mark. */
 	width: fit-content;
 	clip-path: inset(0 100% 0 0);
 	will-change: clip-path;
@@ -164,6 +177,13 @@
 	padding: var(--mapped-padding-md) var(--mapped-padding-sm);
 	display: flex;
 	flex-direction: column;
+	/* The cell used to hold status lines under the mark, which is why its content
+	   sat top-left. The mark is all that is left, so it is centred in the cell on
+	   both axes -- justify-content is the vertical one here, the column being the
+	   main axis. The padding stays as a floor, so the mark can never touch an
+	   edge on a short window. */
+	justify-content: center;
+	align-items: center;
 	gap: var(--mapped-padding-md);
 	color: var(--alias-grey-300);
 	align-items: flex-start; /* all content sits against the left edge */

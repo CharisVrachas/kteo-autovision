@@ -55,6 +55,62 @@
 	z-index: 1;
 }
 
+/* The three vehicle drawings. Same positioning contract as .shape: absolutely
+   placed in the 12em wrap and fanned out by card-shapes.js. They are sized off
+   a common height, so the car reads as longer than the bike the way it should.
+   is-1 is the motorbike: it sits on top and is the only one showing until the
+   fan opens. The drawings keep white fills, so each one hides the part of the
+   drawing behind it instead of tangling lines with it. */
+/* The drawn cards take the whole column rather than the 12em square. The
+   vehicles need the room -- three of them measure about 260px end to end and the
+   square is only 171. The maps do not need it, but they need the CENTRING: a
+   fixed-width wrap parks itself at the left of a 387px card, which left the two
+   maps sitting 32px from one edge and 192 from the other while the vehicles next
+   to them were dead centre. The remaining pillar cards keep the square, which is
+   what their shapes are composed for. */
+.card_illustration-wrap.is-vehicles,
+.card_illustration-wrap.is-map {
+	width: 100%;
+}
+
+.shape-vehicle {
+	position: absolute;
+	height: 2.8em;
+	width: auto;
+}
+
+/* The two map cards: one drawing filling the square wrap, with markers standing
+   on it. The height comes from --map-h, set per card in index.astro, because the
+   two maps are shaped nothing alike -- Europe is wider than it is tall, Rhodes is
+   the reverse -- and each needs its own size to fill the wrap without spilling
+   out of it. The markers are sized as a share of the map rather than in their own
+   units, so a marker keeps its scale against the coastline at every viewport. */
+.shape-map {
+	position: absolute;
+	height: var(--map-h);
+	width: auto;
+	z-index: 1;
+}
+
+.shape-pin {
+	position: absolute;
+	height: calc(var(--map-h) * var(--pin-k));
+	width: auto;
+	z-index: 2;
+}
+
+.shape-vehicle.is-1 {
+	z-index: 3;
+}
+
+.shape-vehicle.is-2 {
+	z-index: 2;
+}
+
+.shape-vehicle.is-3 {
+	z-index: 1;
+}
+
 .card_content-big {
 	justify-content: center;
 	align-items: center;

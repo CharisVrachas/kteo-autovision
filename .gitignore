@@ -3,3 +3,7 @@ dist/
 .astro/
 .DS_Store
 *.log
+
+# Python bytecode from the drawing tools in tools/
+__pycache__/
+*.pyc

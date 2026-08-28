@@ -177,135 +177,87 @@ function initPreloader() {
 		if (patternEl) patternEl.style.setProperty("--preloader-load", (clamped / 100).toFixed(4));
 	}
 
-	// ── Bottom illustrations: forward → pause → reverse, looping while the fill runs ──
-	// These mirror how the illustrations look in their ACTIVE ("scroll-revealed")
-	// state and then run the HOVER animation back and forth. No new values are
-	// invented here — they are the same ones used by initScrollCardShapes (rest
-	// state) and hoverTl (drift).
+	// The two cards carry the site's own drawings now, not abstract shapes: the
+	// vehicle queue on the left, Rhodes and its two markers on the right. Their
+	// rest positions come from the SAME functions card-shapes.js uses on the
+	// homepage -- vehicleRestX, pinRestX, pinRestY, hoisted to file scope there and
+	// reachable here because card-shapes.js loads first (see Base.astro). One copy
+	// of that geometry, not two: the vehicles only stay clear of one another
+	// because their gaps are derived from their own proportions, and a second copy
+	// left to drift would stack them back up.
 	//
-	//   shape rest:  is-1 (1,0), is-2 (11/12, 25), is-3 (10/12, 45),
-	//                is-4 (11/12, -25), is-5 (10/12, -45)
-	//   shape hover: is-2 x:25*0.7=17.5, is-3 x:31.5, is-4 -17.5, is-5 -31.5
-	//                (with a 0/0/0.1/0.1 stagger)
-	//   svc rest:    is-1 (60,0), is-2 (40,5), is-3 (20,10), is-4 (0,15), rotation 45
-	//   svc hover:   pull toward is-1 rest by 0.3 (stagger 0/0/0.1/0.15)
+	// The loop then plays a small lift and settle -- the same gesture the cards use
+	// on hover. Enough to show the screen is alive, not far enough to collide.
 	function buildIlluController(card) {
 		if (!card) return null;
-		var DRIFT_RATIO = 0.7;
-		var SERVICE_PULL = 0.3;
-		var IS1_REST = { x: 60, y: 0 };
-		// shape: REST (as the scroll reveal leaves it) and HOVER (delta drift)
-		var shape = [
-			{
-				sel: ".shape.is-1",
-				rest: { scale: 1, x: 0 },
-				hover: { scale: 1, x: 0 },
+		var LIFT = -9; // percent of the element's own height
+		var all = [];
+
+		var vehicles = card.querySelectorAll(".shape-vehicle");
+		if (vehicles.length) {
+			var order = ["moto", "car", "van"]; // is-1, is-2, is-3, as the markup writes them
+			Array.prototype.forEach.call(vehicles, function (el, i) {
+				var xp = vehicleRestX(order[i]);
+				all.push({
+					el: el,
+					at: i * 0.07,
+					rest: { xPercent: xp, yPercent: 0, x: 0, y: 0, opacity: 1 },
+					hover: { xPercent: xp, yPercent: LIFT },
+				});
+			});
+		}
+
+		var mapEl = card.querySelector(".shape-map");
+		if (mapEl) {
+			var ratio = parseFloat(card.dataset.mapRatio);
+			var pinK = parseFloat(card.dataset.pinScale);
+			all.push({
+				el: mapEl,
 				at: 0,
-			},
-			{
-				sel: ".shape.is-2",
-				rest: { scale: 11 / 12, x: 25 },
-				hover: { scale: 11 / 12, x: 25 * DRIFT_RATIO },
-				at: 0,
-			},
-			{
-				sel: ".shape.is-4",
-				rest: { scale: 11 / 12, x: -25 },
-				hover: { scale: 11 / 12, x: -25 * DRIFT_RATIO },
-				at: 0,
-			},
-			{
-				sel: ".shape.is-3",
-				rest: { scale: 10 / 12, x: 45 },
-				hover: { scale: 10 / 12, x: 45 * DRIFT_RATIO },
-				at: 0.1,
-			},
-			{
-				sel: ".shape.is-5",
-				rest: { scale: 10 / 12, x: -45 },
-				hover: { scale: 10 / 12, x: -45 * DRIFT_RATIO },
-				at: 0.1,
-			},
-		];
-		// shape-service: REST (scroll raised, rotation 45) and HOVER (pulled toward is-1)
-		var svcRest = [
-			{
-				sel: ".shape-service.is-1",
-				rest: { x: 60, y: 0, rotation: 45 },
-				at: 0,
-				pull: false,
-			},
-			{
-				sel: ".shape-service.is-2",
-				rest: { x: 40, y: 5, rotation: 45 },
-				at: 0,
-				pull: true,
-			},
-			{
-				sel: ".shape-service.is-3",
-				rest: { x: 20, y: 10, rotation: 45 },
-				at: 0.1,
-				pull: true,
-			},
-			{
-				sel: ".shape-service.is-4",
-				rest: { x: 0, y: 15, rotation: 45 },
-				at: 0.15,
-				pull: true,
-			},
-		];
-		var svc = svcRest.map(function (s) {
-			var hov = s.pull
-				? {
-						x: s.rest.x + (IS1_REST.x - s.rest.x) * SERVICE_PULL,
-						y: s.rest.y + (IS1_REST.y - s.rest.y) * SERVICE_PULL,
-						rotation: 45,
-					}
-				: s.rest;
-			return { sel: s.sel, at: s.at, rest: s.rest, hover: hov };
-		});
-		var all = shape
-			.concat(svc)
-			.map(function (s) {
-				var el = card.querySelector(s.sel);
-				return el ? { el: el, at: s.at, rest: s.rest, hover: s.hover } : null;
-			})
-			.filter(Boolean);
+				rest: { opacity: 1, scale: 1 },
+				hover: { opacity: 1, scale: 1.02 },
+			});
+			Array.prototype.forEach.call(card.querySelectorAll(".shape-pin"), function (pin, i) {
+				var xp = pinRestX(parseFloat(pin.dataset.u), ratio, pinK);
+				var yp = pinRestY(parseFloat(pin.dataset.v), pinK);
+				all.push({
+					el: pin,
+					at: 0.08 + i * 0.07,
+					rest: { xPercent: xp, yPercent: yp, x: 0, y: 0, opacity: 1 },
+					hover: { xPercent: xp, yPercent: yp - 12 },
+				});
+			});
+		}
+
 		if (!all.length) return null;
-		// initial: the REST state (as if scroll-revealed) — the illustration is already open
+		// Start at rest: the illustration is already composed when the screen appears.
 		all.forEach(function (a) {
 			gsap.set(a.el, a.rest);
 		});
 		var HOVER_DUR = 0.3; // same as hoverTl in js/components/hover.js
+		function play(key) {
+			all.forEach(function (a) {
+				gsap.to(
+					a.el,
+					Object.assign({}, a[key], {
+						duration: HOVER_DUR,
+						ease: CARD_EASE,
+						delay: a.at,
+						overwrite: true,
+					}),
+				);
+			});
+		}
 		return {
 			forward: function () {
-				all.forEach(function (a) {
-					gsap.to(
-						a.el,
-						Object.assign({}, a.hover, {
-							duration: HOVER_DUR,
-							ease: CARD_EASE,
-							delay: a.at,
-							overwrite: true,
-						}),
-					);
-				});
+				play("hover");
 			},
 			reverse: function () {
-				all.forEach(function (a) {
-					gsap.to(
-						a.el,
-						Object.assign({}, a.rest, {
-							duration: HOVER_DUR,
-							ease: CARD_EASE,
-							delay: a.at,
-							overwrite: true,
-						}),
-					);
-				});
+				play("rest");
 			},
 		};
 	}
+
 	var illuTlLeft = buildIlluController(illuLeftEl);
 	var illuTlRight = buildIlluController(illuRightEl);
 
@@ -676,7 +628,14 @@ function initPreloader() {
 	var mark = marks[0];
 
 	var ease = typeof CustomEase !== "undefined" && gsap.parseEase("smoothOut") ? "smoothOut" : "power3.out";
-	gsap.set(mark, { scale: 1.18, xPercent: -6 });
+	/* x: 0 is not redundant. The from-state is declared in CSS as
+	   translateX(-6%) so the first painted frame is already the start of the
+	   animation; GSAP parses that into its own x (-26.3px at this size) and then
+	   adds the xPercent below on top of it. The tweens animate xPercent back to
+	   0, which leaves the parsed x behind for good -- the mark settled 26px left
+	   of where it belongs. Zeroing x here hands the whole offset to xPercent,
+	   and the from-state still matches the CSS to the pixel. */
+	gsap.set(mark, { scale: 1.18, xPercent: -6, x: 0 });
 
 	/* The two marks alternate while the screen is up. HOLD is how long each one
 	   stays; SWAP matches the opening wipe, so a change reads as the same
@@ -731,7 +690,8 @@ function initPreloader() {
 			});
 			// The incoming mark arrives exactly the way the first one did: offset
 			// and scaled up, easing back as the outgoing one fades.
-			swap.set(to, { opacity: 0, scale: 1.18, xPercent: -6 });
+			// x: 0 for the same reason as the intro above.
+			swap.set(to, { opacity: 0, scale: 1.18, xPercent: -6, x: 0 });
 			swap.to(from, { opacity: 0, duration: SWAP, ease: ease }, 0);
 			swap.to(to, { opacity: 1, scale: 1, xPercent: 0, duration: SWAP, ease: ease }, 0);
 			window.__preloaderLogoSwap = swap;
@@ -745,6 +705,13 @@ function initPreloader() {
 		// Kept on window so startReveal()'s stopLogo() can land it before the
 		// curtain lifts, without the two sharing a scope.
 		breathe(mark);
-		queueSwap();
 	});
+
+	// Started here rather than at the end of the intro, so the two-second hold
+	// runs ALONGSIDE the opening wipe instead of after it. Queued at the end it
+	// put the first swap at 3.6s and the screen at 4.3s minimum; in parallel the
+	// swap lands at 2.7s, which is what "each mark shows for two seconds" means
+	// from the visitor's side. The mark's own intro tween is done by 1.6s, so
+	// the swap never interrupts it.
+	queueSwap();
 })();

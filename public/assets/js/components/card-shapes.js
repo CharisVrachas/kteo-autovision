@@ -1,6 +1,40 @@
 /* card-shapes.js -- animated shape stacks inside cards */
 "use strict";
 
+
+/* ── Shared layout for the drawn cards ────────────────────────────────────────
+   Hoisted out of initScrollCardShapes so preloader.js can place the very same
+   drawings the very same way. card-shapes.js loads before preloader.js (see the
+   list in Base.astro), so the globals below exist by the time it runs. Keeping
+   one copy matters: the queue only stays clear of itself because the gaps are
+   derived from the drawings' own proportions, and a second, drifting copy of
+   those numbers would put the vehicles back on top of each other.
+   ──────────────────────────────────────────────────────────────────────────── */
+const VEHICLE_RATIO = { moto: 1.72, car: 2.86, van: 1.96 }; // width / height, from the SVG viewBoxes
+const VEHICLE_GAP = 0.42; // clear space between two vehicles, in heights
+const VEHICLE_ORIGIN_H = -3.2; // where they all set off from, in heights from centre
+const VEHICLE_STEP = 0.4; // seconds between one vehicle setting off and the next
+const VEHICLE_ORDER = ["van", "car", "moto"]; // left to right at rest
+
+const vehicleSpan =
+	VEHICLE_ORDER.reduce((sum, k) => sum + VEHICLE_RATIO[k], 0) +
+	VEHICLE_GAP * (VEHICLE_ORDER.length - 1);
+const vehicleCentre = {};
+let vehicleCursor = -vehicleSpan / 2;
+for (const k of VEHICLE_ORDER) {
+	vehicleCentre[k] = vehicleCursor + VEHICLE_RATIO[k] / 2;
+	vehicleCursor += VEHICLE_RATIO[k] + VEHICLE_GAP;
+}
+const vehicleRestX = (k) => (100 * vehicleCentre[k]) / VEHICLE_RATIO[k];
+const vehicleFromX = (k) => (100 * VEHICLE_ORIGIN_H) / VEHICLE_RATIO[k];
+
+/* Where a map marker's tip has to sit, given a point (u, v) on the map's own box.
+   Both are shares of the MARKER's box, so the map height cancels out and the
+   pair holds at any size -- same trick as the vehicle queue above. */
+const PIN_RATIO = 0.57; // width / height of map-pin.svg, from make-map-drawings.py
+const pinRestX = (u, ratio, pinK) => (100 * (u - 0.5) * ratio) / (PIN_RATIO * pinK);
+const pinRestY = (v, pinK) => 100 * ((v - 0.5) / pinK - 0.5);
+
 function initScrollCardShapes() {
 	if (!has.ScrollTrigger) return;
 	const shapes = [
@@ -10,6 +44,30 @@ function initScrollCardShapes() {
 		{ sel: ".shape.is-4", scale: 11 / 12, x: -25, position: 0.02 },
 		{ sel: ".shape.is-5", scale: 10 / 12, x: -45, position: 0.04 },
 	];
+	// Vehicles: a queue that files in from the left. The motorbike enters alone
+	// and drives the whole width; the car pulls out behind it once it is clear,
+	// then the van. All three set off from the same point, so what the visitor
+	// sees is one vehicle becoming three rather than three things appearing at
+	// once.
+	//
+	// The layout is worked out in multiples of the drawings' shared HEIGHT, not in
+	// pixels, and then expressed as xPercent. That is the whole trick: xPercent is
+	// a share of the element's own width, and every width here is (ratio x height),
+	// so the height cancels out and one constant holds at every screen size. The
+	// drawings are sized in em, so pixel offsets would have drifted apart from them
+	// on every viewport but the one they were measured at -- and the three would
+	// touch, which is exactly what they must not do now that none of them is opaque
+	// enough to hide an overlap.
+	const vehicleShapes = [
+		{ sel: ".shape-vehicle.is-1", key: "moto", position: 0, lead: true }, // in front
+		{ sel: ".shape-vehicle.is-2", key: "car", position: VEHICLE_STEP },
+		{ sel: ".shape-vehicle.is-3", key: "van", position: VEHICLE_STEP * 2 }, // at the back
+	];
+	// Map cards: the drawing arrives first, then the markers drop onto it one at a
+	// time, west to east. Same reading as the vehicle queue -- one thing, then the
+	// next, then the next -- told with a different gesture, because a map cannot
+	// drive across the card.
+	const PIN_STEP = 0.3; // seconds between one marker landing and the next
 	const engShapes = [
 		{ sel: ".shape-engineering.is-1", rotation: 45 },
 		{ sel: ".shape-engineering.is-2", rotation: -45 },
@@ -60,6 +118,50 @@ function initScrollCardShapes() {
 			if (!el) return;
 			tl.fromTo(el, { scale: 0.8, x: 0 }, { scale, x, duration: 0.6, ease: CARD_EASE }, position);
 		});
+		vehicleShapes.forEach(({ sel, key, position, lead }) => {
+			const el = card.querySelector(sel);
+			if (!el) return;
+			tl.fromTo(
+				el,
+				{ xPercent: vehicleFromX(key), x: 0, opacity: lead ? 1 : 0 },
+				{ xPercent: vehicleRestX(key), x: 0, opacity: 1, duration: 1.1, ease: CARD_EASE },
+				position,
+			);
+		});
+		// Rest positions are wanted twice, by the scroll timeline and by the hover,
+		// so they are worked out once here.
+		const pinRest = [];
+		const mapEl = card.querySelector(".shape-map");
+		if (mapEl) {
+			const wrap = mapEl.parentElement;
+			const ratio = parseFloat(wrap.dataset.mapRatio);
+			const pinK = parseFloat(wrap.dataset.pinScale);
+			tl.fromTo(
+				mapEl,
+				{ opacity: 0, scale: 0.94 },
+				{ opacity: 1, scale: 1, duration: 0.8, ease: CARD_EASE },
+				0,
+			);
+			card.querySelectorAll(".shape-pin").forEach((pin, i) => {
+				const u = parseFloat(pin.dataset.u);
+				const v = parseFloat(pin.dataset.v);
+				// xPercent and yPercent are shares of the MARKER's own box, and every
+				// length involved is a multiple of the map height, so the height cancels
+				// out: one pair of constants puts the marker on its point at any screen
+				// size. Same trick as the vehicle queue. The y term also lifts the marker
+				// by half its height, because what has to sit on the point is its tip,
+				// not its middle.
+				const xp = pinRestX(u, ratio, pinK);
+				const yp = pinRestY(v, pinK);
+				pinRest.push({ el: pin, xp: xp, yp: yp });
+				tl.fromTo(
+					pin,
+					{ xPercent: xp, yPercent: yp - 70, x: 0, y: 0, opacity: 0, scale: 0.85 },
+					{ xPercent: xp, yPercent: yp, x: 0, y: 0, opacity: 1, scale: 1, duration: 0.5, ease: CARD_EASE },
+					0.45 + i * PIN_STEP,
+				);
+			});
+		}
 		engShapes.forEach(({ sel, rotation }) => {
 			const el = card.querySelector(sel);
 			if (!el) return;
@@ -144,6 +246,35 @@ function initScrollCardShapes() {
 			hoverTl.to(sh3, { x: 45 * DRIFT_RATIO, duration: HOVER_DURATION, ease: CARD_EASE }, 0.1);
 		if (sh5)
 			hoverTl.to(sh5, { x: -45 * DRIFT_RATIO, duration: HOVER_DURATION, ease: CARD_EASE }, 0.1);
+		// Vehicle hover: each one lifts a little, in the order it arrived.
+		//
+		// This used to close the queue up, and that was wrong twice over. xPercent
+		// is a share of the element's OWN width, so mixing the car's percentage
+		// with the motorbike's compares two different rulers: a nudge meant to be
+		// 12% of the gap came out as a 26px shove and parked the car on the bike.
+		// And the idea fought the spacing anyway -- these drawings are transparent
+		// now, so anything closing the gaps tangles their linework. A lift cannot
+		// collide, whatever the widths are.
+		const VEHICLE_LIFT = -9; // percent of each vehicle's own height
+		vehicleShapes.forEach((v, i) => {
+			const el = card.querySelector(v.sel);
+			if (!el) return;
+			hoverTl.to(
+				el,
+				{ yPercent: VEHICLE_LIFT, duration: HOVER_DURATION, ease: CARD_EASE },
+				i * 0.07,
+			);
+		});
+		// Marker hover: each one lifts off its point a little, on a stagger, the way
+		// the other cards' shapes drift. Kept small -- a marker that leaves its
+		// location stops meaning anything.
+		pinRest.forEach((pin, i) => {
+			hoverTl.to(
+				pin.el,
+				{ yPercent: pin.yp - 12, duration: HOVER_DURATION, ease: CARD_EASE },
+				i * 0.07,
+			);
+		});
 		const eng1 = card.querySelector(".shape-engineering.is-1");
 		const eng2 = card.querySelector(".shape-engineering.is-2");
 		if (eng1) hoverTl.to(eng1, { scale: 0.8, duration: HOVER_DURATION, ease: CARD_EASE }, 0);

@@ -526,6 +526,15 @@
 	object-fit: cover;
 }
 
+/* The deadline cards now carry line drawings of the vehicle class instead of
+   photographs of the centres. A drawing has to be shown whole -- `cover` would
+   crop the nose off a lorry to fill a 16:10 box -- and it wants a little air
+   around it, since unlike a photograph it has no edges of its own. */
+.orisa-embed .process-card__img-wrap.is-art img {
+	object-fit: contain;
+	padding: 4%;
+}
+
 /* On a phone the card has to fit between the navbar and the bottom of the
    screen while the section is pinned -- there is no scrolling out of it. Two
    things were stopping that at 320x568:

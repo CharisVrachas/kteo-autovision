@@ -6,30 +6,40 @@
  *
  * Only the homepage uses it — on an inner page there is nothing to cover.
  */
-const shapes = [1, 2, 3, 4, 5];
-const serviceShapes = [1, 2, 3, 4];
+/* The two cards carry the same drawings the homepage does, so the loading screen
+   previews the site rather than showing abstract shapes: the vehicle queue under
+   "ΤΕΧΝΙΚΟΣ ΕΛΕΓΧΟΣ ΟΧΗΜΑΤΩΝ", Rhodes and its two markers under "ΔΥΟ ΙΚΤΕΟ ΣΤΗΝ
+   ΥΠΗΡΕΣΙΑ ΣΑΣ", which is literally what that line says. The marker points and the
+   map's proportions match src/pages/index.astro; preloader.js reads them off the
+   data attributes, exactly as card-shapes.js does. */
+const preloaderVehicles = ["moto", "car", "van"];
+const RHODES = { ratio: 0.79, pinScale: 0.2 };
+const rhodesPins = [
+	[0.68, 0.175],
+	[0.9, 0.11],
+];
 ---
 
 <div data-preloader class="preloader" aria-hidden="true">
 	<div class="preloader__grid">
 		<div class="preloader__cell preloader__orange" data-preloader-orange>
 			<div class="preloader__head">
-				{/* The mark, not a wordmark. It is a JPG on a white ground, so it sits
-				    on a white panel here exactly as it does in the navbar, rather than
-				    showing a white rectangle against the blue cell. */}
+				{/* The mark, not a wordmark. Transparent PNGs, not the navbar's JPGs:
+				    the cell is white (preloader.css), so the marks sit straight on it
+				    with no plate and no baked-in white ground of their own. */}
 				<div class="preloader__logo" data-preloader-logo>
-					{/* Both marks share one grid cell (preloader.css), so the white
-					    panel is sized by the wider of them and nothing shifts as
-					    preloader.js cross-fades between them. */}
+					{/* Both marks share one grid cell (preloader.css) and are matched
+					    on height, so nothing shifts as preloader.js cross-fades
+					    between them. */}
 					<div class="preloader__logo-stack">
 						<img
-							src="/assets/img/rodos/logo-autovision-alt.jpg"
+							src="/assets/img/rodos/logo-autovision.png"
 							loading="eager"
 							alt="AUTOVISION"
 							class="preloader__logo-img"
 						/>
 						<img
-							src="/assets/img/rodos/logo-kteo-rodos.jpg"
+							src="/assets/img/rodos/logo-kteo-rodos.png"
 							loading="eager"
 							alt=""
 							aria-hidden="true"
@@ -59,9 +69,14 @@ const serviceShapes = [1, 2, 3, 4];
 					</div>
 				</div>
 			</div>
-			<div class="card_illustration-wrap" data-preloader-illu="left">
-				{shapes.map((n) => (
-					<img src="/assets/img/shapes/shape-preloader.svg" loading="eager" alt="" class={`shape is-${n}`} />
+			<div class="card_illustration-wrap is-vehicles" data-preloader-illu="left">
+				{preloaderVehicles.map((v, i) => (
+					<img
+						src={`/assets/img/shapes/vehicle-${v}.svg`}
+						loading="eager"
+						alt=""
+						class={`shape-vehicle is-${i + 1}`}
+					/>
 				))}
 			</div>
 		</div>
@@ -77,13 +92,22 @@ const serviceShapes = [1, 2, 3, 4];
 					</div>
 				</div>
 			</div>
-			<div class="card_illustration-wrap" data-preloader-illu="right">
-				{serviceShapes.map((n) => (
+			<div
+				class="card_illustration-wrap is-map"
+				style={`--map-h:10em;--pin-k:${RHODES.pinScale}`}
+				data-map-ratio={RHODES.ratio}
+				data-pin-scale={RHODES.pinScale}
+				data-preloader-illu="right"
+			>
+				<img src="/assets/img/shapes/map-rhodes.svg" loading="eager" alt="" class="shape-map" />
+				{rhodesPins.map(([u, v], i) => (
 					<img
-						src="/assets/img/shapes/shape-preloader.svg"
+						src="/assets/img/shapes/map-pin.svg"
 						loading="eager"
 						alt=""
-						class={`shape-service is-${n}`}
+						class={`shape-pin is-${i + 1}`}
+						data-u={u}
+						data-v={v}
 					/>
 				))}
 			</div>

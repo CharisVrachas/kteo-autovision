@@ -56,8 +56,13 @@ import { deadlines } from "../../data/site";
 													<div class="process-card">
 														<div class="row g-xxl-5 align-items-center">
 															<div class="col-xxl-4 col-lg-5 order-lg-1 order-2">
-																<div class="process-card__img-wrap">
-																	<img class="img-cover" src={item.photo} alt={item.title} />
+																{/* A drawing, not a photograph, so it must not be cropped
+																    to the 16:10 box the way img-cover crops one. alt is
+																    empty on purpose: the class is named in the heading
+																    right beside it, and repeating it here would only make
+																    a screen reader say it twice. */}
+																<div class="process-card__img-wrap is-art">
+																	<img src={item.art} alt="" loading="lazy" />
 																</div>
 															</div>
 															<div class="col-xxl-8 col-lg-7 order-lg-2 order-1 mb-lg-0 mb-4">
