@@ -20,7 +20,7 @@ Provenance, which matters because this is a commercial site:
   * The pin is generated from scratch below, so it owes nothing to anyone and
     its line weight can be dictated rather than inherited.
 
-Run from the project root, with MAP_SRC pointing at the downloaded sources:
+Run from the project root; the sources are vendored in tools/sources:
 
     python tools/make-map-drawings.py
 """
@@ -33,7 +33,9 @@ import re
 
 import linework as lw
 
-SRC = os.environ.get("MAP_SRC", "")
+# The sources live beside this script so it can be re-run at any time; see
+# tools/sources/README.md for where each came from. MAP_SRC overrides it.
+SRC = os.environ.get("MAP_SRC") or os.path.join(os.path.dirname(__file__), "sources")
 
 # The Europe source draws its whole landmass as one compound path; everything
 # else in the file is a legend, an ocean rectangle and a lakes layer.

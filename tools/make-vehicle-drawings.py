@@ -17,7 +17,7 @@ The trimming, the line-weight solving and the writing live in linework.py,
 which tools/make-map-drawings.py shares, so both cards' artwork comes out at
 the same weight.
 
-Run from the project root, with VEHICLE_SRC pointing at the downloaded sources:
+Run from the project root; the sources are vendored in tools/sources:
 
     python tools/make-vehicle-drawings.py
 """
@@ -202,7 +202,10 @@ def add_taxi_sign(svg, name):
 
 
 def main():
-    src_dir = os.environ.get("VEHICLE_SRC", "")
+    # The sources live beside this script so it can be re-run at any time; see
+    # tools/sources/README.md for where each came from. VEHICLE_SRC overrides it.
+    src_dir = os.environ.get("VEHICLE_SRC") or os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "sources")
     for name, (filename, crop, outline, flip) in SOURCES.items():
         svg = io.open(os.path.join(src_dir, filename), encoding="utf-8", errors="replace").read()
         svg = lw.set_viewbox(svg, crop) if crop else lw.ensure_viewbox(svg)
