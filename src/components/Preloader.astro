@@ -12,9 +12,10 @@
    ΥΠΗΡΕΣΙΑ ΣΑΣ", which is literally what that line says. The marker points and the
    map's proportions match src/pages/index.astro; preloader.js reads them off the
    data attributes, exactly as card-shapes.js does. */
-import { ART_RATIO, type ArtKey } from "../data/artwork";
+import { ART_RATIO, sizeScale, type ArtKey } from "../data/artwork";
 
-const preloaderVehicles = ["moto", "car", "van"];
+const preloaderVehicles = ["moto", "car", "van"] as const;
+const preloaderScale = sizeScale(preloaderVehicles);
 /* Rhodes arrives with its two markers already drawn into it, so the card holds
    one image rather than a map plus placed pins. */
 const RHODES_RATIO = 0.924;
@@ -77,6 +78,7 @@ const RHODES_RATIO = 0.924;
 						alt=""
 						class={`shape-vehicle is-${i + 1}`}
 						data-ratio={ART_RATIO[v as ArtKey]}
+						data-scale={preloaderScale[v].toFixed(4)}
 					/>
 				))}
 			</div>

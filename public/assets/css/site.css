@@ -540,11 +540,19 @@
    compact one far less, which is why the car sprawled and the van looked like a
    toy. --art-scale comes from src/data/artwork.ts, one per card; the 66% is the
    base the widest of them can take without its width running past the box. */
+.orisa-embed .process-card__img-wrap.is-art {
+	/* margin:auto on the image centred it across but not down: the wrap is a plain
+	   block, so there was nothing to centre against vertically and every drawing
+	   sat on the top edge with up to 107px of air beneath it. */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
 .orisa-embed .process-card__img-wrap.is-art img {
-	height: calc(66% * var(--art-scale, 1));
+	height: calc(72% * var(--art-scale, 1));
 	width: auto;
 	max-width: 92%;
-	margin: auto;
 }
 
 /* On a phone the card has to fit between the navbar and the bottom of the

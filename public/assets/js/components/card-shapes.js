@@ -12,20 +12,18 @@
    ──────────────────────────────────────────────────────────────────────────── */
 const VEHICLE_GAP = 0.42; // clear space between two vehicles, in height units
 const VEHICLE_STEP = 0.35; // seconds between one vehicle appearing and the next
-const VEHICLE_BASE_EM = 2.8; // the height CSS gives them before this rebalances it
+const VEHICLE_BASE_EM = 3.4; // average height of a vehicle; the scale varies it
+const VEHICLE_FIT = 0.9; // share of the card the row may take before it shrinks
 
 /* Lay a row of vehicles out from their own proportions.
-   `items` arrive left to right as { el, ratio }; the ratio is read off the
-   element, because src/data/artwork.ts is the one place those numbers are
-   written down and a second copy here would drift away from it.
-   See that file for why the heights are rebalanced rather than shared: equal
-   height is not equal size, and the eye compares area. */
+   `items` arrive left to right as { el, ratio, scale }, both read off the
+   element. Nothing is worked out here: src/data/artwork.ts is the one place
+   those numbers are written down and it hands them to the markup, so a second
+   copy in this file could only drift away from it. See that file for why the
+   heights are evened out rather than shared -- equal height is not equal size. */
 function layOutVehicles(items) {
-	const inv = items.map((it) => 1 / Math.sqrt(it.ratio));
-	const mean = inv.reduce((a, b) => a + b, 0) / inv.length;
-	items.forEach((it, i) => {
-		it.scale = inv[i] / mean;
-		it.width = it.ratio * it.scale; // in height units, AFTER rebalancing
+	items.forEach((it) => {
+		it.width = it.ratio * it.scale; // in height units, AFTER evening out
 	});
 	const span =
 		items.reduce((s, it) => s + it.width, 0) + VEHICLE_GAP * (items.length - 1);
@@ -48,13 +46,29 @@ function placeVehicles(card) {
 		.map((sel) => {
 			const el = card.querySelector(sel);
 			const ratio = el && parseFloat(el.dataset.ratio);
-			return el && ratio ? { el: el, ratio: ratio } : null;
+			const scale = el && parseFloat(el.dataset.scale);
+			return el && ratio && scale ? { el: el, ratio: ratio, scale: scale } : null;
 		})
 		.filter(Boolean);
 	if (!items.length) return items;
 	layOutVehicles(items);
+
+	// Fit the row to the card it is in. The span is known in height units, so one
+	// measurement of the rendered height turns it into pixels; if that overruns
+	// the wrap the whole row is scaled down together, which keeps the gaps and
+	// the evening-out intact. Without this the queue simply grew past the card on
+	// a phone -- the em sizes are viewport-relative but the card is not, and the
+	// two do not move at the same rate.
+	const wrap = items[0].el.parentElement;
+	let em = VEHICLE_BASE_EM;
+	items[0].el.style.height = em + "em";
+	const perEm = items[0].el.getBoundingClientRect().height / em;
+	const room = wrap.getBoundingClientRect().width * VEHICLE_FIT;
+	const span = items.reduce((s, it) => s + it.width, 0) + VEHICLE_GAP * (items.length - 1);
+	if (perEm > 0 && span * perEm * em > room) em = room / (span * perEm);
+
 	for (const it of items) {
-		it.el.style.height = (VEHICLE_BASE_EM * it.scale).toFixed(3) + "em";
+		it.el.style.height = (em * it.scale).toFixed(3) + "em";
 	}
 	return items;
 }

@@ -18,11 +18,11 @@
 import Eyebrow from "../ui/Eyebrow.astro";
 import Button from "../ui/Button.astro";
 import { deadlines } from "../../data/site";
-import { areaScale, type ArtKey } from "../../data/artwork";
+import { sizeScale, type ArtKey } from "../../data/artwork";
 
-/* One height for all five would leave the car sprawling and the van looking
-   like a toy; see src/data/artwork.ts for why area is the thing to match. */
-const artScale = areaScale(deadlines.map((d) => d.artKey as ArtKey));
+/* One height for all five would leave the car sprawling and the van looking like
+   a toy; see src/data/artwork.ts for the rule that evens them out. */
+const artScale = sizeScale(deadlines.map((d) => d.artKey as ArtKey));
 ---
 
 <section data-theme-section="light" class="section_deadlines">

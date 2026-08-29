@@ -8,10 +8,16 @@ import OpeningHours from "../components/sections/OpeningHours.astro";
 import Deadlines from "../components/sections/Deadlines.astro";
 import BranchPortfolio from "../components/sections/BranchPortfolio.astro";
 import { site, stats } from "../data/site";
-import { ART_RATIO, type ArtKey } from "../data/artwork";
+import { ART_RATIO, sizeScale, type ArtKey } from "../data/artwork";
 
 
 /** What the company offers, in three cards. */
+/* Height multipliers that even the three vehicles out; see src/data/artwork.ts.
+   Computed here and handed to the markup so the browser never has to work it
+   out twice, and so card-shapes.js can lay the queue out from the same numbers
+   instead of keeping its own. */
+const vehicleScale = sizeScale(["moto", "car", "van"]);
+
 const pillars = [
 	{
 		title: "Όλες οι κατηγορίες",
@@ -167,6 +173,7 @@ const pillars = [
 												alt=""
 												class={`${p.shape} is-${i + 1}`}
 												data-ratio={p.icons ? ART_RATIO[p.icons[i] as ArtKey] : undefined}
+												data-scale={p.icons ? vehicleScale[p.icons[i]].toFixed(4) : undefined}
 											/>
 										))}
 									</div>
