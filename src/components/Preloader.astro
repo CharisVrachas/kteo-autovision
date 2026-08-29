@@ -12,12 +12,12 @@
    ΥΠΗΡΕΣΙΑ ΣΑΣ", which is literally what that line says. The marker points and the
    map's proportions match src/pages/index.astro; preloader.js reads them off the
    data attributes, exactly as card-shapes.js does. */
+import { ART_RATIO, type ArtKey } from "../data/artwork";
+
 const preloaderVehicles = ["moto", "car", "van"];
-const RHODES = { ratio: 0.79, pinScale: 0.2 };
-const rhodesPins = [
-	[0.68, 0.175],
-	[0.9, 0.11],
-];
+/* Rhodes arrives with its two markers already drawn into it, so the card holds
+   one image rather than a map plus placed pins. */
+const RHODES_RATIO = 0.924;
 ---
 
 <div data-preloader class="preloader" aria-hidden="true">
@@ -72,10 +72,11 @@ const rhodesPins = [
 			<div class="card_illustration-wrap is-vehicles" data-preloader-illu="left">
 				{preloaderVehicles.map((v, i) => (
 					<img
-						src={`/assets/img/shapes/vehicle-${v}.svg`}
+						src={`/assets/img/shapes/vehicle-${v}.png`}
 						loading="eager"
 						alt=""
 						class={`shape-vehicle is-${i + 1}`}
+						data-ratio={ART_RATIO[v as ArtKey]}
 					/>
 				))}
 			</div>
@@ -94,22 +95,11 @@ const rhodesPins = [
 			</div>
 			<div
 				class="card_illustration-wrap is-map"
-				style={`--map-h:10em;--pin-k:${RHODES.pinScale}`}
-				data-map-ratio={RHODES.ratio}
-				data-pin-scale={RHODES.pinScale}
+				style="--map-h:11em"
+				data-map-ratio={RHODES_RATIO}
 				data-preloader-illu="right"
 			>
-				<img src="/assets/img/shapes/map-rhodes.svg" loading="eager" alt="" class="shape-map" />
-				{rhodesPins.map(([u, v], i) => (
-					<img
-						src="/assets/img/shapes/map-pin.svg"
-						loading="eager"
-						alt=""
-						class={`shape-pin is-${i + 1}`}
-						data-u={u}
-						data-v={v}
-					/>
-				))}
+				<img src="/assets/img/shapes/map-rhodes.png" loading="eager" alt="" class="shape-map" />
 			</div>
 		</div>
 	</div>

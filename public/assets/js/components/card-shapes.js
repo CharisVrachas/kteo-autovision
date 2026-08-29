@@ -10,30 +10,55 @@
    derived from the drawings' own proportions, and a second, drifting copy of
    those numbers would put the vehicles back on top of each other.
    ──────────────────────────────────────────────────────────────────────────── */
-const VEHICLE_RATIO = { moto: 1.72, car: 2.86, van: 1.96 }; // width / height, from the SVG viewBoxes
-const VEHICLE_GAP = 0.42; // clear space between two vehicles, in heights
-const VEHICLE_ORIGIN_H = -3.2; // where they all set off from, in heights from centre
-const VEHICLE_STEP = 0.4; // seconds between one vehicle setting off and the next
-const VEHICLE_ORDER = ["van", "car", "moto"]; // left to right at rest
+const VEHICLE_GAP = 0.42; // clear space between two vehicles, in height units
+const VEHICLE_STEP = 0.35; // seconds between one vehicle appearing and the next
+const VEHICLE_BASE_EM = 2.8; // the height CSS gives them before this rebalances it
 
-const vehicleSpan =
-	VEHICLE_ORDER.reduce((sum, k) => sum + VEHICLE_RATIO[k], 0) +
-	VEHICLE_GAP * (VEHICLE_ORDER.length - 1);
-const vehicleCentre = {};
-let vehicleCursor = -vehicleSpan / 2;
-for (const k of VEHICLE_ORDER) {
-	vehicleCentre[k] = vehicleCursor + VEHICLE_RATIO[k] / 2;
-	vehicleCursor += VEHICLE_RATIO[k] + VEHICLE_GAP;
+/* Lay a row of vehicles out from their own proportions.
+   `items` arrive left to right as { el, ratio }; the ratio is read off the
+   element, because src/data/artwork.ts is the one place those numbers are
+   written down and a second copy here would drift away from it.
+   See that file for why the heights are rebalanced rather than shared: equal
+   height is not equal size, and the eye compares area. */
+function layOutVehicles(items) {
+	const inv = items.map((it) => 1 / Math.sqrt(it.ratio));
+	const mean = inv.reduce((a, b) => a + b, 0) / inv.length;
+	items.forEach((it, i) => {
+		it.scale = inv[i] / mean;
+		it.width = it.ratio * it.scale; // in height units, AFTER rebalancing
+	});
+	const span =
+		items.reduce((s, it) => s + it.width, 0) + VEHICLE_GAP * (items.length - 1);
+	let cursor = -span / 2;
+	for (const it of items) {
+		it.centre = cursor + it.width / 2;
+		cursor += it.width + VEHICLE_GAP;
+		// xPercent is a share of the element's OWN width, and every length here is
+		// a multiple of the shared height, so the height cancels: one number holds
+		// at every screen size.
+		it.restX = (100 * it.centre) / it.width;
+	}
+	return items;
 }
-const vehicleRestX = (k) => (100 * vehicleCentre[k]) / VEHICLE_RATIO[k];
-const vehicleFromX = (k) => (100 * VEHICLE_ORIGIN_H) / VEHICLE_RATIO[k];
 
-/* Where a map marker's tip has to sit, given a point (u, v) on the map's own box.
-   Both are shares of the MARKER's box, so the map height cancels out and the
-   pair holds at any size -- same trick as the vehicle queue above. */
-const PIN_RATIO = 0.57; // width / height of map-pin.svg, from make-map-drawings.py
-const pinRestX = (u, ratio, pinK) => (100 * (u - 0.5) * ratio) / (PIN_RATIO * pinK);
-const pinRestY = (v, pinK) => 100 * ((v - 0.5) / pinK - 0.5);
+/* Read the queue out of a card, left to right, and place it. Returns the laid
+   out items so a hover can reuse the same numbers. */
+function placeVehicles(card) {
+	const items = [".shape-vehicle.is-3", ".shape-vehicle.is-2", ".shape-vehicle.is-1"]
+		.map((sel) => {
+			const el = card.querySelector(sel);
+			const ratio = el && parseFloat(el.dataset.ratio);
+			return el && ratio ? { el: el, ratio: ratio } : null;
+		})
+		.filter(Boolean);
+	if (!items.length) return items;
+	layOutVehicles(items);
+	for (const it of items) {
+		it.el.style.height = (VEHICLE_BASE_EM * it.scale).toFixed(3) + "em";
+	}
+	return items;
+}
+
 
 function initScrollCardShapes() {
 	if (!has.ScrollTrigger) return;
@@ -44,30 +69,6 @@ function initScrollCardShapes() {
 		{ sel: ".shape.is-4", scale: 11 / 12, x: -25, position: 0.02 },
 		{ sel: ".shape.is-5", scale: 10 / 12, x: -45, position: 0.04 },
 	];
-	// Vehicles: a queue that files in from the left. The motorbike enters alone
-	// and drives the whole width; the car pulls out behind it once it is clear,
-	// then the van. All three set off from the same point, so what the visitor
-	// sees is one vehicle becoming three rather than three things appearing at
-	// once.
-	//
-	// The layout is worked out in multiples of the drawings' shared HEIGHT, not in
-	// pixels, and then expressed as xPercent. That is the whole trick: xPercent is
-	// a share of the element's own width, and every width here is (ratio x height),
-	// so the height cancels out and one constant holds at every screen size. The
-	// drawings are sized in em, so pixel offsets would have drifted apart from them
-	// on every viewport but the one they were measured at -- and the three would
-	// touch, which is exactly what they must not do now that none of them is opaque
-	// enough to hide an overlap.
-	const vehicleShapes = [
-		{ sel: ".shape-vehicle.is-1", key: "moto", position: 0, lead: true }, // in front
-		{ sel: ".shape-vehicle.is-2", key: "car", position: VEHICLE_STEP },
-		{ sel: ".shape-vehicle.is-3", key: "van", position: VEHICLE_STEP * 2 }, // at the back
-	];
-	// Map cards: the drawing arrives first, then the markers drop onto it one at a
-	// time, west to east. Same reading as the vehicle queue -- one thing, then the
-	// next, then the next -- told with a different gesture, because a map cannot
-	// drive across the card.
-	const PIN_STEP = 0.3; // seconds between one marker landing and the next
 	const engShapes = [
 		{ sel: ".shape-engineering.is-1", rotation: 45 },
 		{ sel: ".shape-engineering.is-2", rotation: -45 },
@@ -118,49 +119,30 @@ function initScrollCardShapes() {
 			if (!el) return;
 			tl.fromTo(el, { scale: 0.8, x: 0 }, { scale, x, duration: 0.6, ease: CARD_EASE }, position);
 		});
-		vehicleShapes.forEach(({ sel, key, position, lead }) => {
-			const el = card.querySelector(sel);
-			if (!el) return;
+		// The queue: each vehicle appears where it belongs, one after another from
+		// the left. They used to drive in from a shared point off-screen, which
+		// meant that for the first second all three were stacked on one spot -- and
+		// these drawings are transparent, so that read as a tangle, not an entrance.
+		const vehicles = placeVehicles(card);
+		vehicles.forEach((it, i) => {
 			tl.fromTo(
-				el,
-				{ xPercent: vehicleFromX(key), x: 0, opacity: lead ? 1 : 0 },
-				{ xPercent: vehicleRestX(key), x: 0, opacity: 1, duration: 1.1, ease: CARD_EASE },
-				position,
+				it.el,
+				{ xPercent: it.restX, x: 0, y: 10, opacity: 0 },
+				{ xPercent: it.restX, x: 0, y: 0, opacity: 1, duration: 0.7, ease: CARD_EASE },
+				i * VEHICLE_STEP,
 			);
 		});
-		// Rest positions are wanted twice, by the scroll timeline and by the hover,
-		// so they are worked out once here.
-		const pinRest = [];
+		// Map cards: one drawing, which fades and settles into place. The markers
+		// used to be separate elements placed on it by measured coordinates; they
+		// are part of the artwork now, so there is nothing left to position.
 		const mapEl = card.querySelector(".shape-map");
 		if (mapEl) {
-			const wrap = mapEl.parentElement;
-			const ratio = parseFloat(wrap.dataset.mapRatio);
-			const pinK = parseFloat(wrap.dataset.pinScale);
 			tl.fromTo(
 				mapEl,
 				{ opacity: 0, scale: 0.94 },
 				{ opacity: 1, scale: 1, duration: 0.8, ease: CARD_EASE },
 				0,
 			);
-			card.querySelectorAll(".shape-pin").forEach((pin, i) => {
-				const u = parseFloat(pin.dataset.u);
-				const v = parseFloat(pin.dataset.v);
-				// xPercent and yPercent are shares of the MARKER's own box, and every
-				// length involved is a multiple of the map height, so the height cancels
-				// out: one pair of constants puts the marker on its point at any screen
-				// size. Same trick as the vehicle queue. The y term also lifts the marker
-				// by half its height, because what has to sit on the point is its tip,
-				// not its middle.
-				const xp = pinRestX(u, ratio, pinK);
-				const yp = pinRestY(v, pinK);
-				pinRest.push({ el: pin, xp: xp, yp: yp });
-				tl.fromTo(
-					pin,
-					{ xPercent: xp, yPercent: yp - 70, x: 0, y: 0, opacity: 0, scale: 0.85 },
-					{ xPercent: xp, yPercent: yp, x: 0, y: 0, opacity: 1, scale: 1, duration: 0.5, ease: CARD_EASE },
-					0.45 + i * PIN_STEP,
-				);
-			});
 		}
 		engShapes.forEach(({ sel, rotation }) => {
 			const el = card.querySelector(sel);
@@ -256,25 +238,23 @@ function initScrollCardShapes() {
 		// now, so anything closing the gaps tangles their linework. A lift cannot
 		// collide, whatever the widths are.
 		const VEHICLE_LIFT = -9; // percent of each vehicle's own height
-		vehicleShapes.forEach((v, i) => {
-			const el = card.querySelector(v.sel);
-			if (!el) return;
+		vehicles.forEach((it, i) => {
 			hoverTl.to(
-				el,
+				it.el,
 				{ yPercent: VEHICLE_LIFT, duration: HOVER_DURATION, ease: CARD_EASE },
 				i * 0.07,
 			);
 		});
-		// Marker hover: each one lifts off its point a little, on a stagger, the way
-		// the other cards' shapes drift. Kept small -- a marker that leaves its
-		// location stops meaning anything.
-		pinRest.forEach((pin, i) => {
+		// Map hover. The maps lost theirs when the markers stopped being separate
+		// elements -- the hover lived on the markers, so removing them left the two
+		// map cards as the only ones that did nothing under the pointer.
+		if (mapEl) {
 			hoverTl.to(
-				pin.el,
-				{ yPercent: pin.yp - 12, duration: HOVER_DURATION, ease: CARD_EASE },
-				i * 0.07,
+				mapEl,
+				{ scale: 1.04, y: -6, duration: HOVER_DURATION, ease: CARD_EASE },
+				0,
 			);
-		});
+		}
 		const eng1 = card.querySelector(".shape-engineering.is-1");
 		const eng2 = card.querySelector(".shape-engineering.is-2");
 		if (eng1) hoverTl.to(eng1, { scale: 0.8, duration: HOVER_DURATION, ease: CARD_EASE }, 0);

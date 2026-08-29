@@ -535,6 +535,18 @@
 	padding: 4%;
 }
 
+/* Size each drawing so all five cover the same AREA, not the same height.
+   object-fit: contain alone hands a wide drawing the full width of the box and a
+   compact one far less, which is why the car sprawled and the van looked like a
+   toy. --art-scale comes from src/data/artwork.ts, one per card; the 66% is the
+   base the widest of them can take without its width running past the box. */
+.orisa-embed .process-card__img-wrap.is-art img {
+	height: calc(66% * var(--art-scale, 1));
+	width: auto;
+	max-width: 92%;
+	margin: auto;
+}
+
 /* On a phone the card has to fit between the navbar and the bottom of the
    screen while the section is pinned -- there is no scrolling out of it. Two
    things were stopping that at 320x568:

@@ -180,7 +180,7 @@ function initPreloader() {
 	// The two cards carry the site's own drawings now, not abstract shapes: the
 	// vehicle queue on the left, Rhodes and its two markers on the right. Their
 	// rest positions come from the SAME functions card-shapes.js uses on the
-	// homepage -- vehicleRestX, pinRestX, pinRestY, hoisted to file scope there and
+	// homepage -- placeVehicles, defined at file scope there and
 	// reachable here because card-shapes.js loads first (see Base.astro). One copy
 	// of that geometry, not two: the vehicles only stay clear of one another
 	// because their gaps are derived from their own proportions, and a second copy
@@ -193,39 +193,29 @@ function initPreloader() {
 		var LIFT = -9; // percent of the element's own height
 		var all = [];
 
-		var vehicles = card.querySelectorAll(".shape-vehicle");
-		if (vehicles.length) {
-			var order = ["moto", "car", "van"]; // is-1, is-2, is-3, as the markup writes them
-			Array.prototype.forEach.call(vehicles, function (el, i) {
-				var xp = vehicleRestX(order[i]);
-				all.push({
-					el: el,
-					at: i * 0.07,
-					rest: { xPercent: xp, yPercent: 0, x: 0, y: 0, opacity: 1 },
-					hover: { xPercent: xp, yPercent: LIFT },
-				});
+		// placeVehicles reads each drawing's proportions off its own element and
+		// sizes and positions the row from them -- the same function the homepage
+		// uses (card-shapes.js, which loads first). One copy of that geometry.
+		var placed = placeVehicles(card);
+		placed.forEach(function (it, i) {
+			all.push({
+				el: it.el,
+				at: i * 0.07,
+				rest: { xPercent: it.restX, yPercent: 0, x: 0, y: 0, opacity: 1 },
+				hover: { xPercent: it.restX, yPercent: LIFT },
 			});
-		}
+		});
 
+		// The map is one drawing now: its markers are part of the artwork rather
+		// than separate elements this had to place. Nothing to position, so it just
+		// breathes with the rest.
 		var mapEl = card.querySelector(".shape-map");
 		if (mapEl) {
-			var ratio = parseFloat(card.dataset.mapRatio);
-			var pinK = parseFloat(card.dataset.pinScale);
 			all.push({
 				el: mapEl,
 				at: 0,
 				rest: { opacity: 1, scale: 1 },
 				hover: { opacity: 1, scale: 1.02 },
-			});
-			Array.prototype.forEach.call(card.querySelectorAll(".shape-pin"), function (pin, i) {
-				var xp = pinRestX(parseFloat(pin.dataset.u), ratio, pinK);
-				var yp = pinRestY(parseFloat(pin.dataset.v), pinK);
-				all.push({
-					el: pin,
-					at: 0.08 + i * 0.07,
-					rest: { xPercent: xp, yPercent: yp, x: 0, y: 0, opacity: 1 },
-					hover: { xPercent: xp, yPercent: yp - 12 },
-				});
 			});
 		}
 

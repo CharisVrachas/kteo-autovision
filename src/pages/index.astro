@@ -8,6 +8,7 @@ import OpeningHours from "../components/sections/OpeningHours.astro";
 import Deadlines from "../components/sections/Deadlines.astro";
 import BranchPortfolio from "../components/sections/BranchPortfolio.astro";
 import { site, stats } from "../data/site";
+import { ART_RATIO, type ArtKey } from "../data/artwork";
 
 
 /** What the company offers, in three cards. */
@@ -34,16 +35,11 @@ const pillars = [
 		/* ratio and pinScale are read by card-shapes.js off the wrapper, so the
 		   marker positions below can be expressed as plain fractions of the map
 		   and still land in the right place at any size. */
-		map: { name: "europe", height: "8.7em", ratio: 1.32, pinScale: 0.22 },
-		/* Markers, west to east, in the order they drop. u/v are fractions of the
-		   map's own box. Every one was probed against the filled source map, so
-		   all three stand on land rather than in the sea -- 22, 40 and 15 pixels
-		   clear of the nearest coast. */
-		pins: [
-			[0.33, 0.7],
-			[0.46, 0.66],
-			[0.6, 0.87],
-		],
+		/* The markers are part of the drawing now, not separate elements placed
+		   over it, so there is nothing here to position: the artwork arrives with
+		   its pins, its connecting lines and its badge already composed. */
+		map: { name: "europe", height: "11.2em", ratio: 1.252 },
+		pins: null,
 	},
 	{
 		title: "Δύο σημεία στη Ρόδο",
@@ -51,20 +47,10 @@ const pillars = [
 		shape: "shape-map",
 		count: 0,
 		icons: null,
-		/* 9.6em, not 11: both markers sit in the island's northern tip, and a
-		   marker stands ABOVE its point, so at full height they overhung the top of
-		   the card by six pixels. The map gives up that much so they fit. */
-		map: { name: "rhodes", height: "9.6em", ratio: 0.79, pinScale: 0.2 },
-		/* The two centres really sit 5px apart at this size: Ασγούρου is at
-		   36.3936N and Τσαϊρι at 36.3759N, barely two kilometres apart on a
-		   seventy-kilometre island, and drawn true they merge into one blob. So
-		   they are spread along the island's width while staying in the northern
-		   quarter, where both of them actually are. Both points were tested as
-		   inside the coastline with more than 14px to spare. */
-		pins: [
-			[0.68, 0.175],
-			[0.9, 0.11],
-		],
+		/* Back to full height: the markers are drawn into the artwork now, so
+		   nothing stands above the island's tip and overhangs the card. */
+		map: { name: "rhodes", height: "12em", ratio: 0.924 },
+		pins: null,
 	},
 ];
 ---
@@ -159,38 +145,28 @@ const pillars = [
 									    placed on it, positioned from the data attributes below. */}
 									<div
 										class={`card_illustration-wrap${p.icons ? " is-vehicles" : ""}${p.map ? " is-map" : ""}`}
-										style={p.map ? `--map-h:${p.map.height};--pin-k:${p.map.pinScale}` : undefined}
+										style={p.map ? `--map-h:${p.map.height}` : undefined}
 										data-map-ratio={p.map ? p.map.ratio : undefined}
-										data-pin-scale={p.map ? p.map.pinScale : undefined}
 									>
 										{p.map && (
 											<img
-												src={`/assets/img/shapes/map-${p.map.name}.svg`}
+												src={`/assets/img/shapes/map-${p.map.name}.png`}
 												loading="lazy"
 												alt=""
 												class="shape-map"
 											/>
 										)}
-										{p.pins?.map(([u, v], i) => (
-											<img
-												src="/assets/img/shapes/map-pin.svg"
-												loading="lazy"
-												alt=""
-												class={`shape-pin is-${i + 1}`}
-												data-u={u}
-												data-v={v}
-											/>
-										))}
 										{Array.from({ length: p.count }, (_, i) => (
 											<img
 												src={
 													p.icons
-														? `/assets/img/shapes/vehicle-${p.icons[i]}.svg`
+														? `/assets/img/shapes/vehicle-${p.icons[i]}.png`
 														: "/assets/img/shapes/shape.svg"
 												}
 												loading="lazy"
 												alt=""
 												class={`${p.shape} is-${i + 1}`}
+												data-ratio={p.icons ? ART_RATIO[p.icons[i] as ArtKey] : undefined}
 											/>
 										))}
 									</div>

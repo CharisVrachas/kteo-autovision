@@ -193,7 +193,9 @@ export const companyProfile = [
  * the class itself, built by tools/make-vehicle-drawings.py. It replaced
  * photographs of the CENTRES, which said nothing about the category they sat
  * beside. Only Deadlines.astro reads it; DeadlineCards.astro on
- * /online-calculator/ shows no image at all.
+ * /online-calculator/ shows no image at all. `artKey` names the drawing in
+ * src/data/artwork.ts, which is where its proportions live -- Deadlines.astro
+ * uses them to give all five the same area rather than the same height.
  */
 export const deadlines = [
 	{
@@ -201,35 +203,40 @@ export const deadlines = [
 		text: "Στα 4 χρόνια ακριβώς από την ημερομηνία έκδοσης της 1ης αδείας και έκτοτε κάθε 2 χρόνια.",
 		first: "4 χρόνια",
 		every: "κάθε 2 χρόνια",
-		art: "/assets/img/shapes/vehicle-car.svg",
+		art: "/assets/img/shapes/vehicle-car.png",
+		artKey: "car",
 	},
 	{
 		title: "Δίκυκλο / Τρίκυκλο / Τετράκυκλο",
 		text: "Στα 4 χρόνια ακριβώς από την ημερομηνία έκδοσης της 1ης αδείας και έκτοτε κάθε 2 χρόνια.",
 		first: "4 χρόνια",
 		every: "κάθε 2 χρόνια",
-		art: "/assets/img/shapes/vehicle-moto.svg",
+		art: "/assets/img/shapes/vehicle-moto.png",
+		artKey: "moto",
 	},
 	{
 		title: "Επιβατικό Δ.Χ. (ταξί)",
 		text: "Στον 1ο χρόνο από την ημερομηνία έκδοσης της 1ης αδείας και έκτοτε κάθε χρόνο.",
 		first: "1 χρόνο",
 		every: "κάθε χρόνο",
-		art: "/assets/img/shapes/vehicle-taxi.svg",
+		art: "/assets/img/shapes/vehicle-taxi.png",
+		artKey: "taxi",
 	},
 	{
 		title: "Φορτηγό έως 3,5 τόνων",
 		text: "Στα 4 χρόνια ακριβώς από την ημερομηνία έκδοσης της 1ης αδείας και έκτοτε κάθε 2 χρόνια.",
 		first: "4 χρόνια",
 		every: "κάθε 2 χρόνια",
-		art: "/assets/img/shapes/vehicle-van.svg",
+		art: "/assets/img/shapes/vehicle-van.png",
+		artKey: "van",
 	},
 	{
 		title: "Φορτηγό άνω 3,5 τόνων",
 		text: "Στον 1ο χρόνο από την ημερομηνία έκδοσης της 1ης αδείας και έκτοτε κάθε χρόνο.",
 		first: "1 χρόνο",
 		every: "κάθε χρόνο",
-		art: "/assets/img/shapes/vehicle-lorry.svg",
+		art: "/assets/img/shapes/vehicle-lorry.png",
+		artKey: "lorry",
 	},
 ];
 

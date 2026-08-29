@@ -18,6 +18,11 @@
 import Eyebrow from "../ui/Eyebrow.astro";
 import Button from "../ui/Button.astro";
 import { deadlines } from "../../data/site";
+import { areaScale, type ArtKey } from "../../data/artwork";
+
+/* One height for all five would leave the car sprawling and the van looking
+   like a toy; see src/data/artwork.ts for why area is the thing to match. */
+const artScale = areaScale(deadlines.map((d) => d.artKey as ArtKey));
 ---
 
 <section data-theme-section="light" class="section_deadlines">
@@ -61,7 +66,10 @@ import { deadlines } from "../../data/site";
 																    empty on purpose: the class is named in the heading
 																    right beside it, and repeating it here would only make
 																    a screen reader say it twice. */}
-																<div class="process-card__img-wrap is-art">
+																<div
+																	class="process-card__img-wrap is-art"
+																	style={`--art-scale:${artScale[item.artKey].toFixed(3)}`}
+																>
 																	<img src={item.art} alt="" loading="lazy" />
 																</div>
 															</div>
