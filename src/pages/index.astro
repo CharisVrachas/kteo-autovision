@@ -22,12 +22,8 @@ const pillars = [
 	{
 		title: "Όλες οι κατηγορίες",
 		text: "Επιβατικά, δίκυκλα, τρίκυκλα και τετράκυκλα, φορτηγά έως και άνω των 3,5 τόνων. Τα Ασγούρου ελέγχουν δίκυκλα από το 2011, το Τσαϊρι βαρέα οχήματα από το 2012.",
-		shape: "shape-vehicle",
-		count: 3,
-		/* Fine-line drawings, no shape tile behind them: see
-		   tools/make-vehicle-drawings.py. Order is the order the fan opens in,
-		   left to right. null on the other pillars means the plain repeated
-		   shape. */
+		/* The drawings are built by tools/make-blueprint-icons.py. Order is the
+		   order they appear in, left to right. */
 		icons: ["moto", "car", "van"],
 		map: null,
 		pins: null,
@@ -35,8 +31,6 @@ const pillars = [
 	{
 		title: "Δίκτυο Autovision",
 		text: "Μέλος του πανευρωπαϊκού δικτύου AUTOVISION Contrôle Technique Automobile, της μεγαλύτερης εταιρείας ιδιωτικών ΚΤΕΟ στη Γαλλία. Αδιάβλητοι έλεγχοι, βασισμένοι σε υψηλά ποιοτικά πρότυπα.",
-		shape: "shape-map",
-		count: 0,
 		icons: null,
 		/* ratio and pinScale are read by card-shapes.js off the wrapper, so the
 		   marker positions below can be expressed as plain fractions of the map
@@ -50,8 +44,6 @@ const pillars = [
 	{
 		title: "Δύο σημεία στη Ρόδο",
 		text: "Στα Ασγούρου, στο 7ο χιλ. Ρόδου – Λίνδου, και στο Τσαϊρι, στον περιφερειακό προς το αεροδρόμιο. Σύντομα και τρίτο σημείο στα Αφάντου.",
-		shape: "shape-map",
-		count: 0,
 		icons: null,
 		/* Back to full height: the markers are drawn into the artwork now, so
 		   nothing stands above the island's tip and overhangs the card. */
@@ -162,18 +154,14 @@ const pillars = [
 												class="shape-map"
 											/>
 										)}
-										{Array.from({ length: p.count }, (_, i) => (
+										{p.icons?.map((icon, i) => (
 											<img
-												src={
-													p.icons
-														? `/assets/img/shapes/vehicle-${p.icons[i]}.png`
-														: "/assets/img/shapes/shape.svg"
-												}
+												src={`/assets/img/shapes/vehicle-${icon}.png`}
 												loading="lazy"
 												alt=""
-												class={`${p.shape} is-${i + 1}`}
-												data-ratio={p.icons ? ART_RATIO[p.icons[i] as ArtKey] : undefined}
-												data-scale={p.icons ? vehicleScale[p.icons[i]].toFixed(4) : undefined}
+												class={`shape-vehicle is-${i + 1}`}
+												data-ratio={ART_RATIO[icon as ArtKey]}
+												data-scale={vehicleScale[icon].toFixed(4)}
 											/>
 										))}
 									</div>

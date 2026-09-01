@@ -19,12 +19,12 @@ function initPageAnimations() {
 	initGlobalParallax();
 	initHeroScrollDarken();
 	initScrollTextFill();
-	initScroller();
 	// The drill-string scene that used to be lazied in here is gone; the homepage
 	// now runs the KTEO car stage, which mounts itself from
 	// /assets/js/kteo-mount.js as an ES module and needs nothing from this chain.
 	initFooterParallax();
 	initForms();
+	initUppercaseFields();
 	initLogoCycle();
 	initNavContactScroll();
 	initMobileMenu();

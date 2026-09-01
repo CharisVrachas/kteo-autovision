@@ -34,8 +34,7 @@ import json
 import os
 import subprocess
 
-import linework as lw
-
+LINE = "#747576"       # the grey every drawing on the site is painted in
 SRC = os.environ.get("BLUEPRINT_SRC") or os.path.expanduser("~/Downloads")
 OUT_DIR = "public/assets/img/shapes"
 
@@ -121,7 +120,7 @@ const [tr, tg, tb] = tint.split(',').map(Number);
 
 
 def main():
-    tint = tuple(int(lw.LINE[i:i + 2], 16) for i in (1, 3, 5))
+    tint = tuple(int(LINE[i:i + 2], 16) for i in (1, 3, 5))
     print("%-14s %-12s %-8s %-7s %-8s %s" % ("file", "size", "ratio", "black", "ink", "weight"))
     for stem, name in SOURCES.items():
         src = os.path.join(SRC, stem + ".png")

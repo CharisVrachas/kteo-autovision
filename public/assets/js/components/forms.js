@@ -10,6 +10,67 @@ function fieldLabel(field) {
 	return span ? span.textContent.trim() : "";
 }
 
+/* ── Everything the visitor types comes out in capitals ───────────────────────
+   Two halves, and both are needed. text-transform in form.css makes the letters
+   LOOK capital as they are typed; it does not touch the value, so the form would
+   still submit whatever was on the keyboard. This uppercases the value itself.
+
+   Greek is the reason this is not just toUpperCase(). Greek drops its accent in
+   capitals -- Γιώργος becomes ΓΙΩΡΓΟΣ, not ΓΙΏΡΓΟΣ -- but toUpperCase() keeps
+   the tonos, so the value would come out looking wrong to any Greek reader. The
+   dialytika is NOT an accent and stays: ΑΫΛΟΣ keeps its two dots.
+
+   Email is deliberately left alone. The domain half is case-insensitive but the
+   local half is not, by the spec; providers almost all ignore that, but writing
+   a stranger's address back to them in capitals is the kind of thing that works
+   until one day it does not.
+   ──────────────────────────────────────────────────────────────────────────── */
+// date and time inputs render their own picker text, which is not the
+// visitor's typing and not ours to rewrite.
+const UPPERCASE_SKIP = ["email", "password", "url", "hidden", "date", "time", "datetime-local", "month", "week"];
+
+function toGreekUpper(value) {
+	return value
+		.toUpperCase()
+		.normalize("NFD")
+		// tonos, varia, perispomeni -- the accents capitals drop. U+0308, the
+		// dialytika, is not in this list on purpose.
+		.replace(/[̀́͂]/g, "")
+		.normalize("NFC");
+}
+
+function initUppercaseFields() {
+	const fields = document.querySelectorAll(
+		'input.cta-field, input.form-field, textarea.cta-field, textarea.form-field',
+	);
+	fields.forEach((field) => {
+		const type = (field.getAttribute("type") || "text").toLowerCase();
+		if (UPPERCASE_SKIP.indexOf(type) !== -1) return;
+		if (field.dataset.uppercaseBound) return; // Barba re-runs init on every page
+		field.dataset.uppercaseBound = "1";
+
+		field.addEventListener("input", () => {
+			const before = field.value;
+			const after = toGreekUpper(before);
+			if (after === before) return;
+			// Putting the caret back only works when the length is unchanged, which
+			// it is for Greek and Latin. Anything that grows under uppercasing (the
+			// German ß becomes SS) falls through to the end of the field rather than
+			// landing the caret in the wrong place.
+			const start = field.selectionStart;
+			const end = field.selectionEnd;
+			field.value = after;
+			if (after.length === before.length && start !== null) {
+				try {
+					field.setSelectionRange(start, end);
+				} catch (e) {
+					/* input types that do not support selection */
+				}
+			}
+		});
+	});
+}
+
 function initForms() {
 	// Every form on the site posts JSON here and shows success or failure in
 	// place -- no mailto, no page reload.

@@ -127,3 +127,26 @@
 	height: 1px;
 	opacity: 0;
 }
+
+/* Everything the visitor types is shown in capitals. This is the display half
+   only -- it does not change the value, which is why initUppercaseFields() in
+   js/components/forms.js does the same to field.value. Both are needed: without
+   the CSS the letters appear lower-case for the instant before the script
+   rewrites them, and without the script the form submits what was typed.
+
+   Email is left alone on purpose; see the note in forms.js.
+
+   Browsers apply Greek capitalisation rules here correctly, dropping the tonos
+   and keeping the dialytika, which is what the script reproduces for the value. */
+.cta-field:not([type="email"]):not([type="date"]),
+.form-field:not([type="email"]):not([type="date"]),
+textarea.cta-field,
+textarea.form-field {
+	text-transform: uppercase;
+}
+
+/* The placeholder is copy, not typed input, so it keeps its own casing. */
+.cta-field::placeholder,
+.form-field::placeholder {
+	text-transform: none;
+}

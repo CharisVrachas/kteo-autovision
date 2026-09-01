@@ -31,30 +31,6 @@
 	position: relative;
 }
 
-.shape {
-	position: absolute;
-}
-
-.shape.is-1 {
-	z-index: 5;
-}
-
-.shape.is-2 {
-	z-index: 4;
-}
-
-.shape.is-3 {
-	z-index: 3;
-}
-
-.shape.is-4 {
-	z-index: 2;
-}
-
-.shape.is-5 {
-	z-index: 1;
-}
-
 /* The three vehicle drawings. Same positioning contract as .shape: absolutely
    placed in the 12em wrap and fanned out by card-shapes.js. They are sized off
    a common height, so the car reads as longer than the bike the way it should.
@@ -92,8 +68,6 @@
 	z-index: 1;
 }
 
-
-
 .shape-vehicle.is-1 {
 	z-index: 3;
 }
@@ -126,126 +100,6 @@
 .card_info-block-big.is-centered {
 	text-align: center;
 	align-items: center;
-}
-
-.shape-engineering {
-	position: absolute;
-}
-
-.shape-engineering.is-1 {
-	z-index: 5;
-}
-
-.shape-engineering.is-2 {
-	z-index: 4;
-}
-
-.shape-engineering.is-3 {
-	z-index: 3;
-}
-
-.shape-engineering.is-4 {
-	z-index: 2;
-}
-
-.shape-engineering.is-5 {
-	z-index: 1;
-}
-
-.shape-vault {
-	position: absolute;
-}
-
-.shape-vault.is-1 {
-	z-index: 5;
-}
-
-.shape-vault.is-2 {
-	z-index: 4;
-}
-
-.shape-vault.is-3 {
-	z-index: 3;
-}
-
-.shape-vault.is-4 {
-	z-index: 2;
-}
-
-.shape-stack {
-	transform-origin: 50%;
-	position: absolute;
-}
-
-.shape-stack.is-1 {
-	z-index: 5;
-}
-
-.shape-stack.is-2 {
-	z-index: 4;
-}
-
-.shape-stack.is-3 {
-	z-index: 3;
-}
-
-.shape-bloom {
-	transform-origin: 50%;
-	position: absolute;
-}
-
-.shape-bloom.is-1 {
-	z-index: 5;
-}
-
-.shape-bloom.is-2 {
-	z-index: 4;
-}
-
-.shape-bloom.is-3 {
-	z-index: 3;
-}
-
-.shape-bloom.is-4 {
-	z-index: 2;
-}
-
-.shape-trace {
-	transform-origin: 50%;
-	position: absolute;
-}
-
-.shape-trace.is-1 {
-	z-index: 5;
-}
-
-.shape-trace.is-2 {
-	z-index: 4;
-}
-
-.shape-service {
-	transform-origin: 50%;
-	position: absolute;
-}
-
-.shape-service.is-1 {
-	z-index: 5;
-}
-
-.shape-service.is-2 {
-	z-index: 4;
-}
-
-.shape-service.is-3 {
-	z-index: 3;
-}
-
-.shape-service.is-4 {
-	z-index: 2;
-}
-
-.shape-service.is-5 {
-	z-index: 1;
 }
 
 .annotation_container {

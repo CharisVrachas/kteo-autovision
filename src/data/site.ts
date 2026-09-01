@@ -50,7 +50,11 @@ export type Branch = {
 	/** Decimal degrees. Kept for future use; nothing reads them today. */
 	lat: number;
 	lng: number;
-	photo: string;
+	/**
+	 * Only BranchCard renders this, and only for `openBranches` -- so an announced
+	 * site that has nothing to photograph yet simply omits it.
+	 */
+	photo?: string;
 	/** An announced site that is not open yet renders as a notice, not a card. */
 	upcoming?: boolean;
 };
@@ -88,7 +92,6 @@ export const branches: Branch[] = [
 		maps: "https://www.google.com/maps/search/Autovision+IKTEO+Afantou",
 		lat: 36.2903,
 		lng: 28.1655,
-		photo: "/assets/img/rodos/neo-ikteo-afantou.jpg",
 		upcoming: true,
 	},
 ];
@@ -190,7 +193,7 @@ export const companyProfile = [
  * public/assets/js/components/kteo-tools.js, which does the arithmetic.
  *
  * `art` fills the card's media column on the homepage: the fine-line drawing of
- * the class itself, built by tools/make-vehicle-drawings.py. It replaced
+ * the class itself, built by tools/make-blueprint-icons.py. It replaced
  * photographs of the CENTRES, which said nothing about the category they sat
  * beside. Only Deadlines.astro reads it; DeadlineCards.astro on
  * /online-calculator/ shows no image at all. `artKey` names the drawing in
